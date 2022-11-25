@@ -14,6 +14,8 @@ func (s_handler *CustomerHandler) Store(w http.ResponseWriter, r *http.Request) 
 		decoder = json.NewDecoder(r.Body)
 	)
 
+	fmt.Println(req)
+
 	errDecode := decoder.Decode(&req)
 	if errDecode != nil {
 		w.WriteHeader(http.StatusInternalServerError)

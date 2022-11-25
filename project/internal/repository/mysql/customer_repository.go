@@ -28,7 +28,7 @@ func (repo *CustomerRepositoryMysqlInteractor) StoreCustomer(ctx context.Context
 	defer cancel()
 
 	// query insert to table article
-	insertQuery := "INSERT INTO customer(nik, nama, alamat, no_tlp, " +
+	insertQuery := "INSERT INTO customers(nik, nama, alamat, no_tlp, " +
 		"jenis_kelamin) VALUES(?, ?, ?, ?, ?)"
 
 	_, errMysql = repo.dbConn.Exec(insertQuery, dataCustomer.GetNik(), dataCustomer.GetNama(), dataCustomer.GetAlamat(),

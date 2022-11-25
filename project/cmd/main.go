@@ -20,7 +20,7 @@ var (
 func main() {
 	r := mux.NewRouter()
 
-	// routes student
+	// routes customer
 	handlerCustomer := customer_handler.NewCustomerHandler(ctx, repoCustomer)
 	r.HandleFunc("/store-customer", handlerCustomer.Store).Methods(http.MethodPost)
 
