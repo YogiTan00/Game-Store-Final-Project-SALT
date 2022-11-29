@@ -9,8 +9,9 @@ var (
 	w   = httptest.NewRecorder()
 )
 
+// ini unit tes untuk usecase
 // func TestHandlerStoreCustomer(t *testing.T) {
-// 	useCasePhoneMocks.On("GetPhone").Return(testdata.GenerateListPhoneByEntity(), nil)
+// 	// useCasePhoneMocks.On("GetPhone").Return(testdata.GenerateListPhoneByEntity(), nil)
 
 // 	handlerInteractorCustomer := customer_handler.NewCustomerHandler(useCasePhoneMocks)
 // 	handlerInteractorCustomer.Store(w, req)

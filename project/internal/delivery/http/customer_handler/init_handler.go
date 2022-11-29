@@ -1,18 +1,16 @@
 package customer_handler
 
 import (
-	"context"
-	_repository "game-store-final-project/project/domain/repository"
+	"game-store-final-project/project/domain/usecase"
 )
 
-type CustomerHandler struct {
-	ctx          context.Context
-	repoCustomer _repository.CustomerRepository
+/*
+init handler ini untuk mengarahkan ke usecase
+*/
+type CustomerHandlerInteractor struct {
+	CustomerUseCase usecase.CustomerUseCase
 }
 
-func NewCustomerHandler(ctx context.Context, repoCustomer _repository.CustomerRepository) *CustomerHandler {
-	return &CustomerHandler{
-		ctx:          ctx,
-		repoCustomer: repoCustomer,
-	}
+func NewCustomerHandler(usecaseImplement usecase.CustomerUseCase) *CustomerHandlerInteractor {
+	return &CustomerHandlerInteractor{CustomerUseCase: usecaseImplement}
 }

@@ -14,7 +14,7 @@ type CustomerRepositoryMysqlInteractor struct {
 }
 
 // build structnya, yang mengacu ke connection dan kontrak interface di repository
-func NewArticleRepositoryMysqlInteractor(connectionDatabse *sql.DB) repository.CustomerRepository {
+func NewCustomerRepositoryMysqlInteractor(connectionDatabse *sql.DB) repository.CustomerRepository {
 	return &CustomerRepositoryMysqlInteractor{dbConn: connectionDatabse}
 }
 

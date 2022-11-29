@@ -6,5 +6,5 @@ import (
 )
 
 type CustomerRepository interface {
-	StoreCustomer(ctx context.Context, dataArticle *entity.Customer) error
+	StoreCustomer(ctx context.Context, dataCustomer *entity.Customer) error
 }
