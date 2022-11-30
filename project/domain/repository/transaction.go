@@ -2,9 +2,9 @@ package repository
 
 import (
 	"context"
-	"game-store-final-project/project/domain/entity"
+	"game-store-final-project/project/domain/entity/transaction"
 )
 
 type TransactionRepository interface {
-	GetAllTransaction(ctx context.Context) ([]*entity.Transaction, error)
+	GetAllTransaction(ctx context.Context) ([]*transaction.Transaction, error)
 }

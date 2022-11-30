@@ -2,21 +2,21 @@ package http_response
 
 import (
 	"encoding/json"
-	"game-store-final-project/project/domain/entity"
+	"game-store-final-project/project/domain/entity/transaction"
 )
 
-type Status struct {
+type StatusTransaction struct {
 	Code    int
 	Mesaage string
 }
 
-type CustomReponseSingle struct {
-	Status *Status
+type CustomReponseSingleTransaction struct {
+	Status *StatusTransaction
 	Data   *ResponseTransactionJson
 }
 
-type CustomReponseCollection struct {
-	Status *Status
+type CustomReponseCollectionTransaction struct {
+	Status *StatusTransaction
 	Data   []*ResponseTransactionJson
 }
 
@@ -26,7 +26,7 @@ type ResponseTransactionJson struct {
 	CodeTransaction string `json:"codeTransaction"`
 }
 
-func MapResponseListTransaction(dataTransaction []*entity.Transaction, code int, message string) ([]byte, error) {
+func MapResponseListTransaction(dataTransaction []*transaction.Transaction, code int, message string) ([]byte, error) {
 	listResponse := make([]*ResponseTransactionJson, 0)
 	for _, data := range dataTransaction {
 		response := &ResponseTransactionJson{
@@ -37,8 +37,8 @@ func MapResponseListTransaction(dataTransaction []*entity.Transaction, code int,
 		listResponse = append(listResponse, response)
 	}
 
-	httpResponse := &CustomReponseCollection{
-		Status: &Status{
+	httpResponse := &CustomReponseCollectionTransaction{
+		Status: &StatusTransaction{
 			Code:    code,
 			Mesaage: message,
 		},

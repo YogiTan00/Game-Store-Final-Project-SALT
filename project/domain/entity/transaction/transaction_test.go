@@ -1,7 +1,7 @@
-package entity_test
+package transaction_test
 
 import (
-	"game-store-final-project/project/domain/entity"
+	"game-store-final-project/project/domain/entity/transaction"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -11,7 +11,7 @@ import (
 Positif Case
 */
 func TestNewTransaction(t *testing.T) {
-	transaction, err := entity.NewTransaction(entity.DTOTransaction{
+	transaction, err := transaction.NewTransaction(transaction.DTOTransaction{
 		CustomerId:      25123123,
 		CodeTransaction: time.Now(),
 	})
@@ -25,7 +25,7 @@ Negative Case
 */
 
 func TestValidateTransactionID(t *testing.T) {
-	_, err := entity.NewTransaction(entity.DTOTransaction{
+	_, err := transaction.NewTransaction(transaction.DTOTransaction{
 		CustomerId:      0,
 		CodeTransaction: time.Now(),
 	})

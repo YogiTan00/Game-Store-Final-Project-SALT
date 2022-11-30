@@ -1,7 +1,7 @@
-package entity_test
+package customer_test
 
 import (
-	"game-store-final-project/project/domain/entity"
+	"game-store-final-project/project/domain/entity/customer"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -11,7 +11,7 @@ import (
 Positif Case
 */
 func TestNewCustomer(t *testing.T) {
-	customer, err := entity.NewCustomer(
+	customer, err := customer.NewCustomer(
 		"3204223423442582",
 		"Taupik Pirdian",
 		"Bandung",
@@ -27,7 +27,7 @@ func TestNewCustomer(t *testing.T) {
 Negatif Case
 */
 func TestValidationErrorNewCustomerNik(t *testing.T) {
-	_, err := entity.NewCustomer(
+	_, err := customer.NewCustomer(
 		"",
 		"Taupik Pirdian",
 		"Bandung",
@@ -40,7 +40,7 @@ func TestValidationErrorNewCustomerNik(t *testing.T) {
 }
 
 func TestValidationErrorNewCustomerNama(t *testing.T) {
-	_, err := entity.NewCustomer(
+	_, err := customer.NewCustomer(
 		"3204223423442582",
 		"",
 		"Bandung",
@@ -53,7 +53,7 @@ func TestValidationErrorNewCustomerNama(t *testing.T) {
 }
 
 func TestValidationErrorNewCustomerAlamat(t *testing.T) {
-	_, err := entity.NewCustomer(
+	_, err := customer.NewCustomer(
 		"3204223423442582",
 		"Taupik Pirdian",
 		"",
@@ -66,7 +66,7 @@ func TestValidationErrorNewCustomerAlamat(t *testing.T) {
 }
 
 func TestValidationErrorNewCustomerNoTelp(t *testing.T) {
-	_, err := entity.NewCustomer(
+	_, err := customer.NewCustomer(
 		"3204223423442582",
 		"Taupik Pirdian",
 		"Bandung",
@@ -79,7 +79,7 @@ func TestValidationErrorNewCustomerNoTelp(t *testing.T) {
 }
 
 func TestValidationErrorNewCustomerJenisKelamin(t *testing.T) {
-	_, err := entity.NewCustomer(
+	_, err := customer.NewCustomer(
 		"3204223423442582",
 		"Taupik Pirdian",
 		"Bandung",

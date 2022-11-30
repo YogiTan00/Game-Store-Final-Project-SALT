@@ -10,9 +10,21 @@ type TransactionHandler struct {
 	repoTransaction _repository.TransactionRepository
 }
 
-func NewCustomerHandler(ctx context.Context, repotransaction _repository.TransactionRepository) *TransactionHandler {
+type TransactionDetailHandler struct {
+	ctx                   context.Context
+	repoTransactionDetail _repository.TransactionDetailRepository
+}
+
+func NewTransactionHandler(ctx context.Context, repoTransaction _repository.TransactionRepository) *TransactionHandler {
 	return &TransactionHandler{
 		ctx:             ctx,
-		repoTransaction: repotransaction,
+		repoTransaction: repoTransaction,
+	}
+}
+
+func NewTransactionDetailHandler(ctx context.Context, repoTransactionDetail _repository.TransactionDetailRepository) *TransactionDetailHandler {
+	return &TransactionDetailHandler{
+		ctx:                   ctx,
+		repoTransactionDetail: repoTransactionDetail,
 	}
 }

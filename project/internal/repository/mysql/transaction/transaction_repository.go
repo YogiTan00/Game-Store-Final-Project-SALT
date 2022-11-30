@@ -1,13 +1,13 @@
-package mysql
+package transaction
 
 import (
 	"context"
 	"database/sql"
 	"fmt"
-	"game-store-final-project/project/domain/entity"
+	"game-store-final-project/project/domain/entity/transaction"
 	"game-store-final-project/project/domain/repository"
-	"game-store-final-project/project/internal/repository/mysql/mapper"
-	"game-store-final-project/project/internal/repository/mysql/model"
+	"game-store-final-project/project/internal/repository/mysql/transaction/mapper"
+	"game-store-final-project/project/internal/repository/mysql/transaction/model"
 	"time"
 )
 
@@ -19,7 +19,7 @@ func NewTransactionMysqlInteractor(conndb *sql.DB) repository.TransactionReposit
 	return &TransactionRepositoryMysqlInteractor{dbConn: conndb}
 }
 
-func (t TransactionRepositoryMysqlInteractor) GetAllTransaction(ctx context.Context) ([]*entity.Transaction, error) {
+func (t *TransactionRepositoryMysqlInteractor) GetAllTransaction(ctx context.Context) ([]*transaction.Transaction, error) {
 	var (
 		errMysql error
 	)
@@ -33,7 +33,7 @@ func (t TransactionRepositoryMysqlInteractor) GetAllTransaction(ctx context.Cont
 		return nil, errMysql
 	}
 
-	dataTransactionColletion := make([]*entity.Transaction, 0)
+	dataTransactionColletion := make([]*transaction.Transaction, 0)
 	for rows.Next() {
 		var (
 			id              int
@@ -49,7 +49,7 @@ func (t TransactionRepositoryMysqlInteractor) GetAllTransaction(ctx context.Cont
 			return nil, err
 		}
 		trans, _ := time.Parse("INV02D01M2006Y15H04M05S", codeTransaction)
-		dataTransaction, errTransaction := mapper.DataPTransDbToEntity(entity.DTOTransaction{
+		dataTransaction, errTransaction := mapper.DataTransactionDbToEntity(transaction.DTOTransaction{
 			Id:              id,
 			CustomerId:      customerId,
 			CodeTransaction: trans,

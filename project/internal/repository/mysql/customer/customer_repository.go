@@ -1,9 +1,9 @@
-package mysql
+package customer
 
 import (
 	"context"
 	"database/sql"
-	"game-store-final-project/project/domain/entity"
+	"game-store-final-project/project/domain/entity/customer"
 	"game-store-final-project/project/domain/repository"
 	"time"
 )
@@ -19,7 +19,7 @@ func NewCustomerRepositoryMysqlInteractor(connectionDatabse *sql.DB) repository.
 }
 
 // implementasi dari interface kontrak dalam bentuk method receiver
-func (repo *CustomerRepositoryMysqlInteractor) StoreCustomer(ctx context.Context, dataCustomer *entity.Customer) error {
+func (repo *CustomerRepositoryMysqlInteractor) StoreCustomer(ctx context.Context, dataCustomer *customer.Customer) error {
 	var (
 		errMysql error
 	)
