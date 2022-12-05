@@ -24,7 +24,7 @@ func DataTransactionDbToEntity(dataDTO transaction.DTOTransaction) (*transaction
 //
 //	return dataTransaction
 //}
-//
+
 //func TransactionModelToDomain(m *model.TransactionModel) (*transaction.Transaction, error) {
 //	codeTransaction, _ := time.Parse("INV02D01M2006Y15H04M05S", m.CodeTransaction)
 //	transaction, err := transaction.NewTransaction(transaction.DTOTransaction{
@@ -38,6 +38,7 @@ func DataTransactionDbToEntity(dataDTO transaction.DTOTransaction) (*transaction
 //
 //	return transaction, nil
 //}
+
 //
 //func TransactionCollectionModelToDomain(m []*model.TransactionModel) []*transaction.Transaction {
 //	domains := make([]*transaction.Transaction, 0)

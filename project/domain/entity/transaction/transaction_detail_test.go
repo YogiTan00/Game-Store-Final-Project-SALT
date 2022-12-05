@@ -10,10 +10,15 @@ import (
 Positif Case
 */
 func TestNewTransactionDetail(t *testing.T) {
+
 	transaction, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
-		Id:            1,
-		TransactionId: 1,
-		ItemId:        6,
+		Id:              1,
+		CodeTransaction: "INV05122022190500",
+		TransactionId:   1,
+		ItemId:          "1",
+		JumlahPembelian: 1,
+		HargaPembelian:  4360000,
+		Total:           4360000,
 	})
 
 	assert.Nil(t, err)
@@ -24,24 +29,47 @@ func TestNewTransactionDetail(t *testing.T) {
 Negative Case
 */
 
-func TestValidateTransactionDetails_TransactionID(t *testing.T) {
+func TestValidateTransactionDetails_CodeTransaction(t *testing.T) {
 	_, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
-		Id:            1,
-		TransactionId: 0,
-		ItemId:        6,
+		Id:              1,
+		CodeTransaction: "",
+		TransactionId:   1,
+		ItemId:          "1",
+		JumlahPembelian: 1,
+		HargaPembelian:  4360000,
+		Total:           4360000,
 	})
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "ID TRANSACTION NOT SET", err.Error())
+	assert.Equal(t, "CODE TRANSACTION NOT SET", err.Error())
+}
+
+func TestValidateTransactionDetails_TransactionID(t *testing.T) {
+	_, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
+		Id:              1,
+		CodeTransaction: "INV05122022190500",
+		TransactionId:   0,
+		ItemId:          "1",
+		JumlahPembelian: 1,
+		HargaPembelian:  4360000,
+		Total:           4360000,
+	})
+
+	assert.NotNil(t, err)
+	assert.Equal(t, "TRANSACTION ID NOT SET", err.Error())
 }
 
 func TestValidateTransactionDetails_ItemID(t *testing.T) {
 	_, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
-		Id:            1,
-		TransactionId: 1,
-		ItemId:        0,
+		Id:              1,
+		CodeTransaction: "INV05122022190500",
+		TransactionId:   1,
+		ItemId:          "",
+		JumlahPembelian: 1,
+		HargaPembelian:  4360000,
+		Total:           4360000,
 	})
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "ID ITEM NOT SET", err.Error())
+	assert.Equal(t, "ITEM ID NOT SET", err.Error())
 }
