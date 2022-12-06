@@ -148,5 +148,6 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransactionByID(ctx context
 }
 
 func (t *TransactionRepositoryMysqlInteractor) StoreTransaction(ctx context.Context, dataTransaction *transaction.Transaction) error {
+	fmt.Println(dataTransaction)
 	return nil
 }
