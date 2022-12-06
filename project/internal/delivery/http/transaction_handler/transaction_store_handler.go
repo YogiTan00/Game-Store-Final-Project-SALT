@@ -22,7 +22,6 @@ func (s_handler *TransactionHandlerInteractor) StoreController(w http.ResponseWr
 	if errDecode != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Error decode data"))
-		fmt.Println(errDecode)
 		return
 	}
 
@@ -43,7 +42,6 @@ func (s_handler *TransactionHandlerInteractor) StoreController(w http.ResponseWr
 
 	_, errStoreTrxFromUseCase := s_handler.TransactionUseCase.StoreTransaction(req.CustomerId, req.TanggalPembelian, req.Voucher, items)
 	if errStoreTrxFromUseCase != nil {
-		fmt.Println(errStoreTrxFromUseCase)
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Error on Usecase"))
 		return

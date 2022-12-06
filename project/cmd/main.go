@@ -21,11 +21,11 @@ var (
 	ctx                   = context.Background()
 	mysqlConn             = mysql_connection.InitMysqlDB()
 	repoCustomer          = repo.NewCustomerRepositoryMysqlInteractor(mysqlConn)
-	useCaseCustomer       = usecase_cust.NewCustomerUseCaseInteractor(ctx, repoCustomer)
 	repoTransaction       = transaction.NewTransactionMysqlInteractor(mysqlConn)
-	useCaseTransaction    = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction)
-	repoTransactionDetail = transaction.NewTransactionDetailMysqlInteractor(mysqlConn)
 	repoItem              = item2.NewItemMysqlInteractor(mysqlConn)
+	useCaseCustomer       = usecase_cust.NewCustomerUseCaseInteractor(ctx, repoCustomer)
+	useCaseTransaction    = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem)
+	repoTransactionDetail = transaction.NewTransactionDetailMysqlInteractor(mysqlConn)
 )
 
 func main() {
