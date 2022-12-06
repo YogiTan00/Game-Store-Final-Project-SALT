@@ -12,3 +12,17 @@ func TestTransactionDetailRepositoryMysqlInteractor_GetTransaction(t *testing.T)
 	assert.NotNil(t, transactionDetail)
 	assert.Nil(t, err)
 }
+
+func TestTransactionDetailRepositoryMysqlInteractor_GetTransactionDetailByID(t *testing.T) {
+	transactionDetail, err := repoMysqlTransactionDetail.GetTransactionDetailByID(ctx, "1")
+	fmt.Println(transactionDetail)
+	assert.NotNil(t, transactionDetail)
+	assert.Nil(t, err)
+}
+
+func TestTransactionDetailRepositoryMysqlInteractor_GetAllTransactionDetailByID(t *testing.T) {
+	transactionDetail, err := repoMysqlTransactionDetail.GetAllTransactionDetailByID(ctx, "1")
+	fmt.Println(transactionDetail)
+	assert.NotNil(t, transactionDetail)
+	assert.Nil(t, err)
+}

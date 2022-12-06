@@ -1,6 +1,7 @@
 package transaction_test
 
 import (
+	"fmt"
 	"game-store-final-project/project/domain/entity/transaction"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -12,10 +13,16 @@ Positif Case
 */
 func TestNewTransaction(t *testing.T) {
 	transaction, err := transaction.NewTransaction(transaction.DTOTransaction{
-		CustomerId:      25123123,
-		CodeTransaction: time.Now(),
+		Id:                1,
+		VoucherCustomerId: 1,
+		CustomerId:        25123123,
+		CodeTransaction:   time.Now(),
+		Tanggalpembelian:  time.Now(),
+		Total:             300000,
+		HargaDiscount:     100000,
+		TotalHarga:        200000,
 	})
-
+	fmt.Println(transaction)
 	assert.Nil(t, err)
 	assert.Equal(t, 25123123, transaction.GetCustomerID())
 }
@@ -26,8 +33,14 @@ Negative Case
 
 func TestValidateTransactionID(t *testing.T) {
 	_, err := transaction.NewTransaction(transaction.DTOTransaction{
-		CustomerId:      0,
-		CodeTransaction: time.Now(),
+		Id:                1,
+		VoucherCustomerId: 1,
+		CustomerId:        0,
+		CodeTransaction:   time.Now(),
+		Tanggalpembelian:  time.Now(),
+		Total:             300000,
+		HargaDiscount:     100000,
+		TotalHarga:        200000,
 	})
 
 	assert.NotNil(t, err)

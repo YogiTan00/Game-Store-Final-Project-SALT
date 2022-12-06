@@ -14,6 +14,7 @@ type TransactionHandler struct {
 type TransactionDetailHandler struct {
 	ctx                   context.Context
 	repoTransactionDetail _repository.TransactionDetailRepository
+	repoItem              _repository.ItemRepository
 }
 
 type TransactionHandlerInteractor struct {
@@ -27,10 +28,11 @@ func NewTransactionHandler(ctx context.Context, repoTransaction _repository.Tran
 	}
 }
 
-func NewTransactionDetailHandler(ctx context.Context, repoTransactionDetail _repository.TransactionDetailRepository) *TransactionDetailHandler {
+func NewTransactionDetailHandler(ctx context.Context, repoTransactionDetail _repository.TransactionDetailRepository, repoItem _repository.ItemRepository) *TransactionDetailHandler {
 	return &TransactionDetailHandler{
 		ctx:                   ctx,
 		repoTransactionDetail: repoTransactionDetail,
+		repoItem:              repoItem,
 	}
 }
 
