@@ -66,3 +66,7 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransaction(ctx context.Con
 
 	return dataTransactionColletion, nil
 }
+
+func (t *TransactionRepositoryMysqlInteractor) StoreTransaction(ctx context.Context, dataTransaction *transaction.Transaction) error {
+	return nil
+}
