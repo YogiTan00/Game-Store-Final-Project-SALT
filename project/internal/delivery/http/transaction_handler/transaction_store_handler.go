@@ -28,15 +28,17 @@ func (s_handler *TransactionHandlerInteractor) StoreController(w http.ResponseWr
 
 	// create DTO items
 	reqItem := req.DetailTransaction
-	items := make([]*transaction.DTODetailTransaction, 0)
+	// bagaimana cara kirim reqItem sebagai param ???
+	// fmt.Println(reqItem)
+
+	items := make([]*transaction.DTOItemPembelian, 0)
 	// loop and append to DTO
 	for _, item := range *reqItem {
-		dataItem := transaction.DTODetailTransaction{
+		dataItem := &transaction.DTOItemPembelian{
 			ItemId:          item.ItemId,
 			JumlahPembelian: item.JumlahPembelian,
 		}
-
-		items = append(items, &dataItem)
+		items = append(items, dataItem)
 	}
 
 	_, errStoreTrxFromUseCase := s_handler.TransactionUseCase.StoreTransaction(req.CustomerId, req.TanggalPembelian, req.Voucher, items)

@@ -10,21 +10,33 @@ type Transaction struct {
 	voucherCustomerId int
 	customerId        int
 	codeTransaction   string
-	tanggalPembelian  string
+	tanggalPembelian  time.Time
 	total             int64
 	hargaDiscount     int64
 	totalHarga        int64
+	itemPembelian     []*ItemPembelian
+}
+
+type ItemPembelian struct {
+	itemId          int
+	jumlahPembelian int
 }
 
 type DTOTransaction struct {
 	Id                int
 	VoucherCustomerId int
 	CustomerId        int
-	CodeTransaction   time.Time
-	Tanggalpembelian  time.Time
+	CodeTransaction   string
+	Tanggalpembelian  string
 	Total             int64
 	HargaDiscount     int64
 	TotalHarga        int64
+	ItemPembelian     []*DTOItemPembelian
+}
+
+type DTOItemPembelian struct {
+	ItemId          int
+	JumlahPembelian int
 }
 
 func NewTransaction(t DTOTransaction) (*Transaction, error) {
@@ -32,15 +44,28 @@ func NewTransaction(t DTOTransaction) (*Transaction, error) {
 		return nil, errors.New("ID COSTOMER NOT SET")
 	}
 
+	// convert string to time
+	date, _ := time.Parse("2006-01-02", t.Tanggalpembelian)
+
+	items := make([]*ItemPembelian, 0)
+	for _, item := range t.ItemPembelian {
+		dataItem := &ItemPembelian{
+			itemId:          item.ItemId,
+			jumlahPembelian: item.JumlahPembelian,
+		}
+		items = append(items, dataItem)
+	}
+
 	return &Transaction{
 		id:                t.Id,
 		voucherCustomerId: t.VoucherCustomerId,
 		customerId:        t.CustomerId,
-		codeTransaction:   t.CodeTransaction.Format("INV02D01M2006Y15H04M05S"),
-		tanggalPembelian:  t.Tanggalpembelian.Format("02-01-2006 15:04:05"),
+		codeTransaction:   t.CodeTransaction,
+		tanggalPembelian:  date,
 		total:             t.Total,
 		hargaDiscount:     t.HargaDiscount,
 		totalHarga:        t.TotalHarga,
+		itemPembelian:     items,
 	}, nil
 }
 
@@ -51,10 +76,6 @@ func NewTransaction(t DTOTransaction) (*Transaction, error) {
 //		codeTransaction: dataDTO.CodeTransaction.Format("INV02D01M2006Y15H04M05S"),
 //	}
 //}
-
-// func NewBuildTransaction(customer_id int, tanggal_pembelian time.Time, voucher string, d DTODetailTransaction) (*Transaction, error) {
-
-// }
 
 func (t *Transaction) GetID() int {
 	return t.id
@@ -72,6 +93,6 @@ func (t *Transaction) GetCodeTransaction() string {
 	return t.codeTransaction
 }
 
-func (t *Transaction) GetTanggalPembelian() string {
+func (t *Transaction) GetTanggalPembelian() time.Time {
 	return t.tanggalPembelian
 }

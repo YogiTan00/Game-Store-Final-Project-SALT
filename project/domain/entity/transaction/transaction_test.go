@@ -3,9 +3,9 @@ package transaction_test
 import (
 	"fmt"
 	"game-store-final-project/project/domain/entity/transaction"
-	"github.com/stretchr/testify/assert"
 	"testing"
-	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 /*
@@ -16,8 +16,8 @@ func TestNewTransaction(t *testing.T) {
 		Id:                1,
 		VoucherCustomerId: 1,
 		CustomerId:        25123123,
-		CodeTransaction:   time.Now(),
-		Tanggalpembelian:  time.Now(),
+		CodeTransaction:   "INV/20221206DPFddswJ",
+		Tanggalpembelian:  "2022-10-10",
 		Total:             300000,
 		HargaDiscount:     100000,
 		TotalHarga:        200000,
@@ -36,8 +36,8 @@ func TestValidateTransactionID(t *testing.T) {
 		Id:                1,
 		VoucherCustomerId: 1,
 		CustomerId:        0,
-		CodeTransaction:   time.Now(),
-		Tanggalpembelian:  time.Now(),
+		CodeTransaction:   "INV/20221206DPFddswJ",
+		Tanggalpembelian:  "2022-10-10",
 		Total:             300000,
 		HargaDiscount:     100000,
 		TotalHarga:        200000,

@@ -58,13 +58,14 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransaction(ctx context.Con
 		if err != nil {
 			return nil, err
 		}
-		trans, _ := time.Parse("INV02D01M2006Y15H04M05S", codeTransaction)
+
+		// trans, _ := time.Parse("INV02D01M2006Y15H04M05S", codeTransaction)
 		dataTransaction, errTransaction := mapper.DataTransactionDbToEntity(transaction.DTOTransaction{
 			Id:                id,
 			VoucherCustomerId: voucherCustomerId,
 			CustomerId:        customerId,
-			CodeTransaction:   trans,
-			Tanggalpembelian:  tanggalPembelian,
+			CodeTransaction:   codeTransaction,
+			Tanggalpembelian:  tanggalPembelian.Format("02-01-2006 15:04:05"),
 			Total:             total,
 			HargaDiscount:     hargaDiscount,
 			TotalHarga:        totalHarga,
@@ -121,13 +122,14 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransactionByID(ctx context
 		if err != nil {
 			return nil, err
 		}
-		trans, _ := time.Parse("INV02D01M2006Y15H04M05S", codeTransaction)
+		// trans, _ := time.Parse("INV02D01M2006Y15H04M05S", codeTransaction)
+
 		dataTransaction, errTransaction := mapper.DataTransactionDbToEntity(transaction.DTOTransaction{
 			Id:                idTrans,
 			VoucherCustomerId: voucherCustomerId,
 			CustomerId:        customerId,
-			CodeTransaction:   trans,
-			Tanggalpembelian:  tanggalPembelian,
+			CodeTransaction:   codeTransaction,
+			Tanggalpembelian:  tanggalPembelian.Format("02-01-2006 15:04:05"),
 			Total:             total,
 			HargaDiscount:     hargaDiscount,
 			TotalHarga:        totalHarga,
