@@ -1,6 +1,7 @@
 package item
 
 import (
+	"context"
 	item2 "game-store-final-project/project/domain/entity/item"
 	"game-store-final-project/project/internal/delivery/http_response"
 	"github.com/gorilla/mux"
@@ -9,11 +10,12 @@ import (
 
 func (h *ItemHandler) GetAllItem(w http.ResponseWriter, r *http.Request) {
 	var (
+		ctx    = context.Background()
 		item   []*item2.Item
 		errGet error
 	)
 
-	item, errGet = h.repoItem.GetAllItem(h.ctx)
+	item, errGet = h.itemUseCase.GetAllItem(ctx)
 
 	if errGet != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -33,11 +35,12 @@ func (h *ItemHandler) GetAllItemByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	var (
+		ctx    = context.Background()
 		item   []*item2.Item
 		errGet error
 	)
 
-	item, errGet = h.repoItem.GetAllItemByID(h.ctx, vars["id"])
+	item, errGet = h.repoItem.GetAllItemByID(ctx, vars["id"])
 
 	if errGet != nil {
 		w.WriteHeader(http.StatusInternalServerError)

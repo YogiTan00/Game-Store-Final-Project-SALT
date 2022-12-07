@@ -37,7 +37,7 @@ func main() {
 	handlerTransaction := transaction_handler.NewTransactionHandler(ctx, repoTransaction)
 
 	handlerTransactionDetail := transaction_handler.NewTransactionDetailHandler(ctx, repoTransactionDetail, repoItem)
-	handlerItem := item.NewItemHandler(ctx, repoItem)
+	handlerItem := item.NewItemHandler(repoItem)
 	// customer
 	r.HandleFunc("/store-customer", handlerCustomer.StoreController).Methods(http.MethodPost)
 
@@ -47,7 +47,6 @@ func main() {
 	r.HandleFunc("/get-transaction/{id}", handlerTransaction.GetAllTransactionByID).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction-detail", handlerTransactionDetail.GetAllTransactionDetailHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction-detail/{id}", handlerTransactionDetail.GeAllTransactionDetailByIDHandler).Methods(http.MethodGet)
-	r.HandleFunc("/get-transaction/{id}", handlerTransactionDetail.GeAllTransactionDetailByIDHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-item", handlerItem.GetAllItem).Methods(http.MethodGet)
 	r.HandleFunc("/get-item/{id}", handlerItem.GetAllItemByID).Methods(http.MethodGet)
 
