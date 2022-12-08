@@ -55,28 +55,3 @@ func (h *ItemHandler) GetItemByID(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
 	w.Write(response)
 }
-
-func (h *ItemHandler) GetAllItemByID(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-
-	var (
-		ctx    = context.Background()
-		item   []*item2.Item
-		errGet error
-	)
-
-	item, errGet = h.itemUseCase.UcGetAllItemByID(ctx, vars["id"])
-
-	if errGet != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(errGet.Error()))
-	}
-
-	response, errMap := http_response.MapResponseListItem(item, 200, "Success")
-	if errMap != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("Error mapping data"))
-	}
-	w.WriteHeader(200)
-	w.Write(response)
-}

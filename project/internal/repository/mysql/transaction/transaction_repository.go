@@ -21,29 +21,6 @@ func NewTransactionMysqlInteractor(conndb *sql.DB) repository.TransactionReposit
 	return &TransactionRepositoryMysqlInteractor{dbConn: conndb}
 }
 
-func (t *TransactionRepositoryMysqlInteractor) GetTransaction(ctx context.Context) (*transaction.Transaction, error) {
-	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
-	defer cancel()
-
-	stmt := fmt.Sprintf(`SELECT * FROM %s`, model.GetTableTransaction())
-	opts := &dbq.Options{
-		SingleResult:   true,
-		ConcreteStruct: model.TransactionModel{},
-		DecoderConfig:  dbq.StdTimeConversionConfig(),
-	}
-	result := dbq.MustQ(ctx, t.dbConn, stmt, opts)
-	if result == nil {
-		return nil, errors.New("ITEM NOT FOUND")
-	}
-
-	dataTransaction, errMap := mapper.ModelToDomainTransaction(result.(*model.TransactionModel))
-	if errMap != nil {
-		return nil, errMap
-	}
-
-	return dataTransaction, nil
-}
-
 func (t *TransactionRepositoryMysqlInteractor) GetAllTransaction(ctx context.Context) ([]*transaction.Transaction, error) {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
@@ -106,7 +83,6 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransactionByID(ctx context
 		if err != nil {
 			return nil, err
 		}
-		// trans, _ := time.Parse("INV02D01M2006Y15H04M05S", codeTransaction)
 
 		dataTransaction, errTransaction := mapper.DataDbToEntityTransaction(transaction.DTOTransaction{
 			Id:                idTrans,

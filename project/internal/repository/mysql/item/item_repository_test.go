@@ -27,10 +27,3 @@ func TestItemRepositoryMysqlInteractor_GetItemByID(t *testing.T) {
 	assert.NotNil(t, transactionDetail)
 	assert.Nil(t, err)
 }
-
-func TestItemRepositoryMysqlInteractor_GetAllItemByID(t *testing.T) {
-	transactionDetail, err := repoMysqlTransactionItem.GetAllItemByID(ctx, "1")
-	fmt.Println(transactionDetail)
-	assert.NotNil(t, transactionDetail)
-	assert.Nil(t, err)
-}

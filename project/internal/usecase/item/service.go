@@ -22,11 +22,3 @@ func (uc *ItemUseCaseInteractor) UcGetItemByID(ctx context.Context, id string) (
 
 	return listItem, nil
 }
-func (uc *ItemUseCaseInteractor) UcGetAllItemByID(ctx context.Context, id string) ([]*item.Item, error) {
-	listItem, err := uc.repoItem.GetAllItemByID(ctx, id)
-	if err != nil {
-		return nil, err
-	}
-
-	return listItem, nil
-}

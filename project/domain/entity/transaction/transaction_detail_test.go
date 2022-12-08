@@ -13,7 +13,6 @@ func TestNewTransactionDetail(t *testing.T) {
 
 	transaction, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
 		Id:              1,
-		CodeTransaction: "INV05122022190500",
 		TransactionId:   1,
 		ItemId:          "1",
 		JumlahPembelian: 1,
@@ -32,7 +31,6 @@ Negative Case
 func TestValidateTransactionDetails_CodeTransaction(t *testing.T) {
 	_, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
 		Id:              1,
-		CodeTransaction: "",
 		TransactionId:   1,
 		ItemId:          "1",
 		JumlahPembelian: 1,
@@ -47,7 +45,6 @@ func TestValidateTransactionDetails_CodeTransaction(t *testing.T) {
 func TestValidateTransactionDetails_TransactionID(t *testing.T) {
 	_, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
 		Id:              1,
-		CodeTransaction: "INV05122022190500",
 		TransactionId:   0,
 		ItemId:          "1",
 		JumlahPembelian: 1,
@@ -62,7 +59,6 @@ func TestValidateTransactionDetails_TransactionID(t *testing.T) {
 func TestValidateTransactionDetails_ItemID(t *testing.T) {
 	_, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
 		Id:              1,
-		CodeTransaction: "INV05122022190500",
 		TransactionId:   1,
 		ItemId:          "",
 		JumlahPembelian: 1,

@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"errors"
+	"game-store-final-project/project/domain/entity/item"
 	"time"
 )
 
@@ -14,12 +15,7 @@ type Transaction struct {
 	total             int64
 	hargaDiscount     int64
 	totalHarga        int64
-	itemPembelian     []*ItemPembelian
-}
-
-type ItemPembelian struct {
-	itemId          int
-	jumlahPembelian int
+	itemPembelian     []*item.Item
 }
 
 type DTOTransaction struct {
@@ -31,12 +27,7 @@ type DTOTransaction struct {
 	Total             int64
 	HargaDiscount     int64
 	TotalHarga        int64
-	ItemPembelian     []*DTOItemPembelian
-}
-
-type DTOItemPembelian struct {
-	ItemId          int
-	JumlahPembelian int
+	ItemPembelian     []*item.Item
 }
 
 func NewTransaction(t DTOTransaction) (*Transaction, error) {
@@ -45,14 +36,17 @@ func NewTransaction(t DTOTransaction) (*Transaction, error) {
 	}
 
 	// convert string to time
-	date, _ := time.Parse("2006-01-02", t.Tanggalpembelian)
+	date, _ := time.Parse("02-01-2006 15:04:05", t.Tanggalpembelian)
 
-	items := make([]*ItemPembelian, 0)
-	for _, item := range t.ItemPembelian {
-		dataItem := &ItemPembelian{
-			itemId:          item.ItemId,
-			jumlahPembelian: item.JumlahPembelian,
-		}
+	items := make([]*item.Item, 0)
+	for _, data := range t.ItemPembelian {
+		dataItem, _ := item.NewItem(item.DTOItem{
+			Id:       data.GetID(),
+			Nama:     data.GetNama(),
+			Kategori: data.GetKategori(),
+			Harga:    data.GetHarga(),
+			Jumlah:   data.GetJumlah(),
+		})
 		items = append(items, dataItem)
 	}
 
@@ -68,14 +62,6 @@ func NewTransaction(t DTOTransaction) (*Transaction, error) {
 		itemPembelian:     items,
 	}, nil
 }
-
-//func FenchDataTransactionFromDB(dataDTO DTOTransaction) *Transaction {
-//	return &Transaction{
-//		id:              dataDTO.Id,
-//		customerId:      dataDTO.CustomerId,
-//		codeTransaction: dataDTO.CodeTransaction.Format("INV02D01M2006Y15H04M05S"),
-//	}
-//}
 
 func (t *Transaction) GetID() int {
 	return t.id

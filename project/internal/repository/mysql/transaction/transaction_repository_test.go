@@ -6,13 +6,6 @@ import (
 	"testing"
 )
 
-func TestTransactionRepositoryMysqlInteractor_GetTransaction(t *testing.T) {
-	transaction, err := repoMysqlTransaction.GetTransaction(ctx)
-	fmt.Println(transaction)
-	assert.NotNil(t, transaction)
-	assert.Nil(t, err)
-}
-
 func TestTransactionRepositoryMysqlInteractor_GetAllTransaction(t *testing.T) {
 	transaction, err := repoMysqlTransaction.GetAllTransaction(ctx)
 	fmt.Println(transaction)

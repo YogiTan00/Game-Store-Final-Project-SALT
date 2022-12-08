@@ -8,5 +8,4 @@ import (
 type ItemRepository interface {
 	GetAllItem(ctx context.Context) ([]*item.Item, error)
 	GetItemByID(ctx context.Context, id string) (*item.Item, error)
-	GetAllItemByID(ctx context.Context, id string) ([]*item.Item, error)
 }

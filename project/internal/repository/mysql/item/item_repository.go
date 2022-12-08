@@ -69,27 +69,3 @@ func (i *ItemRepositoryMysqlInteractor) GetItemByID(ctx context.Context, id stri
 
 	return dataItem, nil
 }
-
-func (i *ItemRepositoryMysqlInteractor) GetAllItemByID(ctx context.Context, id string) ([]*item.Item, error) {
-	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
-	defer cancel()
-
-	item := model.GetTableItem()
-	stmt := fmt.Sprintf(`SELECT * FROM %s WHERE id =?`, item)
-	opts := &dbq.Options{
-		SingleResult:   false,
-		ConcreteStruct: model.ItemModel{},
-		DecoderConfig:  dbq.StdTimeConversionConfig(),
-	}
-	result := dbq.MustQ(ctx, i.dbConn, stmt, opts, id)
-	if result == nil {
-		return nil, errors.New("ITEM NOT FOUND")
-	}
-
-	listItem, errMap := mapper.ListModelToDomainItem(result.([]*model.ItemModel))
-	if errMap != nil {
-		return nil, errMap
-	}
-
-	return listItem, nil
-}
