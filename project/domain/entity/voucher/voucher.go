@@ -45,3 +45,39 @@ func NewVoucher(t []*DTOVoucher) ([]*Voucher, error) {
 
 	return vouchers, nil
 }
+
+func (vo *Voucher) GetCustomerId() int {
+	return vo.customerId
+}
+
+func (vo *Voucher) GetCodeVoucher() string {
+	return vo.codeVoucher
+}
+
+func (vo *Voucher) GetNamaVoucher() string {
+	return vo.namaVoucher
+}
+
+func (vo *Voucher) GetStartDate() time.Time {
+	return vo.startDate
+}
+
+func (vo *Voucher) GetEndDate() time.Time {
+	return vo.endDate
+}
+
+func (vo *Voucher) GetUseDate() time.Time {
+	return vo.useDate
+}
+
+func (vo *Voucher) GetStatus() int {
+	return vo.status
+}
+
+func (vo *Voucher) GetNilaiDisc() int {
+	return vo.nilaiDisc
+}
+
+func (vo *Voucher) GetTypeDisc() int {
+	return vo.typeDisc
+}

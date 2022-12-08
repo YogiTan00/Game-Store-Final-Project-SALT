@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func (cu *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tanggal_pembelian string, voucher []string, items []*transaction.DTOItemPembelian) (*transaction.Transaction, error) {
+func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tanggal_pembelian string, voucher []string, items []*transaction.DTOItemPembelian) (*transaction.Transaction, error) {
 	/*
 		Rule 1:
 		cek produknya ready atau tidak, jika iya return datanya
@@ -36,7 +36,7 @@ func (cu *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangga
 	var totalSecondGame int64 = 0
 
 	for _, data_item := range items {
-		dataItem, err := cu.repoItem.GetItemByID(cu.ctx, strconv.Itoa(data_item.ItemId))
+		dataItem, err := trx.repoItem.GetItemByID(trx.ctx, strconv.Itoa(data_item.ItemId))
 		if err != nil {
 			return nil, err
 		}
@@ -117,7 +117,14 @@ func (cu *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangga
 	}
 
 	// store voucher
-	fmt.Println(dataVoucher)
+	// loop and save
+	for _, list_vo := range dataVoucher {
+		fmt.Println(list_vo)
+		errInsertVo := trx.repoVoucher.StoreVoucher(trx.ctx, list_vo)
+		if errInsertVo != nil {
+			return nil, errInsertVo
+		}
+	}
 
 	// build data to entity transaction
 	transaction, err := transaction.NewTransaction(transaction.DTOTransaction{
@@ -136,7 +143,7 @@ func (cu *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangga
 	}
 
 	// store trx
-	errInsert := cu.repoTransaction.StoreTransaction(cu.ctx, transaction)
+	errInsert := trx.repoTransaction.StoreTransaction(trx.ctx, transaction)
 	if errInsert != nil {
 		return nil, errInsert
 	}

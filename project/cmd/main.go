@@ -10,6 +10,7 @@ import (
 	item2 "game-store-final-project/project/internal/repository/mysql/item"
 	"game-store-final-project/project/internal/repository/mysql/transaction"
 	transaction_detail2 "game-store-final-project/project/internal/repository/mysql/transaction_detail"
+	repo_voucher "game-store-final-project/project/internal/repository/mysql/voucher"
 	usecase_cust "game-store-final-project/project/internal/usecase/customer"
 	usecase_trx "game-store-final-project/project/internal/usecase/transaction"
 	"game-store-final-project/project/internal/usecase/transaction_detail"
@@ -25,8 +26,9 @@ var (
 	repoCustomer             = repo.NewCustomerRepositoryMysqlInteractor(mysqlConn)
 	repoTransaction          = transaction.NewTransactionMysqlInteractor(mysqlConn)
 	repoItem                 = item2.NewItemMysqlInteractor(mysqlConn)
+	repoVoucher              = repo_voucher.NewVoucherRepositoryMysqlInteractor(mysqlConn)
 	useCaseCustomer          = usecase_cust.NewCustomerUseCaseInteractor(ctx, repoCustomer)
-	useCaseTransaction       = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem)
+	useCaseTransaction       = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem, repoVoucher)
 	useCaseTransactionDetail = transaction_detail.NewTransactionDetailUseCaseInteractor(ctx, repoTransactionDetail)
 	repoTransactionDetail    = transaction_detail2.NewTransactionDetailMysqlInteractor(mysqlConn)
 )
