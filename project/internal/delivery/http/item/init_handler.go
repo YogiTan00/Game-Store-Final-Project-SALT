@@ -7,14 +7,14 @@ import (
 )
 
 type ItemHandler struct {
-	itemUseCase usecase.ItemUseCase
+	useCaseItem usecase.ItemUseCase
 	repoItem    _repository.ItemRepository
 }
 
 func NewItemHandler(repoItem _repository.ItemRepository) *ItemHandler {
 	itemUseCase := item.NewItemUseCaseInteractor(repoItem)
 	return &ItemHandler{
-		itemUseCase: itemUseCase,
+		useCaseItem: itemUseCase,
 		repoItem:    repoItem,
 	}
 }

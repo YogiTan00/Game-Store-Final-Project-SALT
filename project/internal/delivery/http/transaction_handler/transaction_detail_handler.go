@@ -1,14 +1,19 @@
 package transaction_handler
 
 import (
-	"game-store-final-project/project/domain/entity/transaction"
+	"context"
+	"game-store-final-project/project/domain/entity/transaction_detail"
 	"game-store-final-project/project/internal/delivery/http_response"
 	"github.com/gorilla/mux"
 	"net/http"
 )
 
 func (h *TransactionDetailHandler) GetAllTransactionDetailHandler(w http.ResponseWriter, r *http.Request) {
-	listTransaction, err := h.repoTransactionDetail.GetAllTransactionDetail(h.ctx)
+	var (
+		ctx = context.Background()
+	)
+
+	listTransaction, err := h.useCaseTransactionDetail.UcGetAllTransactionDetail(ctx)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
@@ -28,11 +33,12 @@ func (h *TransactionDetailHandler) GetTransactionDetailByIDHandler(w http.Respon
 	vars := mux.Vars(r)
 
 	var (
-		transactionDetail *transaction.TransactionDetail
+		ctx               = context.Background()
+		transactionDetail *transaction_detail.TransactionDetail
 		errGet            error
 	)
 
-	transactionDetail, errGet = h.repoTransactionDetail.GetTransactionDetailByID(h.ctx, vars["id"])
+	transactionDetail, errGet = h.useCaseTransactionDetail.UcGetTransactionDetailByID(ctx, vars["id"])
 	if errGet != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(errGet.Error()))
@@ -51,11 +57,12 @@ func (h *TransactionDetailHandler) GetTransactionDetailByIDHandler(w http.Respon
 func (h *TransactionDetailHandler) GeAllTransactionDetailByIDHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	var (
-		transactionDetail []*transaction.TransactionDetail
+		ctx               = context.Background()
+		transactionDetail []*transaction_detail.TransactionDetail
 		errGet            error
 	)
 
-	transactionDetail, errGet = h.repoTransactionDetail.GetAllTransactionDetailByID(h.ctx, vars["id"])
+	transactionDetail, errGet = h.useCaseTransactionDetail.UcGetAllTransactionDetailByID(ctx, vars["id"])
 	if errGet != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(errGet.Error()))

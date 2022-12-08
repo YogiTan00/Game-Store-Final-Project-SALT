@@ -1,12 +1,12 @@
 package mapper
 
 import (
-	"game-store-final-project/project/domain/entity/transaction"
+	"game-store-final-project/project/domain/entity/transaction_detail"
 	"game-store-final-project/project/internal/repository/mysql/model"
 )
 
-func DataDbToEntityTransactionDetail(dataDTO transaction.DTOTransactionDetail) (*transaction.TransactionDetail, error) {
-	post, err := transaction.NewTransactionDetail(dataDTO)
+func DataDbToEntityTransactionDetail(dataDTO transaction_detail.DTOTransactionDetail) (*transaction_detail.TransactionDetail, error) {
+	post, err := transaction_detail.NewTransactionDetail(dataDTO)
 	if err != nil {
 		return nil, err
 	}
@@ -14,9 +14,9 @@ func DataDbToEntityTransactionDetail(dataDTO transaction.DTOTransactionDetail) (
 	return post, nil
 }
 
-func ModelToDomainTransactionDetail(m *model.TransactionDetailModel) (*transaction.TransactionDetail, error) {
+func ModelToDomainTransactionDetail(m *model.TransactionDetailModel) (*transaction_detail.TransactionDetail, error) {
 
-	transactionDetail, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
+	transactionDetail, err := transaction_detail.NewTransactionDetail(transaction_detail.DTOTransactionDetail{
 		Id:              m.Id,
 		TransactionId:   m.TransactionId,
 		ItemId:          m.ItemId,
@@ -31,8 +31,8 @@ func ModelToDomainTransactionDetail(m *model.TransactionDetailModel) (*transacti
 	return transactionDetail, nil
 }
 
-func ListModelToDomainTransactionDetail(m []*model.TransactionDetailModel) ([]*transaction.TransactionDetail, error) {
-	domains := make([]*transaction.TransactionDetail, 0)
+func ListModelToDomainTransactionDetail(m []*model.TransactionDetailModel) ([]*transaction_detail.TransactionDetail, error) {
+	domains := make([]*transaction_detail.TransactionDetail, 0)
 	for _, modelData := range m {
 		d, _ := ModelToDomainTransactionDetail(modelData)
 		domains = append(domains, d)

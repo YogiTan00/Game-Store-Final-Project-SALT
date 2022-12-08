@@ -15,7 +15,7 @@ func (h *ItemHandler) GetAllItem(w http.ResponseWriter, r *http.Request) {
 		errGet error
 	)
 
-	item, errGet = h.itemUseCase.UcGetAllItem(ctx)
+	item, errGet = h.useCaseItem.UcGetAllItem(ctx)
 
 	if errGet != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -40,7 +40,7 @@ func (h *ItemHandler) GetItemByID(w http.ResponseWriter, r *http.Request) {
 		errGet error
 	)
 
-	item, errGet = h.itemUseCase.UcGetItemByID(ctx, vars["id"])
+	item, errGet = h.useCaseItem.UcGetItemByID(ctx, vars["id"])
 
 	if errGet != nil {
 		w.WriteHeader(http.StatusInternalServerError)

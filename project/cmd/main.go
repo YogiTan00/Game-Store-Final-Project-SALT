@@ -9,8 +9,10 @@ import (
 	repo "game-store-final-project/project/internal/repository/mysql/customer"
 	item2 "game-store-final-project/project/internal/repository/mysql/item"
 	"game-store-final-project/project/internal/repository/mysql/transaction"
+	transaction_detail2 "game-store-final-project/project/internal/repository/mysql/transaction_detail"
 	usecase_cust "game-store-final-project/project/internal/usecase/customer"
 	usecase_trx "game-store-final-project/project/internal/usecase/transaction"
+	"game-store-final-project/project/internal/usecase/transaction_detail"
 	"game-store-final-project/project/pkg/mysql_connection"
 	"net/http"
 
@@ -18,14 +20,15 @@ import (
 )
 
 var (
-	ctx                   = context.Background()
-	mysqlConn             = mysql_connection.InitMysqlDB()
-	repoCustomer          = repo.NewCustomerRepositoryMysqlInteractor(mysqlConn)
-	repoTransaction       = transaction.NewTransactionMysqlInteractor(mysqlConn)
-	repoItem              = item2.NewItemMysqlInteractor(mysqlConn)
-	useCaseCustomer       = usecase_cust.NewCustomerUseCaseInteractor(ctx, repoCustomer)
-	useCaseTransaction    = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem)
-	repoTransactionDetail = transaction.NewTransactionDetailMysqlInteractor(mysqlConn)
+	ctx                      = context.Background()
+	mysqlConn                = mysql_connection.InitMysqlDB()
+	repoCustomer             = repo.NewCustomerRepositoryMysqlInteractor(mysqlConn)
+	repoTransaction          = transaction.NewTransactionMysqlInteractor(mysqlConn)
+	repoItem                 = item2.NewItemMysqlInteractor(mysqlConn)
+	useCaseCustomer          = usecase_cust.NewCustomerUseCaseInteractor(ctx, repoCustomer)
+	useCaseTransaction       = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem)
+	useCaseTransactionDetail = transaction_detail.NewTransactionDetailUseCaseInteractor(ctx, repoTransactionDetail)
+	repoTransactionDetail    = transaction_detail2.NewTransactionDetailMysqlInteractor(mysqlConn)
 )
 
 func main() {
@@ -35,8 +38,7 @@ func main() {
 	handlerCustomer := customer_handler.NewCustomerHandler(useCaseCustomer)
 	handlerTrx := transaction_handler.NewUsecaseTransactionHandler(useCaseTransaction)
 	handlerTransaction := transaction_handler.NewTransactionHandler(ctx, repoTransaction)
-
-	handlerTransactionDetail := transaction_handler.NewTransactionDetailHandler(ctx, repoTransactionDetail, repoItem)
+	handlerTransactionDetail := transaction_handler.NewTransactionDetailHandler(repoTransactionDetail, repoItem)
 	handlerItem := item.NewItemHandler(repoItem)
 	// customer
 	r.HandleFunc("/store-customer", handlerCustomer.StoreController).Methods(http.MethodPost)

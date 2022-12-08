@@ -1,7 +1,7 @@
-package transaction_test
+package transaction_detail_test
 
 import (
-	"game-store-final-project/project/domain/entity/transaction"
+	"game-store-final-project/project/domain/entity/transaction_detail"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -11,7 +11,7 @@ Positif Case
 */
 func TestNewTransactionDetail(t *testing.T) {
 
-	transaction, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
+	transaction, err := transaction_detail.NewTransactionDetail(transaction_detail.DTOTransactionDetail{
 		Id:              1,
 		TransactionId:   1,
 		ItemId:          "1",
@@ -29,7 +29,7 @@ Negative Case
 */
 
 func TestValidateTransactionDetails_CodeTransaction(t *testing.T) {
-	_, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
+	_, err := transaction_detail.NewTransactionDetail(transaction_detail.DTOTransactionDetail{
 		Id:              1,
 		TransactionId:   1,
 		ItemId:          "1",
@@ -43,7 +43,7 @@ func TestValidateTransactionDetails_CodeTransaction(t *testing.T) {
 }
 
 func TestValidateTransactionDetails_TransactionID(t *testing.T) {
-	_, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
+	_, err := transaction_detail.NewTransactionDetail(transaction_detail.DTOTransactionDetail{
 		Id:              1,
 		TransactionId:   0,
 		ItemId:          "1",
@@ -57,7 +57,7 @@ func TestValidateTransactionDetails_TransactionID(t *testing.T) {
 }
 
 func TestValidateTransactionDetails_ItemID(t *testing.T) {
-	_, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
+	_, err := transaction_detail.NewTransactionDetail(transaction_detail.DTOTransactionDetail{
 		Id:              1,
 		TransactionId:   1,
 		ItemId:          "",

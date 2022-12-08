@@ -2,7 +2,7 @@ package http_response
 
 import (
 	"encoding/json"
-	"game-store-final-project/project/domain/entity/transaction"
+	"game-store-final-project/project/domain/entity/transaction_detail"
 )
 
 type StatusTransactionDetail struct {
@@ -35,7 +35,7 @@ type ResponseItemDetailJson struct {
 	Kategori string `json:"kategori"`
 }
 
-func MapResponseTransactionDetail(dataTransactionDetail *transaction.TransactionDetail, code int, message string) ([]byte, error) {
+func MapResponseTransactionDetail(dataTransactionDetail *transaction_detail.TransactionDetail, code int, message string) ([]byte, error) {
 	var resp *ResponseTransactionDetailJson
 	if dataTransactionDetail != nil {
 		dataItem := &ResponseItemDetailJson{
@@ -69,7 +69,7 @@ func MapResponseTransactionDetail(dataTransactionDetail *transaction.Transaction
 	return respJson, nil
 }
 
-func MapResponseListTransactionDetail(dataTransactionDetail []*transaction.TransactionDetail, code int, message string) ([]byte, error) {
+func MapResponseListTransactionDetail(dataTransactionDetail []*transaction_detail.TransactionDetail, code int, message string) ([]byte, error) {
 	listResponse := make([]*ResponseTransactionDetailJson, 0)
 	for _, data := range dataTransactionDetail {
 		dataItem := &ResponseItemDetailJson{

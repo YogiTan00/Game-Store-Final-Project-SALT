@@ -1,9 +1,18 @@
 package transaction_test
 
 import (
+	"context"
 	"fmt"
+	"game-store-final-project/project/internal/repository/mysql/transaction"
+	"game-store-final-project/project/pkg/mysql_connection"
 	"github.com/stretchr/testify/assert"
 	"testing"
+)
+
+var (
+	mysqlConn            = mysql_connection.InitMysqlDB()
+	ctx                  = context.Background()
+	repoMysqlTransaction = transaction.NewTransactionMysqlInteractor(mysqlConn)
 )
 
 func TestTransactionRepositoryMysqlInteractor_GetAllTransaction(t *testing.T) {

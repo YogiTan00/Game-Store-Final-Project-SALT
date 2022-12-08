@@ -1,4 +1,4 @@
-package transaction
+package transaction_detail
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 	item2 "game-store-final-project/project/domain/entity/item"
-	"game-store-final-project/project/domain/entity/transaction"
+	"game-store-final-project/project/domain/entity/transaction_detail"
 	"game-store-final-project/project/domain/repository"
 	"game-store-final-project/project/internal/repository/mysql/mapper"
 	"game-store-final-project/project/internal/repository/mysql/model"
@@ -22,7 +22,7 @@ func NewTransactionDetailMysqlInteractor(conndb *sql.DB) repository.TransactionD
 	return &TransactionDetailRepositoryMysqlInteractor{dbConn: conndb}
 }
 
-func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetail(ctx context.Context) ([]*transaction.TransactionDetail, error) {
+func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetail(ctx context.Context) ([]*transaction_detail.TransactionDetail, error) {
 	var (
 		errMysql error
 	)
@@ -37,7 +37,7 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetail(ctx
 	if errMysql != nil {
 		return nil, errMysql
 	}
-	dataPostCollection := make([]*transaction.TransactionDetail, 0)
+	dataPostCollection := make([]*transaction_detail.TransactionDetail, 0)
 	for rows.Next() {
 		var (
 			idTransD        int
@@ -71,7 +71,7 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetail(ctx
 			return nil, errDetailitem
 		}
 
-		transDetail, errTransDetail := mapper.DataDbToEntityTransactionDetail(transaction.DTOTransactionDetail{
+		transDetail, errTransDetail := mapper.DataDbToEntityTransactionDetail(transaction_detail.DTOTransactionDetail{
 			Id:              idTransD,
 			TransactionId:   transactionId,
 			ItemId:          itemId,
@@ -90,7 +90,7 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetail(ctx
 	return dataPostCollection, nil
 }
 
-func (t *TransactionDetailRepositoryMysqlInteractor) GetTransactionDetailByID(ctx context.Context, id string) (*transaction.TransactionDetail, error) {
+func (t *TransactionDetailRepositoryMysqlInteractor) GetTransactionDetailByID(ctx context.Context, id string) (*transaction_detail.TransactionDetail, error) {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
@@ -114,7 +114,7 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetTransactionDetailByID(ct
 	return listTransD, nil
 }
 
-func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetailByID(ctx context.Context, id string) ([]*transaction.TransactionDetail, error) {
+func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetailByID(ctx context.Context, id string) ([]*transaction_detail.TransactionDetail, error) {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
@@ -125,7 +125,7 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetailByID
 	if errMysql != nil {
 		return nil, errMysql
 	}
-	dataPostCollection := make([]*transaction.TransactionDetail, 0)
+	dataPostCollection := make([]*transaction_detail.TransactionDetail, 0)
 	for rows.Next() {
 		var (
 			idTransD        int
@@ -159,7 +159,7 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetailByID
 			return nil, errDetailitem
 		}
 
-		transDetail, errTransDetail := mapper.DataDbToEntityTransactionDetail(transaction.DTOTransactionDetail{
+		transDetail, errTransDetail := mapper.DataDbToEntityTransactionDetail(transaction_detail.DTOTransactionDetail{
 			Id:              idTransD,
 			TransactionId:   transactionId,
 			ItemId:          itemId,
