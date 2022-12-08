@@ -26,7 +26,7 @@ type DTOTransaction struct {
 	Total             int64
 	HargaDiscount     int64
 	TotalHarga        int64
-	ItemPembelian     []*ItemPembelian
+	ItemPembelian     []*DTOItemPembelian
 }
 
 type ItemPembelian struct {
@@ -50,8 +50,8 @@ func NewTransaction(t DTOTransaction) (*Transaction, error) {
 	items := make([]*ItemPembelian, 0)
 	for _, item := range t.ItemPembelian {
 		dataItem := &ItemPembelian{
-			itemId:          item.itemId,
-			jumlahPembelian: item.jumlahPembelian,
+			itemId:          item.ItemId,
+			jumlahPembelian: item.JumlahPembelian,
 		}
 		items = append(items, dataItem)
 	}
