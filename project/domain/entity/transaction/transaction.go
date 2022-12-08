@@ -15,7 +15,7 @@ type Transaction struct {
 	total             int64
 	hargaDiscount     int64
 	totalHarga        int64
-	itemPembelian     []*item.Item
+	itemPembelian     []*ItemPembelian
 }
 
 type DTOTransaction struct {
@@ -27,7 +27,19 @@ type DTOTransaction struct {
 	Total             int64
 	HargaDiscount     int64
 	TotalHarga        int64
-	ItemPembelian     []*item.Item
+	ItemPembelian     []*ItemPembelian
+}
+
+type ItemPembelian struct {
+	itemId          int
+	jumlahPembelian int
+	itemPembelian   []*item.Item
+}
+
+type DTOItemPembelian struct {
+	ItemId          int
+	JumlahPembelian int
+	ItemPembelian   []*item.Item
 }
 
 func NewTransaction(t DTOTransaction) (*Transaction, error) {
@@ -38,15 +50,12 @@ func NewTransaction(t DTOTransaction) (*Transaction, error) {
 	// convert string to time
 	date, _ := time.Parse("02-01-2006 15:04:05", t.Tanggalpembelian)
 
-	items := make([]*item.Item, 0)
-	for _, data := range t.ItemPembelian {
-		dataItem, _ := item.NewItem(item.DTOItem{
-			Id:       data.GetID(),
-			Nama:     data.GetNama(),
-			Kategori: data.GetKategori(),
-			Harga:    data.GetHarga(),
-			Jumlah:   data.GetJumlah(),
-		})
+	items := make([]*ItemPembelian, 0)
+	for _, item := range t.ItemPembelian {
+		dataItem := &ItemPembelian{
+			itemId:          item.itemId,
+			jumlahPembelian: item.jumlahPembelian,
+		}
 		items = append(items, dataItem)
 	}
 
