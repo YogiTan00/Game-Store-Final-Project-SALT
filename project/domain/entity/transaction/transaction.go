@@ -2,7 +2,6 @@ package transaction
 
 import (
 	"errors"
-	"game-store-final-project/project/domain/entity/item"
 	"time"
 )
 
@@ -33,13 +32,11 @@ type DTOTransaction struct {
 type ItemPembelian struct {
 	itemId          int
 	jumlahPembelian int
-	itemPembelian   []*item.Item
 }
 
 type DTOItemPembelian struct {
 	ItemId          int
 	JumlahPembelian int
-	ItemPembelian   []*item.Item
 }
 
 func NewTransaction(t DTOTransaction) (*Transaction, error) {
