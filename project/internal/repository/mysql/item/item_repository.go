@@ -38,7 +38,7 @@ func (i *ItemRepositoryMysqlInteractor) GetAllItem(ctx context.Context) ([]*item
 		return nil, errors.New("ITEM NOT FOUND")
 	}
 
-	listItem, errMap := mapper.ListItemModelToDomain(result.([]*model.ItemModel))
+	listItem, errMap := mapper.ListModelToDomainItem(result.([]*model.ItemModel))
 	if errMap != nil {
 		return nil, errMap
 	}
@@ -62,12 +62,12 @@ func (i *ItemRepositoryMysqlInteractor) GetItemByID(ctx context.Context, id stri
 		return nil, errors.New("ITEM NOT FOUND")
 	}
 
-	listItem, errMap := mapper.ItemModelToDomain(result.(*model.ItemModel))
+	dataItem, errMap := mapper.ModelToDomainItem(result.(*model.ItemModel))
 	if errMap != nil {
 		return nil, errMap
 	}
 
-	return listItem, nil
+	return dataItem, nil
 }
 
 func (i *ItemRepositoryMysqlInteractor) GetAllItemByID(ctx context.Context, id string) ([]*item.Item, error) {
@@ -86,7 +86,7 @@ func (i *ItemRepositoryMysqlInteractor) GetAllItemByID(ctx context.Context, id s
 		return nil, errors.New("ITEM NOT FOUND")
 	}
 
-	listItem, errMap := mapper.ListItemModelToDomain(result.([]*model.ItemModel))
+	listItem, errMap := mapper.ListModelToDomainItem(result.([]*model.ItemModel))
 	if errMap != nil {
 		return nil, errMap
 	}

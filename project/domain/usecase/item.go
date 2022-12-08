@@ -6,5 +6,7 @@ import (
 )
 
 type ItemUseCase interface {
-	GetAllItem(ctx context.Context) ([]*item.Item, error)
+	UcGetAllItem(ctx context.Context) ([]*item.Item, error)
+	UcGetItemByID(ctx context.Context, id string) (*item.Item, error)
+	UcGetAllItemByID(ctx context.Context, id string) ([]*item.Item, error)
 }

@@ -10,7 +10,7 @@ import (
 	"testing"
 )
 
-func TestItemHandler_GetAllItem(t *testing.T) {
+func TestItemHandler_UcGetAllItem(t *testing.T) {
 	var (
 		useCaseItem = new(item.RepoItem)
 	)
@@ -22,6 +22,23 @@ func TestItemHandler_GetAllItem(t *testing.T) {
 	req, err := http.NewRequest("GET", "/get-item", nil)
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(itemHandler.GetAllItem)
+	handler.ServeHTTP(rr, req)
+	assert.Equal(t, http.StatusOK, rr.Code)
+	assert.Nil(t, err)
+}
+
+func TestItemHandler_UcGetItemByID(t *testing.T) {
+	var (
+		useCaseItem = new(item.RepoItem)
+	)
+
+	useCaseItem.On("GetItemByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataItem(), (error)(nil))
+
+	itemHandler := NewItemHandler(useCaseItem)
+
+	req, err := http.NewRequest("GET", "/get-item/1", nil)
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(itemHandler.GetItemByID)
 	handler.ServeHTTP(rr, req)
 	assert.Equal(t, http.StatusOK, rr.Code)
 	assert.Nil(t, err)

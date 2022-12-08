@@ -7,7 +7,6 @@ import (
 
 type TransactionDetail struct {
 	id              int
-	codeTransaction string
 	transactionId   int
 	itemId          string
 	detailItem      *item.Item
@@ -18,7 +17,6 @@ type TransactionDetail struct {
 
 type DTOTransactionDetail struct {
 	Id              int
-	CodeTransaction string
 	TransactionId   int
 	ItemId          string
 	DetailItem      *item.Item
@@ -28,9 +26,6 @@ type DTOTransactionDetail struct {
 }
 
 func NewTransactionDetail(t DTOTransactionDetail) (*TransactionDetail, error) {
-	if t.CodeTransaction == "" {
-		return nil, errors.New("CODE TRANSACTION NOT SET")
-	}
 	if t.TransactionId == 0 {
 		return nil, errors.New("TRANSACTION ID NOT SET")
 	}
@@ -40,7 +35,6 @@ func NewTransactionDetail(t DTOTransactionDetail) (*TransactionDetail, error) {
 
 	return &TransactionDetail{
 		id:              t.Id,
-		codeTransaction: t.CodeTransaction,
 		transactionId:   t.TransactionId,
 		itemId:          t.ItemId,
 		detailItem:      t.DetailItem,
@@ -52,10 +46,6 @@ func NewTransactionDetail(t DTOTransactionDetail) (*TransactionDetail, error) {
 
 func (t *TransactionDetail) GetID() int {
 	return t.id
-}
-
-func (t *TransactionDetail) GetCodeTransaction() string {
-	return t.codeTransaction
 }
 
 func (t *TransactionDetail) GetTransactionID() int {

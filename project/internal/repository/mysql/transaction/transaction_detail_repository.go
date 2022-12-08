@@ -40,7 +40,6 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetail(ctx
 	for rows.Next() {
 		var (
 			id              int
-			codeTrans       string
 			transactionID   int
 			itemID          string
 			jumlahPembelian int
@@ -49,7 +48,6 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetail(ctx
 		)
 		err := rows.Scan(
 			&id,
-			&codeTrans,
 			&transactionID,
 			&itemID,
 			&jumlahPembelian,
@@ -59,9 +57,8 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetail(ctx
 		if err != nil {
 			return nil, err
 		}
-		dataTransactionDetail, errTransactionDetail := mapper.DataTransactionDetailDbToEntity(transaction.DTOTransactionDetail{
+		dataTransactionDetail, errTransactionDetail := mapper.DataDbToEntityTransactionDetail(transaction.DTOTransactionDetail{
 			Id:              id,
-			CodeTransaction: codeTrans,
 			TransactionId:   transactionID,
 			ItemId:          itemID,
 			JumlahPembelian: jumlahPembelian,
@@ -97,7 +94,7 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetTransactionDetailByID(ct
 		return nil, errors.New("ITEM NOT FOUND")
 	}
 
-	listTransD, errMap := mapper.TransactionDetailModelToDomain(result.(*model.TransactionDetailModel))
+	listTransD, errMap := mapper.ModelToDomainTransactionDetail(result.(*model.TransactionDetailModel))
 	if errMap != nil {
 		return nil, errMap
 	}
@@ -111,7 +108,7 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetailByID
 
 	transactionDetail := model.GetTableTransactionDetail()
 	item := model.GetTableItem()
-	stmt := fmt.Sprintf(`SELECT t.id,t.code_transaction,t.transaction_id,t.item_id,i.nama,i.kategori,t.jumlah_pembelian,t.harga_pembelian,t.total FROM %s t JOIN %s i ON t.item_id = i.id WHERE transaction_id =?`, transactionDetail, item)
+	stmt := fmt.Sprintf(`SELECT t.id,t.transaction_id,t.item_id,i.nama,i.kategori,t.jumlah_pembelian,t.harga_pembelian,t.total FROM %s t JOIN %s i ON t.item_id = i.id WHERE transaction_id =?`, transactionDetail, item)
 	rows, errMysql := t.dbConn.QueryContext(ctx, stmt, id)
 	if errMysql != nil {
 		return nil, errMysql
@@ -120,7 +117,6 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetailByID
 	for rows.Next() {
 		var (
 			idTransD        int
-			codeTrans       string
 			transactionId   int
 			itemId          string
 			nama            string
@@ -131,7 +127,6 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetailByID
 		)
 		err := rows.Scan(
 			&idTransD,
-			&codeTrans,
 			&transactionId,
 			&itemId,
 			&nama,
@@ -144,7 +139,7 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetailByID
 			return nil, err
 		}
 
-		detailItem, errDetailitem := mapper.DataItemDbToEntity(item2.DTOItem{
+		detailItem, errDetailitem := mapper.DataDbToEntityItem(item2.DTOItem{
 			Nama:     nama,
 			Kategori: kategori,
 		})
@@ -152,9 +147,8 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetailByID
 			return nil, errDetailitem
 		}
 
-		transDetail, errTransDetail := mapper.DataTransactionDetailDbToEntity(transaction.DTOTransactionDetail{
+		transDetail, errTransDetail := mapper.DataDbToEntityTransactionDetail(transaction.DTOTransactionDetail{
 			Id:              idTransD,
-			CodeTransaction: codeTrans,
 			TransactionId:   transactionId,
 			ItemId:          itemId,
 			DetailItem:      detailItem,

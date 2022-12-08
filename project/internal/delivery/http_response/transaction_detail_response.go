@@ -21,22 +21,35 @@ type CustomReponseCollectionTransactionDetail struct {
 }
 
 type ResponseTransactionDetailJson struct {
-	Id            int    `json:"id"`
-	CodeTrans     string `json:"codeTrans"`
-	TransactionId int    `json:"transactionId"`
-	ItemId        string `json:"itemId"`
-	JumlahPembeli int    `json:"jumlahPembeli"`
-	HargaPembeli  int64  `json:"hargaPembeli"`
-	Total         int64  `json:"total"`
+	Id            int                     `json:"id"`
+	TransactionId int                     `json:"transactionId"`
+	ItemId        string                  `json:"itemId"`
+	Detailitem    *ResponseItemDetailJson `json:"detailitem"`
+	JumlahPembeli int                     `json:"jumlahPembeli"`
+	HargaPembeli  int64                   `json:"hargaPembeli"`
+	Total         int64                   `json:"total"`
+}
+
+type ResponseItemDetailJson struct {
+	Nama     string `json:"nama"`
+	Kategori string `json:"kategori"`
 }
 
 func MapResponseTransactionDetail(dataTransactionDetail *transaction.TransactionDetail, code int, message string) ([]byte, error) {
 	var resp *ResponseTransactionDetailJson
 	if dataTransactionDetail != nil {
+		dataItem := &ResponseItemDetailJson{
+			Nama:     dataTransactionDetail.GetDetail().GetNama(),
+			Kategori: dataTransactionDetail.GetDetail().GetKategori(),
+		}
 		resp = &ResponseTransactionDetailJson{
 			Id:            dataTransactionDetail.GetID(),
 			TransactionId: dataTransactionDetail.GetTransactionID(),
 			ItemId:        dataTransactionDetail.GetItemID(),
+			Detailitem:    dataItem,
+			JumlahPembeli: dataTransactionDetail.GetJumlahPembelian(),
+			HargaPembeli:  dataTransactionDetail.GetHargaPembelian(),
+			Total:         dataTransactionDetail.GetTotal(),
 		}
 	}
 
@@ -59,11 +72,15 @@ func MapResponseTransactionDetail(dataTransactionDetail *transaction.Transaction
 func MapResponseListTransactionDetail(dataTransactionDetail []*transaction.TransactionDetail, code int, message string) ([]byte, error) {
 	listResponse := make([]*ResponseTransactionDetailJson, 0)
 	for _, data := range dataTransactionDetail {
+		dataItem := &ResponseItemDetailJson{
+			Nama:     data.GetDetail().GetNama(),
+			Kategori: data.GetDetail().GetKategori(),
+		}
 		response := &ResponseTransactionDetailJson{
 			Id:            data.GetID(),
-			CodeTrans:     data.GetCodeTransaction(),
 			TransactionId: data.GetTransactionID(),
 			ItemId:        data.GetItemID(),
+			Detailitem:    dataItem,
 			JumlahPembeli: data.GetJumlahPembelian(),
 			HargaPembeli:  data.GetHargaPembelian(),
 			Total:         data.GetTotal(),

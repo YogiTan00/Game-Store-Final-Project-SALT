@@ -48,7 +48,7 @@ func main() {
 	r.HandleFunc("/get-transaction-detail", handlerTransactionDetail.GetAllTransactionDetailHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction-detail/{id}", handlerTransactionDetail.GeAllTransactionDetailByIDHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-item", handlerItem.GetAllItem).Methods(http.MethodGet)
-	r.HandleFunc("/get-item/{id}", handlerItem.GetAllItemByID).Methods(http.MethodGet)
+	r.HandleFunc("/get-item/{id}", handlerItem.GetItemByID).Methods(http.MethodGet)
 
 	fmt.Println("localhost:8080")
 	http.ListenAndServe(":8080", r)

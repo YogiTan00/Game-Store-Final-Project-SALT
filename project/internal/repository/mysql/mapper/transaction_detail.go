@@ -5,7 +5,7 @@ import (
 	"game-store-final-project/project/internal/repository/mysql/model"
 )
 
-func DataTransactionDetailDbToEntity(dataDTO transaction.DTOTransactionDetail) (*transaction.TransactionDetail, error) {
+func DataDbToEntityTransactionDetail(dataDTO transaction.DTOTransactionDetail) (*transaction.TransactionDetail, error) {
 	post, err := transaction.NewTransactionDetail(dataDTO)
 	if err != nil {
 		return nil, err
@@ -14,11 +14,10 @@ func DataTransactionDetailDbToEntity(dataDTO transaction.DTOTransactionDetail) (
 	return post, nil
 }
 
-func TransactionDetailModelToDomain(m *model.TransactionDetailModel) (*transaction.TransactionDetail, error) {
+func ModelToDomainTransactionDetail(m *model.TransactionDetailModel) (*transaction.TransactionDetail, error) {
 
 	transactionDetail, err := transaction.NewTransactionDetail(transaction.DTOTransactionDetail{
 		Id:              m.Id,
-		CodeTransaction: m.CodeTrans,
 		TransactionId:   m.TransactionId,
 		ItemId:          m.ItemId,
 		JumlahPembelian: m.JumlahPembelian,
@@ -32,10 +31,10 @@ func TransactionDetailModelToDomain(m *model.TransactionDetailModel) (*transacti
 	return transactionDetail, nil
 }
 
-func TransactionDetailListModelToDomain(m []*model.TransactionDetailModel) ([]*transaction.TransactionDetail, error) {
+func ListModelToDomainTransactionDetail(m []*model.TransactionDetailModel) ([]*transaction.TransactionDetail, error) {
 	domains := make([]*transaction.TransactionDetail, 0)
 	for _, modelData := range m {
-		d, _ := TransactionDetailModelToDomain(modelData)
+		d, _ := ModelToDomainTransactionDetail(modelData)
 		domains = append(domains, d)
 	}
 	return domains, nil

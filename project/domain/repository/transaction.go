@@ -6,6 +6,7 @@ import (
 )
 
 type TransactionRepository interface {
+	GetTransaction(ctx context.Context) (*transaction.Transaction, error)
 	GetAllTransaction(ctx context.Context) ([]*transaction.Transaction, error)
 	StoreTransaction(ctx context.Context, dataTransaction *transaction.Transaction) error
 	GetAllTransactionByID(ctx context.Context, id string) ([]*transaction.Transaction, error)

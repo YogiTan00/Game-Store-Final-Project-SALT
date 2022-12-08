@@ -11,11 +11,11 @@ func (r *RepoItem) GetAllItem(ctx context.Context) ([]*item.Item, error) {
 }
 
 func (r *RepoItem) GetItemByID(ctx context.Context, id string) (*item.Item, error) {
-	//TODO implement me
-	panic("implement me")
+	args := r.Called(ctx, id)
+	return args.Get(0).(*item.Item), args.Error(1)
 }
 
 func (r *RepoItem) GetAllItemByID(ctx context.Context, id string) ([]*item.Item, error) {
-	//TODO implement me
-	panic("implement me")
+	args := r.Called(ctx, id)
+	return args.Get(0).([]*item.Item), args.Error(1)
 }
