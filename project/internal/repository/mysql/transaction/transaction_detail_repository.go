@@ -30,26 +30,31 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetail(ctx
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
-	stmt := fmt.Sprintf(`SELECT * FROM %s`, model.GetTableTransactionDetail())
+	transactionDetail := model.GetTableTransactionDetail()
+	item := model.GetTableItem()
+	stmt := fmt.Sprintf(`SELECT t.id,t.transaction_id,t.item_id,i.nama,i.kategori,t.jumlah_pembelian,t.harga_pembelian,t.total FROM %s t JOIN %s i ON t.item_id = i.id`, transactionDetail, item)
 	rows, errMysql := t.dbConn.QueryContext(ctx, stmt)
 	if errMysql != nil {
 		return nil, errMysql
 	}
-
-	dataTransactionColletionDetail := make([]*transaction.TransactionDetail, 0)
+	dataPostCollection := make([]*transaction.TransactionDetail, 0)
 	for rows.Next() {
 		var (
-			id              int
-			transactionID   int
-			itemID          string
+			idTransD        int
+			transactionId   int
+			itemId          string
+			nama            string
+			kategori        string
 			jumlahPembelian int
 			hargaPembelian  int64
 			total           int64
 		)
 		err := rows.Scan(
-			&id,
-			&transactionID,
-			&itemID,
+			&idTransD,
+			&transactionId,
+			&itemId,
+			&nama,
+			&kategori,
 			&jumlahPembelian,
 			&hargaPembelian,
 			&total,
@@ -57,25 +62,32 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetail(ctx
 		if err != nil {
 			return nil, err
 		}
-		dataTransactionDetail, errTransactionDetail := mapper.DataDbToEntityTransactionDetail(transaction.DTOTransactionDetail{
-			Id:              id,
-			TransactionId:   transactionID,
-			ItemId:          itemID,
+
+		detailItem, errDetailitem := mapper.DataDbToEntityItem(item2.DTOItem{
+			Nama:     nama,
+			Kategori: kategori,
+		})
+		if errDetailitem != nil {
+			return nil, errDetailitem
+		}
+
+		transDetail, errTransDetail := mapper.DataDbToEntityTransactionDetail(transaction.DTOTransactionDetail{
+			Id:              idTransD,
+			TransactionId:   transactionId,
+			ItemId:          itemId,
+			DetailItem:      detailItem,
 			JumlahPembelian: jumlahPembelian,
 			HargaPembelian:  hargaPembelian,
 			Total:           total,
 		})
-
-		if errTransactionDetail != nil {
-			return nil, errTransactionDetail
+		if errTransDetail != nil {
+			return nil, errTransDetail
 		}
-
-		dataTransactionColletionDetail = append(dataTransactionColletionDetail, dataTransactionDetail)
-
+		dataPostCollection = append(dataPostCollection, transDetail)
 	}
 	defer rows.Close()
 
-	return dataTransactionColletionDetail, nil
+	return dataPostCollection, nil
 }
 
 func (t *TransactionDetailRepositoryMysqlInteractor) GetTransactionDetailByID(ctx context.Context, id string) (*transaction.TransactionDetail, error) {
