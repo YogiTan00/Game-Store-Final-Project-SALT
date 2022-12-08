@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func (cu *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tanggal_pembelian string, voucher string, items []*transaction.DTOItemPembelian) (*transaction.Transaction, error) {
+func (cu *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tanggal_pembelian string, voucher []string, items []*transaction.DTOItemPembelian) (*transaction.Transaction, error) {
 	/*
 		Rule 1:
 		cek produknya ready atau tidak, jika iya return datanya
