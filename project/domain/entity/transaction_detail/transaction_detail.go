@@ -7,21 +7,25 @@ import (
 
 type TransactionDetail struct {
 	id              int
+	codeTransaction string
 	transactionId   int
 	itemId          string
 	detailItem      *item.Item
 	jumlahPembelian int
 	hargaPembelian  int64
+	hargaDiscount   int64
 	total           int64
 }
 
 type DTOTransactionDetail struct {
 	Id              int
+	CodeTransaction string
 	TransactionId   int
 	ItemId          string
 	DetailItem      *item.Item
 	JumlahPembelian int
 	HargaPembelian  int64
+	HargaDiscount   int64
 	Total           int64
 }
 
@@ -35,17 +39,23 @@ func NewTransactionDetail(t DTOTransactionDetail) (*TransactionDetail, error) {
 
 	return &TransactionDetail{
 		id:              t.Id,
+		codeTransaction: t.CodeTransaction,
 		transactionId:   t.TransactionId,
 		itemId:          t.ItemId,
 		detailItem:      t.DetailItem,
 		jumlahPembelian: t.JumlahPembelian,
 		hargaPembelian:  t.HargaPembelian,
+		hargaDiscount:   t.HargaDiscount,
 		total:           t.Total,
 	}, nil
 }
 
 func (t *TransactionDetail) GetID() int {
 	return t.id
+}
+
+func (t *TransactionDetail) GetCodeTransaction() string {
+	return t.codeTransaction
 }
 
 func (t *TransactionDetail) GetTransactionID() int {
@@ -62,6 +72,10 @@ func (t *TransactionDetail) GetJumlahPembelian() int {
 
 func (t *TransactionDetail) GetHargaPembelian() int64 {
 	return t.hargaPembelian
+}
+
+func (t *TransactionDetail) GetHargaDiscount() int64 {
+	return t.hargaDiscount
 }
 
 func (t *TransactionDetail) GetTotal() int64 {

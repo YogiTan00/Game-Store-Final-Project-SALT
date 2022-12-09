@@ -16,9 +16,11 @@ func DataDbToEntityTransaction(dataDTO transaction.DTOTransaction) (*transaction
 
 func ModelToDomainTransaction(m *model.TransactionModel) (*transaction.Transaction, error) {
 	transaction, err := transaction.NewTransaction(transaction.DTOTransaction{
-		Id:              m.Id,
-		CustomerId:      m.CustomerId,
-		CodeTransaction: m.CodeTransaction,
+		Id:               m.Id,
+		CustomerId:       m.CustomerId,
+		CodeTransaction:  m.CodeTransaction,
+		Tanggalpembelian: m.TanggalPembelian,
+		Total:            m.Total,
 	})
 	if err != nil {
 		return nil, err

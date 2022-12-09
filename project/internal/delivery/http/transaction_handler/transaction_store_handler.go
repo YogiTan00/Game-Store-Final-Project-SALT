@@ -3,7 +3,6 @@ package transaction_handler
 import (
 	"encoding/json"
 	"fmt"
-	"game-store-final-project/project/domain/entity/transaction"
 	"game-store-final-project/project/internal/delivery/http_request"
 	"net/http"
 )
@@ -26,21 +25,10 @@ func (s_handler *TransactionHandlerInteractor) StoreController(w http.ResponseWr
 	}
 
 	// create DTO items
-	reqItem := req.DetailTransaction
 	// bagaimana cara kirim reqItem sebagai param ???
 	// fmt.Println(reqItem)
 
-	items := make([]*transaction.DTOItemPembelian, 0)
-	// loop and append to DTO
-	for _, item := range *reqItem {
-		dataItem := &transaction.DTOItemPembelian{
-			ItemId:          item.ItemId,
-			JumlahPembelian: item.JumlahPembelian,
-		}
-		items = append(items, dataItem)
-	}
-
-	_, errStoreTrxFromUseCase := s_handler.TransactionUseCase.StoreTransaction(req.CustomerId, req.TanggalPembelian, req.Voucher, items)
+	_, errStoreTrxFromUseCase := s_handler.TransactionUseCase.StoreTransaction(req.CustomerId, req.TanggalPembelian, req.Voucher)
 	if errStoreTrxFromUseCase != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Error on Usecase"))

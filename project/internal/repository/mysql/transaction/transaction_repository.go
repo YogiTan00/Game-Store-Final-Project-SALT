@@ -61,38 +61,29 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransactionByID(ctx context
 	dataTransactionColletion := make([]*transaction.Transaction, 0)
 	for rows.Next() {
 		var (
-			idTrans           int
-			voucherCustomerId int
-			customerId        int
-			codeTransaction   string
-			tanggalPembelian  time.Time
-			total             int64
-			hargaDiscount     int64
-			totalHarga        int64
+			idTrans          int
+			customerId       int
+			codeTransaction  string
+			tanggalPembelian *time.Time
+			total            int64
 		)
 		err := rows.Scan(
 			&idTrans,
-			&voucherCustomerId,
 			&customerId,
 			&codeTransaction,
 			&tanggalPembelian,
 			&total,
-			&hargaDiscount,
-			&totalHarga,
 		)
 		if err != nil {
 			return nil, err
 		}
 
 		dataTransaction, errTransaction := mapper.DataDbToEntityTransaction(transaction.DTOTransaction{
-			Id:                idTrans,
-			VoucherCustomerId: voucherCustomerId,
-			CustomerId:        customerId,
-			CodeTransaction:   codeTransaction,
-			Tanggalpembelian:  tanggalPembelian.Format("02-01-2006 15:04:05"),
-			Total:             total,
-			HargaDiscount:     hargaDiscount,
-			TotalHarga:        totalHarga,
+			Id:               idTrans,
+			CustomerId:       customerId,
+			CodeTransaction:  codeTransaction,
+			Tanggalpembelian: tanggalPembelian,
+			Total:            total,
 		})
 
 		if errTransaction != nil {

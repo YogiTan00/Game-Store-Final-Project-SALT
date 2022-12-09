@@ -28,7 +28,7 @@ var (
 	repoItem                 = item2.NewItemMysqlInteractor(mysqlConn)
 	repoVoucher              = repo_voucher.NewVoucherRepositoryMysqlInteractor(mysqlConn)
 	useCaseCustomer          = usecase_cust.NewCustomerUseCaseInteractor(ctx, repoCustomer)
-	useCaseTransaction       = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem, repoVoucher)
+	useCaseTransaction       = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoVoucher)
 	useCaseTransactionDetail = transaction_detail.NewTransactionDetailUseCaseInteractor(ctx, repoTransactionDetail)
 	repoTransactionDetail    = transaction_detail2.NewTransactionDetailMysqlInteractor(mysqlConn)
 )

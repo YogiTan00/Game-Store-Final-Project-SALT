@@ -21,13 +21,15 @@ type CustomReponseCollectionTransactionDetail struct {
 }
 
 type ResponseTransactionDetailJson struct {
-	Id            int                     `json:"id"`
-	TransactionId int                     `json:"transactionId"`
-	ItemId        string                  `json:"itemId"`
-	Detailitem    *ResponseItemDetailJson `json:"detailitem"`
-	JumlahPembeli int                     `json:"jumlahPembeli"`
-	HargaPembeli  int64                   `json:"hargaPembeli"`
-	Total         int64                   `json:"total"`
+	Id              int                     `json:"id"`
+	CodeTransaction string                  `json:"codeTransaction"`
+	TransactionId   int                     `json:"transactionId"`
+	ItemId          string                  `json:"itemId"`
+	Detailitem      *ResponseItemDetailJson `json:"detailitem"`
+	JumlahPembeli   int                     `json:"jumlahPembeli"`
+	HargaPembeli    int64                   `json:"hargaPembeli"`
+	HargaDiscount   int64                   `json:"hargaDiscount"`
+	Total           int64                   `json:"total"`
 }
 
 type ResponseItemDetailJson struct {
@@ -43,13 +45,15 @@ func MapResponseTransactionDetail(dataTransactionDetail *transaction_detail.Tran
 			Kategori: dataTransactionDetail.GetDetail().GetKategori(),
 		}
 		resp = &ResponseTransactionDetailJson{
-			Id:            dataTransactionDetail.GetID(),
-			TransactionId: dataTransactionDetail.GetTransactionID(),
-			ItemId:        dataTransactionDetail.GetItemID(),
-			Detailitem:    dataItem,
-			JumlahPembeli: dataTransactionDetail.GetJumlahPembelian(),
-			HargaPembeli:  dataTransactionDetail.GetHargaPembelian(),
-			Total:         dataTransactionDetail.GetTotal(),
+			Id:              dataTransactionDetail.GetID(),
+			CodeTransaction: dataTransactionDetail.GetCodeTransaction(),
+			TransactionId:   dataTransactionDetail.GetTransactionID(),
+			ItemId:          dataTransactionDetail.GetItemID(),
+			Detailitem:      dataItem,
+			JumlahPembeli:   dataTransactionDetail.GetJumlahPembelian(),
+			HargaPembeli:    dataTransactionDetail.GetHargaPembelian(),
+			HargaDiscount:   dataTransactionDetail.GetHargaDiscount(),
+			Total:           dataTransactionDetail.GetTotal(),
 		}
 	}
 
@@ -77,13 +81,15 @@ func MapResponseListTransactionDetail(dataTransactionDetail []*transaction_detai
 			Kategori: data.GetDetail().GetKategori(),
 		}
 		response := &ResponseTransactionDetailJson{
-			Id:            data.GetID(),
-			TransactionId: data.GetTransactionID(),
-			ItemId:        data.GetItemID(),
-			Detailitem:    dataItem,
-			JumlahPembeli: data.GetJumlahPembelian(),
-			HargaPembeli:  data.GetHargaPembelian(),
-			Total:         data.GetTotal(),
+			Id:              data.GetID(),
+			CodeTransaction: data.GetCodeTransaction(),
+			TransactionId:   data.GetTransactionID(),
+			ItemId:          data.GetItemID(),
+			Detailitem:      dataItem,
+			JumlahPembeli:   data.GetJumlahPembelian(),
+			HargaPembeli:    data.GetHargaPembelian(),
+			HargaDiscount:   data.GetHargaDiscount(),
+			Total:           data.GetTotal(),
 		}
 		listResponse = append(listResponse, response)
 	}

@@ -18,10 +18,12 @@ func ModelToDomainTransactionDetail(m *model.TransactionDetailModel) (*transacti
 
 	transactionDetail, err := transaction_detail.NewTransactionDetail(transaction_detail.DTOTransactionDetail{
 		Id:              m.Id,
+		CodeTransaction: m.CodeTransaction,
 		TransactionId:   m.TransactionId,
 		ItemId:          m.ItemId,
 		JumlahPembelian: m.JumlahPembelian,
 		HargaPembelian:  m.HargaPembelian,
+		HargaDiscount:   m.HargaDiscount,
 		Total:           m.Total,
 	})
 	if err != nil {

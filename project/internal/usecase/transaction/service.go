@@ -5,11 +5,10 @@ import (
 	"game-store-final-project/project/domain/entity/transaction"
 	entity_voucher "game-store-final-project/project/domain/entity/voucher"
 	"math/rand"
-	"strconv"
 	"time"
 )
 
-func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tanggal_pembelian string, voucher []string, items []*transaction.DTOItemPembelian) (*transaction.Transaction, error) {
+func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tanggal_pembelian string, voucher []string) (*transaction.Transaction, error) {
 	/*
 		Rule 1:
 		cek produknya ready atau tidak, jika iya return datanya
@@ -30,32 +29,32 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 	*/
 
 	// get product
-	var totalSeluruh int64 = 0
+	//var totalSeluruh int64 = 0
 	var totalAksesorisAndNewGame int64 = 0
 	var totalServiceConsole int64 = 0
 	var totalSecondGame int64 = 0
-
-	for _, data_item := range items {
-		dataItem, err := trx.repoItem.GetItemByID(trx.ctx, strconv.Itoa(data_item.ItemId))
-		if err != nil {
-			return nil, err
-		}
-		totalPerItem := int64(data_item.JumlahPembelian) * dataItem.GetHarga()
-
-		if dataItem.GetKategori() == "Buy Accessories Console" || dataItem.GetKategori() == "Buy New Game" {
-			totalAksesorisAndNewGame = totalAksesorisAndNewGame + totalPerItem
-		}
-
-		if dataItem.GetKategori() == "Service Console" {
-			totalServiceConsole = totalServiceConsole + totalPerItem
-		}
-
-		if dataItem.GetKategori() == "Buy Second Game" {
-			totalSecondGame = totalSecondGame + totalPerItem
-		}
-
-		totalSeluruh = totalSeluruh + totalPerItem
-	}
+	//
+	//for _, data_item := range items {
+	//	dataItem, err := trx.repoItem.GetItemByID(trx.ctx, strconv.Itoa(data_item.ItemId))
+	//	if err != nil {
+	//		return nil, err
+	//	}
+	//	totalPerItem := int64(data_item.JumlahPembelian) * dataItem.GetHarga()
+	//
+	//	if dataItem.GetKategori() == "Buy Accessories Console" || dataItem.GetKategori() == "Buy New Game" {
+	//		totalAksesorisAndNewGame = totalAksesorisAndNewGame + totalPerItem
+	//	}
+	//
+	//	if dataItem.GetKategori() == "Service Console" {
+	//		totalServiceConsole = totalServiceConsole + totalPerItem
+	//	}
+	//
+	//	if dataItem.GetKategori() == "Buy Second Game" {
+	//		totalSecondGame = totalSecondGame + totalPerItem
+	//	}
+	//
+	//	totalSeluruh = totalSeluruh + totalPerItem
+	//}
 
 	dateNow := time.Now()
 	getVouchers := make([]*entity_voucher.DTOVoucher, 0)
@@ -126,16 +125,17 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 		}
 	}
 
+	tglBeli, _ := time.Parse("02-01-2006 15:04:05", tanggal_pembelian)
 	// build data to entity transaction
 	transaction, err := transaction.NewTransaction(transaction.DTOTransaction{
-		VoucherCustomerId: 1,
-		CustomerId:        customer_id,
-		CodeTransaction:   "",
-		Tanggalpembelian:  tanggal_pembelian,
-		Total:             0,
-		HargaDiscount:     0,
-		TotalHarga:        0,
-		ItemPembelian:     items,
+		//VoucherCustomerId: 1,
+		CustomerId:       customer_id,
+		CodeTransaction:  "",
+		Tanggalpembelian: &tglBeli,
+		Total:            0,
+		//HargaDiscount:     0,
+		//TotalHarga:        0,
+		//ItemPembelian:     items,
 	})
 
 	if err != nil { // error build trx
