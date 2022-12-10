@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func (h *ItemHandler) GetAllItem(w http.ResponseWriter, r *http.Request) {
+func (h *ItemHandler) GetAllItemHandler(w http.ResponseWriter, r *http.Request) {
 	var (
 		ctx    = context.Background()
 		item   []*item2.Item
@@ -31,7 +31,7 @@ func (h *ItemHandler) GetAllItem(w http.ResponseWriter, r *http.Request) {
 	w.Write(response)
 }
 
-func (h *ItemHandler) GetItemByID(w http.ResponseWriter, r *http.Request) {
+func (h *ItemHandler) GetItemByIDHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	var (

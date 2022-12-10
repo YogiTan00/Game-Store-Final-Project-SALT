@@ -28,8 +28,8 @@ var (
 	repoItem                 = item2.NewItemMysqlInteractor(mysqlConn)
 	repoVoucher              = repo_voucher.NewVoucherRepositoryMysqlInteractor(mysqlConn)
 	useCaseCustomer          = usecase_cust.NewCustomerUseCaseInteractor(ctx, repoCustomer)
-	useCaseTransaction       = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoVoucher)
-	useCaseTransactionDetail = transaction_detail.NewTransactionDetailUseCaseInteractor(ctx, repoTransactionDetail)
+	useCaseTransaction       = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction)
+	useCaseTransactionDetail = transaction_detail.NewTransactionDetailUseCaseInteractor(repoTransactionDetail)
 	repoTransactionDetail    = transaction_detail2.NewTransactionDetailMysqlInteractor(mysqlConn)
 )
 
@@ -39,7 +39,7 @@ func main() {
 	// routes customer
 	handlerCustomer := customer_handler.NewCustomerHandler(useCaseCustomer)
 	handlerTrx := transaction_handler.NewUsecaseTransactionHandler(useCaseTransaction)
-	handlerTransaction := transaction_handler.NewTransactionHandler(ctx, repoTransaction)
+	handlerTransaction := transaction_handler.NewTransactionHandler(repoTransaction)
 	handlerTransactionDetail := transaction_handler.NewTransactionDetailHandler(repoTransactionDetail, repoItem)
 	handlerItem := item.NewItemHandler(repoItem)
 	// customer
@@ -47,12 +47,12 @@ func main() {
 
 	// transaksi
 	r.HandleFunc("/transaction/store", handlerTrx.StoreController).Methods(http.MethodPost)
-	r.HandleFunc("/get-transaction", handlerTransaction.GetAllTransaction).Methods(http.MethodGet)
-	r.HandleFunc("/get-transaction/{id}", handlerTransaction.GetAllTransactionByID).Methods(http.MethodGet)
+	r.HandleFunc("/get-transaction", handlerTransaction.GetAllTransactionHandler).Methods(http.MethodGet)
+	r.HandleFunc("/get-transaction/{id}", handlerTransaction.GetAllTransactionByIDHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction-detail", handlerTransactionDetail.GetAllTransactionDetailHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction-detail/{id}", handlerTransactionDetail.GeAllTransactionDetailByIDHandler).Methods(http.MethodGet)
-	r.HandleFunc("/get-item", handlerItem.GetAllItem).Methods(http.MethodGet)
-	r.HandleFunc("/get-item/{id}", handlerItem.GetItemByID).Methods(http.MethodGet)
+	r.HandleFunc("/get-item", handlerItem.GetAllItemHandler).Methods(http.MethodGet)
+	r.HandleFunc("/get-item/{id}", handlerItem.GetItemByIDHandler).Methods(http.MethodGet)
 
 	fmt.Println("localhost:8080")
 	http.ListenAndServe(":8080", r)

@@ -1,12 +1,44 @@
 package transaction
 
 import (
-	"fmt"
+	"context"
 	"game-store-final-project/project/domain/entity/transaction"
 	entity_voucher "game-store-final-project/project/domain/entity/voucher"
 	"math/rand"
 	"time"
 )
+
+func (trx *TransactionUseCaseInteractor) UcGetAllTransaction(ctx context.Context) ([]*transaction.Transaction, error) {
+	listTransaction, err := trx.repoTransaction.GetAllTransaction(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return listTransaction, nil
+}
+
+func (trx *TransactionUseCaseInteractor) UcStoreTransaction(ctx context.Context, dataTransaction *transaction.DTOTransaction) error {
+	trans, err := transaction.NewTransaction(*dataTransaction)
+	if err != nil {
+		return err
+	}
+
+	errInsert := trx.repoTransaction.StoreTransaction(ctx, trans)
+	if errInsert != nil {
+		return errInsert
+	}
+
+	return nil
+}
+
+func (trx *TransactionUseCaseInteractor) UcGetAllTransactionByID(ctx context.Context, id string) ([]*transaction.Transaction, error) {
+	listTransaction, err := trx.repoTransaction.GetAllTransactionByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return listTransaction, nil
+}
 
 func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tanggal_pembelian string, voucher []string) (*transaction.Transaction, error) {
 	/*
@@ -110,20 +142,20 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 	}
 
 	// build data to entity voucher
-	dataVoucher, errVoucher := entity_voucher.NewVoucher(getVouchers)
-	if errVoucher != nil { // error build voucher
-		return nil, errVoucher
-	}
+	//dataVoucher, errVoucher := entity_voucher.NewVoucher(getVouchers)
+	//if errVoucher != nil { // error build voucher
+	//	return nil, errVoucher
+	//}
 
 	// store voucher
 	// loop and save
-	for _, list_vo := range dataVoucher {
-		fmt.Println(list_vo)
-		errInsertVo := trx.repoVoucher.StoreVoucher(trx.ctx, list_vo)
-		if errInsertVo != nil {
-			return nil, errInsertVo
-		}
-	}
+	//for _, list_vo := range dataVoucher {
+	//	fmt.Println(list_vo)
+	//	errInsertVo := trx.repoVoucher.StoreVoucher(trx.ctx, list_vo)
+	//	if errInsertVo != nil {
+	//		return nil, errInsertVo
+	//	}
+	//}
 
 	tglBeli, _ := time.Parse("02-01-2006 15:04:05", tanggal_pembelian)
 	// build data to entity transaction

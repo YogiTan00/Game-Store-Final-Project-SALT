@@ -19,11 +19,11 @@ type DTOItem struct {
 }
 
 func NewItem(t DTOItem) (*Item, error) {
-	if t.Kategori == "" {
-		return nil, errors.New("CATEGORY ID NOT SET")
-	}
 	if t.Nama == "" {
 		return nil, errors.New("NAMA NOT SET")
+	}
+	if t.Kategori == "" {
+		return nil, errors.New("CATEGORY ID NOT SET")
 	}
 
 	return &Item{

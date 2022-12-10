@@ -14,5 +14,7 @@ type ItemUseCaseInteractor struct {
 }
 
 func NewItemUseCaseInteractor(repoItem repository.ItemRepository) *ItemUseCaseInteractor {
-	return &ItemUseCaseInteractor{repoItem: repoItem}
+	return &ItemUseCaseInteractor{
+		repoItem: repoItem,
+	}
 }
