@@ -4,11 +4,12 @@ import (
 	"game-store-final-project/project/internal/delivery/http/transaction_handler"
 	"game-store-final-project/project/internal/usecase/transaction"
 	"game-store-final-project/project/test_data"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestTransactionHandler_GetAllTransactionHandler(t *testing.T) {

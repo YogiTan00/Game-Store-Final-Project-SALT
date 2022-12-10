@@ -11,6 +11,8 @@ import (
 type TransactionHandler struct {
 	useCaseTransaction usecase.TransactionUseCase
 	repoTransaction    _repository.TransactionRepository
+	repoItem           _repository.ItemRepository
+	repoVoucher        _repository.VoucherRepository
 }
 
 type TransactionDetailHandler struct {
@@ -23,14 +25,16 @@ type TransactionHandlerInteractor struct {
 	TransactionUseCase usecase.TransactionUseCase
 }
 
-func NewTransactionHandler(repoTransaction _repository.TransactionRepository) *TransactionHandler {
+func NewTransactionHandler(repoTransaction _repository.TransactionRepository, repoItem _repository.ItemRepository, repoVoucher _repository.VoucherRepository) *TransactionHandler {
 	var (
 		ctx = context.Background()
 	)
-	useCaseTransaction := transaction2.NewTransactionUseCaseInteractor(ctx, repoTransaction)
+	useCaseTransaction := transaction2.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem, repoVoucher)
 	return &TransactionHandler{
 		useCaseTransaction: useCaseTransaction,
 		repoTransaction:    repoTransaction,
+		repoItem:           repoItem,
+		repoVoucher:        repoVoucher,
 	}
 }
 

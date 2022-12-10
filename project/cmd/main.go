@@ -28,7 +28,7 @@ var (
 	repoItem                 = item2.NewItemMysqlInteractor(mysqlConn)
 	repoVoucher              = repo_voucher.NewVoucherRepositoryMysqlInteractor(mysqlConn)
 	useCaseCustomer          = usecase_cust.NewCustomerUseCaseInteractor(ctx, repoCustomer)
-	useCaseTransaction       = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction)
+	useCaseTransaction       = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem, repoVoucher)
 	useCaseTransactionDetail = transaction_detail.NewTransactionDetailUseCaseInteractor(repoTransactionDetail)
 	repoTransactionDetail    = transaction_detail2.NewTransactionDetailMysqlInteractor(mysqlConn)
 )
@@ -39,7 +39,7 @@ func main() {
 	// routes customer
 	handlerCustomer := customer_handler.NewCustomerHandler(useCaseCustomer)
 	handlerTrx := transaction_handler.NewUsecaseTransactionHandler(useCaseTransaction)
-	handlerTransaction := transaction_handler.NewTransactionHandler(repoTransaction)
+	handlerTransaction := transaction_handler.NewTransactionHandler(repoTransaction, repoItem, repoVoucher)
 	handlerTransactionDetail := transaction_handler.NewTransactionDetailHandler(repoTransactionDetail, repoItem)
 	handlerItem := item.NewItemHandler(repoItem)
 	// customer

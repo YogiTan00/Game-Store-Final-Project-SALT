@@ -21,6 +21,11 @@ type DTOTransaction struct {
 	Total            int64
 }
 
+type DTOItemPembelian struct {
+	ItemId          int
+	JumlahPembelian int
+}
+
 func NewTransaction(t DTOTransaction) (*Transaction, error) {
 	if t.CustomerId == 0 {
 		return nil, errors.New("ID COSTOMER NOT SET")

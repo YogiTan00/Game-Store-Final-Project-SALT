@@ -9,8 +9,9 @@ import (
 	"game-store-final-project/project/domain/repository"
 	"game-store-final-project/project/internal/repository/mysql/mapper"
 	"game-store-final-project/project/internal/repository/mysql/model"
-	"github.com/rocketlaunchr/dbq/v2"
 	"time"
+
+	"github.com/rocketlaunchr/dbq/v2"
 )
 
 type TransactionRepositoryMysqlInteractor struct {
@@ -99,6 +100,6 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransactionByID(ctx context
 }
 
 func (t *TransactionRepositoryMysqlInteractor) StoreTransaction(ctx context.Context, dataTransaction *transaction.Transaction) error {
-	fmt.Println(dataTransaction)
+	// fmt.Println(dataTransaction)
 	return nil
 }
