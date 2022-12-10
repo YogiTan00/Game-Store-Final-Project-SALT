@@ -7,7 +7,6 @@ import (
 
 type TransactionDetail struct {
 	id              int
-	codeTransaction string
 	transactionId   int
 	itemId          string
 	detailItem      *item.Item
@@ -19,7 +18,6 @@ type TransactionDetail struct {
 
 type DTOTransactionDetail struct {
 	Id              int
-	CodeTransaction string
 	TransactionId   int
 	ItemId          string
 	DetailItem      *item.Item
@@ -39,7 +37,6 @@ func NewTransactionDetail(t DTOTransactionDetail) (*TransactionDetail, error) {
 
 	return &TransactionDetail{
 		id:              t.Id,
-		codeTransaction: t.CodeTransaction,
 		transactionId:   t.TransactionId,
 		itemId:          t.ItemId,
 		detailItem:      t.DetailItem,
@@ -52,10 +49,6 @@ func NewTransactionDetail(t DTOTransactionDetail) (*TransactionDetail, error) {
 
 func (t *TransactionDetail) GetID() int {
 	return t.id
-}
-
-func (t *TransactionDetail) GetCodeTransaction() string {
-	return t.codeTransaction
 }
 
 func (t *TransactionDetail) GetTransactionID() int {
