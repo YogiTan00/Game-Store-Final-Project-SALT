@@ -1,7 +1,7 @@
-package item_test
+package item_handler_test
 
 import (
-	item2 "game-store-final-project/project/internal/delivery/http/item"
+	item2 "game-store-final-project/project/internal/delivery/http/item_handler"
 	"game-store-final-project/project/internal/usecase/item"
 	"game-store-final-project/project/test_data"
 	"github.com/stretchr/testify/assert"

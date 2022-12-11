@@ -1,4 +1,4 @@
-package item
+package item_handler
 
 import (
 	_repository "game-store-final-project/project/domain/repository"

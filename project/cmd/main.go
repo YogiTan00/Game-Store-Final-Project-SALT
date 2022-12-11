@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"game-store-final-project/project/internal/delivery/http/customer_handler"
-	"game-store-final-project/project/internal/delivery/http/item"
+	"game-store-final-project/project/internal/delivery/http/item_handler"
 	"game-store-final-project/project/internal/delivery/http/transaction_handler"
 	repo "game-store-final-project/project/internal/repository/mysql/customer"
 	item2 "game-store-final-project/project/internal/repository/mysql/item"
@@ -41,7 +41,7 @@ func main() {
 	handlerTrx := transaction_handler.NewUsecaseTransactionHandler(useCaseTransaction)
 	handlerTransaction := transaction_handler.NewTransactionHandler(repoTransaction, repoItem, repoVoucher)
 	handlerTransactionDetail := transaction_handler.NewTransactionDetailHandler(repoTransactionDetail, repoItem)
-	handlerItem := item.NewItemHandler(repoItem)
+	handlerItem := item_handler.NewItemHandler(repoItem)
 	// customer
 	r.HandleFunc("/store-customer", handlerCustomer.StoreController).Methods(http.MethodPost)
 
@@ -51,8 +51,8 @@ func main() {
 	r.HandleFunc("/get-transaction/{id}", handlerTransaction.GetAllTransactionByIDHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction-detail", handlerTransactionDetail.GetAllTransactionDetailHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction-detail/{id}", handlerTransactionDetail.GeAllTransactionDetailByIDHandler).Methods(http.MethodGet)
-	r.HandleFunc("/get-item", handlerItem.GetAllItemHandler).Methods(http.MethodGet)
-	r.HandleFunc("/get-item/{id}", handlerItem.GetItemByIDHandler).Methods(http.MethodGet)
+	r.HandleFunc("/get-item_handler", handlerItem.GetAllItemHandler).Methods(http.MethodGet)
+	r.HandleFunc("/get-item_handler/{id}", handlerItem.GetItemByIDHandler).Methods(http.MethodGet)
 
 	fmt.Println("localhost:8080")
 	http.ListenAndServe(":8080", r)
