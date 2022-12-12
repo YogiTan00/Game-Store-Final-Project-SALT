@@ -7,18 +7,26 @@ import (
 	"net/http"
 )
 
-func (h *TransactionHandler) GetTransactionHandler(w http.ResponseWriter, r *http.Request) {
+func (h *TransactionHandler) GetTransactionByIDHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
 	var (
 		ctx = context.Background()
 	)
-
-	listTransaction, err := h.repoTransaction.GetAllTransaction(ctx)
+	Transaction, err := h.repoTransaction.GetTransactionByID(ctx, vars["id"])
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 	}
 
-	response, errMap := http_response.MapResponseListTransaction(listTransaction, 200, "Success")
+	listTransDetail, errDetail := h.repoTransactionDetail.GetAllTransactionDetailByID(ctx, vars["id"])
+	if errDetail != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(errDetail.Error()))
+	}
+
+	Transaction = Transaction.AddTransDetail(listTransDetail)
+
+	response, errMap := http_response.MapResponseTransaction(Transaction, 200, "Success")
 	if errMap != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Error mapping data"))

@@ -9,7 +9,7 @@ type ItemModel struct {
 }
 
 func GetTableItem() string {
-	return "item_handler"
+	return "item"
 }
 
 func TableItem() []string {

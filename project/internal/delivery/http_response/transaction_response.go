@@ -28,6 +28,31 @@ type ResponseTransactionJson struct {
 	Total            int64  `json:"total"`
 }
 
+func MapResponseTransaction(dataTransaction *transaction.Transaction, code int, message string) ([]byte, error) {
+	response := &ResponseTransactionJson{
+		Id:               dataTransaction.GetID(),
+		CustomerId:       dataTransaction.GetCustomerID(),
+		CodeTransaction:  dataTransaction.GetCodeTransaction(),
+		TanggalPembelian: dataTransaction.GetTanggalPembelian().Format("02-01-2006 15:04:05"),
+		Total:            dataTransaction.GetTotal(),
+	}
+
+	httpResponse := &CustomReponseSingleTransaction{
+		Status: &StatusTransaction{
+			Code:    code,
+			Mesaage: message,
+		},
+		Data: response,
+	}
+
+	respJson, err := json.Marshal(httpResponse)
+	if err != nil {
+		return nil, err
+	}
+
+	return respJson, nil
+}
+
 func MapResponseListTransaction(dataTransaction []*transaction.Transaction, code int, message string) ([]byte, error) {
 	listResponse := make([]*ResponseTransactionJson, 0)
 	for _, data := range dataTransaction {

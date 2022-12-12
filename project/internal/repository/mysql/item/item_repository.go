@@ -50,8 +50,7 @@ func (i *ItemRepositoryMysqlInteractor) GetItemByID(ctx context.Context, id stri
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
-	item := model.GetTableItem()
-	stmt := fmt.Sprintf(`SELECT * FROM %s WHERE id =?`, item)
+	stmt := fmt.Sprintf(`SELECT * FROM %s WHERE id =?`, model.GetTableItem())
 	opts := &dbq.Options{
 		SingleResult:   true,
 		ConcreteStruct: model.ItemModel{},

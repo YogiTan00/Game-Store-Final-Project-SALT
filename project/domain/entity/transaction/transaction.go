@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"errors"
+	"game-store-final-project/project/domain/entity/transaction_detail"
 	"time"
 )
 
@@ -10,6 +11,7 @@ type Transaction struct {
 	customerId       int
 	codeTransaction  string
 	tanggalPembelian *time.Time
+	transDetail      []*transaction_detail.TransactionDetail
 	total            int64
 }
 
@@ -18,6 +20,7 @@ type DTOTransaction struct {
 	CustomerId       int
 	CodeTransaction  string
 	Tanggalpembelian *time.Time
+	TransDetail      []*transaction_detail.DTOTransactionDetail
 	Total            int64
 }
 
@@ -59,6 +62,15 @@ func (t *Transaction) GetTanggalPembelian() *time.Time {
 	return t.tanggalPembelian
 }
 
+func (t *Transaction) GetTransDetail() []*transaction_detail.TransactionDetail {
+	return t.transDetail
+}
+
 func (t *Transaction) GetTotal() int64 {
 	return t.total
+}
+
+func (t *Transaction) AddTransDetail(dataTransDetail []*transaction_detail.TransactionDetail) *Transaction {
+	t.transDetail = dataTransDetail
+	return t
 }

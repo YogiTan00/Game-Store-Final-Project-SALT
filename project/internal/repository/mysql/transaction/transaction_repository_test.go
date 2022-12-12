@@ -15,6 +15,13 @@ var (
 	repoMysqlTransaction = transaction.NewTransactionMysqlInteractor(mysqlConn)
 )
 
+func TestTransactionRepositoryMysqlInteractor_GetTransactionByID(t *testing.T) {
+	transaction, err := repoMysqlTransaction.GetTransactionByID(ctx, "1")
+	fmt.Println(transaction)
+	assert.NotNil(t, transaction)
+	assert.Nil(t, err)
+}
+
 func TestTransactionRepositoryMysqlInteractor_GetAllTransaction(t *testing.T) {
 	transaction, err := repoMysqlTransaction.GetAllTransaction(ctx)
 	fmt.Println(transaction)
