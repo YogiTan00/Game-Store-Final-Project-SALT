@@ -8,7 +8,7 @@ import (
 type TransactionDetail struct {
 	id              int
 	transactionId   int
-	itemId          string
+	itemId          int
 	detailItem      *item.Item
 	jumlahPembelian int
 	hargaPembelian  int64
@@ -19,7 +19,7 @@ type TransactionDetail struct {
 type DTOTransactionDetail struct {
 	Id              int
 	TransactionId   int
-	ItemId          string
+	ItemId          int
 	DetailItem      *item.Item
 	JumlahPembelian int
 	HargaPembelian  int64
@@ -31,7 +31,24 @@ func NewTransactionDetail(t DTOTransactionDetail) (*TransactionDetail, error) {
 	if t.TransactionId == 0 {
 		return nil, errors.New("TRANSACTION ID NOT SET")
 	}
-	if t.ItemId == "" || t.ItemId == "0" {
+	if t.ItemId == 0 {
+		return nil, errors.New("ITEM ID NOT SET")
+	}
+
+	return &TransactionDetail{
+		id:              t.Id,
+		transactionId:   t.TransactionId,
+		itemId:          t.ItemId,
+		detailItem:      t.DetailItem,
+		jumlahPembelian: t.JumlahPembelian,
+		hargaPembelian:  t.HargaPembelian,
+		hargaDiscount:   t.HargaDiscount,
+		total:           t.Total,
+	}, nil
+}
+
+func NewTransactionDetailWithoutTrxId(t DTOTransactionDetail) (*TransactionDetail, error) {
+	if t.ItemId == 0 {
 		return nil, errors.New("ITEM ID NOT SET")
 	}
 
@@ -55,7 +72,7 @@ func (t *TransactionDetail) GetTransactionID() int {
 	return t.transactionId
 }
 
-func (t *TransactionDetail) GetItemID() string {
+func (t *TransactionDetail) GetItemID() int {
 	return t.itemId
 }
 

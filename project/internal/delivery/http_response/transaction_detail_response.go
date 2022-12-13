@@ -23,7 +23,7 @@ type CustomReponseCollectionTransactionDetail struct {
 type ResponseTransactionDetailJson struct {
 	Id            int                     `json:"id"`
 	TransactionId int                     `json:"transactionId"`
-	ItemId        string                  `json:"itemId"`
+	ItemId        int                     `json:"itemId"`
 	Detailitem    *ResponseItemDetailJson `json:"detailitem"`
 	JumlahPembeli int                     `json:"jumlahPembeli"`
 	HargaPembeli  int64                   `json:"hargaPembeli"`

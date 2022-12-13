@@ -1,13 +1,13 @@
 package model
 
 type TransactionDetailModel struct {
-	Id              int    `dbq:"id"`
-	TransactionId   int    `dbq:"transaction_id"`
-	ItemId          string `dbq:"item_id"`
-	JumlahPembelian int    `dbq:"jumlah_pembelian"`
-	HargaPembelian  int64  `dbq:"harga_pembelian"`
-	HargaDiscount   int64  `dbq:"harga_discount"`
-	Total           int64  `dbq:"total"`
+	Id              int   `dbq:"id"`
+	TransactionId   int   `dbq:"transaction_id"`
+	ItemId          int   `dbq:"item_id"`
+	JumlahPembelian int   `dbq:"jumlah_pembelian"`
+	HargaPembelian  int64 `dbq:"harga_pembelian"`
+	HargaDiscount   int64 `dbq:"harga_discount"`
+	Total           int64 `dbq:"total"`
 }
 
 func GetTableTransactionDetail() string {

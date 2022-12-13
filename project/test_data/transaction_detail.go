@@ -16,7 +16,7 @@ func GetTestDataTransactionDetail() *transaction_detail.TransactionDetail {
 	transaction, _ := transaction_detail.NewTransactionDetail(transaction_detail.DTOTransactionDetail{
 		Id:              1,
 		TransactionId:   1,
-		ItemId:          "1",
+		ItemId:          1,
 		DetailItem:      item,
 		JumlahPembelian: 1,
 		HargaPembelian:  4360000,
@@ -40,7 +40,7 @@ func GetTestDataCountTransactionDetail(count int) []*transaction_detail.Transact
 		transaction, _ := transaction_detail.NewTransactionDetail(transaction_detail.DTOTransactionDetail{
 			Id:              1,
 			TransactionId:   1,
-			ItemId:          "1",
+			ItemId:          1,
 			DetailItem:      item,
 			JumlahPembelian: 1,
 			HargaPembelian:  4360000,

@@ -30,7 +30,7 @@ func NewTransactionHandler(repoTransaction _repository.TransactionRepository, re
 	var (
 		ctx = context.Background()
 	)
-	useCaseTransaction := transaction2.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem, repoVoucher)
+	useCaseTransaction := transaction2.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem, repoVoucher, repoTransactionDetail)
 	return &TransactionHandler{
 		useCaseTransaction:    useCaseTransaction,
 		repoTransaction:       repoTransaction,

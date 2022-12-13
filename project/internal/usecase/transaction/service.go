@@ -2,8 +2,8 @@ package transaction
 
 import (
 	"context"
-	"fmt"
 	"game-store-final-project/project/domain/entity/transaction"
+	"game-store-final-project/project/domain/entity/transaction_detail"
 	entity_voucher "game-store-final-project/project/domain/entity/voucher"
 	"math/rand"
 	"strconv"
@@ -67,6 +67,7 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 	var totalServiceConsole int64 = 0
 	var totalSecondGame int64 = 0
 	var totalSeluruh int64 = 0
+	detailTransaction := make([]*transaction_detail.TransactionDetail, 0)
 
 	for _, data_item := range items {
 		dataItem, err := trx.repoItem.GetItemByID(trx.ctx, strconv.Itoa(data_item.ItemId))
@@ -90,7 +91,14 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 		totalSeluruh = totalSeluruh + totalPerItem
 
 		// build dto details
-
+		dataDetail, err := transaction_detail.NewTransactionDetailWithoutTrxId(transaction_detail.DTOTransactionDetail{
+			ItemId:          dataItem.GetID(),
+			JumlahPembelian: data_item.JumlahPembelian,
+			HargaPembelian:  dataItem.GetHarga(),
+			HargaDiscount:   0,
+			Total:           totalPerItem,
+		})
+		detailTransaction = append(detailTransaction, dataDetail)
 	}
 
 	dateNow := time.Now()
@@ -180,8 +188,13 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 		return nil, errInsert
 	}
 
-	fmt.Println(resStore)
 	// store trx detail
+	for _, listDetail := range detailTransaction {
+		errInsertDetail := trx.repoTransactionDetail.StoreTransactionDetail(trx.ctx, resStore, listDetail)
+		if errInsertDetail != nil {
+			return nil, errInsertDetail
+		}
+	}
 
 	// update status voucher jika menggunakan
 

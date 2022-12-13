@@ -10,8 +10,9 @@ import (
 	"game-store-final-project/project/domain/repository"
 	"game-store-final-project/project/internal/repository/mysql/mapper"
 	"game-store-final-project/project/internal/repository/mysql/model"
-	"github.com/rocketlaunchr/dbq/v2"
 	"time"
+
+	"github.com/rocketlaunchr/dbq/v2"
 )
 
 type TransactionDetailRepositoryMysqlInteractor struct {
@@ -42,7 +43,7 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetail(ctx
 		var (
 			idTransD        int
 			transactionId   int
-			itemId          string
+			itemId          int
 			nama            string
 			kategori        string
 			jumlahPembelian int
@@ -133,7 +134,7 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetailByID
 		var (
 			idTransD        int
 			transactionId   int
-			itemId          string
+			itemId          int
 			nama            string
 			kategori        string
 			jumlahPembelian int
@@ -182,4 +183,25 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetAllTransactionDetailByID
 	defer rows.Close()
 
 	return dataPostCollection, nil
+}
+
+func (t *TransactionDetailRepositoryMysqlInteractor) StoreTransactionDetail(ctx context.Context, trx_id int64, detail *transaction_detail.TransactionDetail) error {
+	var (
+		errMysql error
+	)
+
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
+	defer cancel()
+
+	// query insert to table article
+	insertQuery := "INSERT INTO transaction_detail(transaction_id, item_id, jumlah_pembelian, harga_pembelian, harga_discount, total) VALUES(?, ?, ?, ?, ?, ?)"
+
+	_, errMysql = t.dbConn.Exec(insertQuery, trx_id, detail.GetItemID(), detail.GetJumlahPembelian(), detail.GetHargaPembelian(),
+		detail.GetHargaDiscount(), detail.GetTotal())
+
+	if errMysql != nil {
+		return errMysql
+	}
+
+	return nil
 }
