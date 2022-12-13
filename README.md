@@ -42,3 +42,6 @@ VALUES ('Service Console Xbox Sereis X', 'Service Console', 4673000, 999),
 
 ## Api Docs
 url: https://editor.swagger.io/?_ga=2.123945100.728148388.1670933433-1547882304.1668663482
+
+## Design DB
+url: https://dbdiagram.io/d/63796ad3c9abfc611173e522

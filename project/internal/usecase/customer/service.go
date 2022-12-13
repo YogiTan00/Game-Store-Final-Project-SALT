@@ -11,6 +11,8 @@ func (cu *CustomerUseCaseInteractor) StoreCustomer(dataCustomer customer.DTOCust
 		return nil, err
 	}
 
+	// cek sudah ada data atau belum
+
 	errInsert := cu.RepoCustomer.StoreCustomer(cu.ctx, customer)
 	if errInsert != nil {
 		return nil, errInsert
