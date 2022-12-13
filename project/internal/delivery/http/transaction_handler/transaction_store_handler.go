@@ -2,9 +2,9 @@ package transaction_handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"game-store-final-project/project/domain/entity/transaction"
 	"game-store-final-project/project/internal/delivery/http_request"
+	"game-store-final-project/project/internal/delivery/http_response"
 	"net/http"
 )
 
@@ -47,7 +47,12 @@ func (s_handler *TransactionHandlerInteractor) StoreController(w http.ResponseWr
 		return
 	}
 
-	w.WriteHeader(200)
-	fmt.Fprintf(w, "SUCCESS INSERT DATA")
+	response, errMap := http_response.MapResponse(200, "Success")
+	if errMap != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Error mapping data"))
+	}
 
+	w.WriteHeader(200)
+	w.Write(response)
 }

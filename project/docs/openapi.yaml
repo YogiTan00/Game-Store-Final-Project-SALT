@@ -1,0 +1,116 @@
+openapi: 3.0.0
+info:
+  title: Salt Academy api documentation for Store Apps (1.0.0)
+  version: 1.0.0
+  x-logo:
+      url: ""
+      altText: "Salt Academy"
+  description: ""
+
+servers:
+  - url: http://localhost:8080/
+
+paths:
+  /customer/store:
+    post:
+      summary: Customer
+      description: API save customer data
+      tags: 
+        - Customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                nik:
+                  type: string
+                  description: data nik
+                nama:
+                  type: string
+                  description:  Data nama
+                alamat:
+                  type: string
+                  description:  Data alamat
+                no_tlp:
+                  type: string
+                  description:  Data notlp
+                jenis_kelamin:
+                  type: string
+                  description:  Data jenis kelamin
+            examples:
+              Customer New 1:
+                value:
+                  nik: "3200442233442324"
+                  nama: "Taupik Pirdian"
+                  alamat: "Bandung"
+                  no_tlp: "085846132417"
+                  jenis_kelamin: "LK"
+      responses: 
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example: 
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: null
+                  
+  /transaction/store:
+    post:
+      summary: Transaction
+      description: API save Transaction data
+      tags: 
+        - Transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                customer_id:
+                  type: number
+                  description: customer id
+                tanggal_pembelian:
+                  type: string
+                  description:  Tanggal pembelian
+                voucher:
+                  type: array
+                  description:  Data voucher
+                detail_transaction:
+                  type: object
+                  description:  Data item
+            examples:
+              Transaksi New 1:
+                value:
+                  customer_id: 1
+                  tanggal_pembelian: "2022-10-22"
+                  voucher: [""]
+                  detail_transaction: [
+                    {
+                      item_id: 1,
+                      jumlah_pembelian: 20
+                    },
+                    {
+                      item_id: 1,
+                      jumlah_pembelian: 10
+                    }
+                  ]
+      responses: 
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example: 
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: null
+  

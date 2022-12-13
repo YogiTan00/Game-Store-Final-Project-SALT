@@ -39,3 +39,6 @@ VALUES ('Service Console Xbox Sereis X', 'Service Console', 4673000, 999),
        ('Oculus Quest 2 Advanced All-In-One VR', 'Buy Accessories Console', 6198000, 99),
        ('Ransel PS 5', 'Buy Accessories Console', 149000, 99),
        ('Silicon Case Controller PS 5', 'Buy Accessories Console', 249000, 99);
+
+## Api Docs
+url: https://editor.swagger.io/?_ga=2.123945100.728148388.1670933433-1547882304.1668663482
