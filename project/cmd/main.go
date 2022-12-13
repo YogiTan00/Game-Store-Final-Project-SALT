@@ -43,7 +43,7 @@ func main() {
 	handlerTransactionDetail := transaction_handler.NewTransactionDetailHandler(repoTransactionDetail, repoItem)
 	handlerItem := item_handler.NewItemHandler(repoItem)
 	// customer
-	r.HandleFunc("/store-customer", handlerCustomer.StoreController).Methods(http.MethodPost)
+	r.HandleFunc("/customer/store", handlerCustomer.StoreController).Methods(http.MethodPost)
 
 	// transaksi
 	r.HandleFunc("/transaction/store", handlerTrx.StoreController).Methods(http.MethodPost)

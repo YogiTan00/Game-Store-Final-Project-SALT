@@ -3,40 +3,51 @@ package customer
 import "errors"
 
 type Customer struct {
-	nik           string
-	nama          string
-	alamat        string
-	no_tlp        string
-	jenis_kelamin string
+	nik          string
+	nama         string
+	alamat       string
+	noTlp        string
+	jenisKelamin string
 }
 
-func NewCustomer(nik string, nama string, alamat string, no_tlp string, jenis_kelamin string) (*Customer, error) {
-	if nik == "" {
+type DTOCustomer struct {
+	Nik          string
+	Nama         string
+	Alamat       string
+	NoTlp        string
+	JenisKelamin string
+}
+
+/*
+Ganti pake dto
+*/
+func NewCustomer(dataCustomer DTOCustomer) (*Customer, error) {
+	if dataCustomer.Nik == "" {
 		return nil, errors.New("NIK NOT SET")
 	}
 
-	if nama == "" {
+	if dataCustomer.Nama == "" {
 		return nil, errors.New("NAMA NOT SET")
 	}
 
-	if alamat == "" {
+	if dataCustomer.Alamat == "" {
 		return nil, errors.New("ALAMAT NOT SET")
 	}
 
-	if no_tlp == "" {
+	if dataCustomer.NoTlp == "" {
 		return nil, errors.New("NO TLP NOT SET")
 	}
 
-	if jenis_kelamin == "" {
+	if dataCustomer.JenisKelamin == "" {
 		return nil, errors.New("JENIS KELAMIN NOT SET")
 	}
 
 	return &Customer{
-		nik:           nik,
-		nama:          nama,
-		alamat:        alamat,
-		no_tlp:        no_tlp,
-		jenis_kelamin: jenis_kelamin,
+		nik:          dataCustomer.Nik,
+		nama:         dataCustomer.Nama,
+		alamat:       dataCustomer.Alamat,
+		noTlp:        dataCustomer.NoTlp,
+		jenisKelamin: dataCustomer.JenisKelamin,
 	}, nil
 }
 
@@ -53,9 +64,9 @@ func (cu *Customer) GetAlamat() string {
 }
 
 func (cu *Customer) GetNoTlp() string {
-	return cu.no_tlp
+	return cu.noTlp
 }
 
 func (cu *Customer) GetJenisKelamin() string {
-	return cu.jenis_kelamin
+	return cu.jenisKelamin
 }

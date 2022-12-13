@@ -122,7 +122,25 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransactionByID(ctx context
 	return dataTransactionColletion, nil
 }
 
-func (t *TransactionRepositoryMysqlInteractor) StoreTransaction(ctx context.Context, dataTransaction *transaction.Transaction) error {
-	// fmt.Println(dataTransaction)
-	return nil
+func (t *TransactionRepositoryMysqlInteractor) StoreTransaction(ctx context.Context, dataTransaction *transaction.Transaction) (int64, error) {
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
+	defer cancel()
+
+	// query insert to table article
+	insertQuery := "INSERT INTO transactions(customer_id, code_transaction, tanggal_pembelian, total) VALUES(?, ?, ?, ?)"
+
+	res, errMysql := t.dbConn.Exec(insertQuery, dataTransaction.GetCustomerID(), dataTransaction.GetCodeTransaction(), dataTransaction.GetTanggalPembelian(),
+		dataTransaction.GetTotal())
+
+	if errMysql != nil {
+		return 0, errMysql
+	}
+
+	// select last id
+	lastInsertId, err := res.LastInsertId()
+	if err != nil {
+		return 0, errMysql
+	}
+
+	return lastInsertId, nil
 }

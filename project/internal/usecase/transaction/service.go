@@ -25,7 +25,7 @@ func (trx *TransactionUseCaseInteractor) UcStoreTransaction(ctx context.Context,
 		return err
 	}
 
-	errInsert := trx.repoTransaction.StoreTransaction(ctx, trans)
+	_, errInsert := trx.repoTransaction.StoreTransaction(ctx, trans)
 	if errInsert != nil {
 		return errInsert
 	}
@@ -63,7 +63,6 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 	*/
 
 	// get product
-	//var totalSeluruh int64 = 0
 	var totalAksesorisAndNewGame int64 = 0
 	var totalServiceConsole int64 = 0
 	var totalSecondGame int64 = 0
@@ -89,6 +88,9 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 		}
 
 		totalSeluruh = totalSeluruh + totalPerItem
+
+		// build dto details
+
 	}
 
 	dateNow := time.Now()
@@ -163,22 +165,25 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 	// build data to entity transaction
 	transaction, err := transaction.NewTransaction(transaction.DTOTransaction{
 		CustomerId:       customer_id,
-		CodeTransaction:  "",
+		CodeTransaction:  generateCodeTrx(13, dateNow),
 		Tanggalpembelian: &tglBeli,
-		Total:            0,
+		Total:            totalSeluruh,
 	})
-
-	fmt.Println(tglBeli)
 
 	if err != nil { // error build trx
 		return nil, err
 	}
 
 	// store trx
-	errInsert := trx.repoTransaction.StoreTransaction(trx.ctx, transaction)
+	resStore, errInsert := trx.repoTransaction.StoreTransaction(trx.ctx, transaction)
 	if errInsert != nil {
 		return nil, errInsert
 	}
+
+	fmt.Println(resStore)
+	// store trx detail
+
+	// update status voucher jika menggunakan
 
 	return transaction, nil
 }
@@ -191,4 +196,14 @@ func generateCodeVoucher(n int, name string, date time.Time) string {
 		b[i] = randString[rand.Intn(len(randString))]
 	}
 	return name + "-INV" + time + string(b)
+}
+
+func generateCodeTrx(n int, date time.Time) string {
+	var randString = []rune("123456789")
+	time := date.Format("20060102")
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = randString[rand.Intn(len(randString))]
+	}
+	return "INV-" + time + string(b)
 }

@@ -3,6 +3,7 @@ package customer_handler
 import (
 	"encoding/json"
 	"fmt"
+	"game-store-final-project/project/domain/entity/customer"
 	"game-store-final-project/project/internal/delivery/http_request"
 	"net/http"
 )
@@ -20,7 +21,16 @@ func (s_handler *CustomerHandlerInteractor) StoreController(w http.ResponseWrite
 		return
 	}
 
-	_, errStoreCustomerFromUseCase := s_handler.CustomerUseCase.StoreCustomer(req.Nik, req.Nama, req.Alamat, req.NoTlp, req.JenisKelamin)
+	// build dto
+	dataCustomer := customer.DTOCustomer{
+		Nik:          req.Nik,
+		Nama:         req.Nama,
+		Alamat:       req.Alamat,
+		NoTlp:        req.NoTlp,
+		JenisKelamin: req.JenisKelamin,
+	}
+
+	_, errStoreCustomerFromUseCase := s_handler.CustomerUseCase.StoreCustomer(dataCustomer)
 	if errStoreCustomerFromUseCase != nil {
 		fmt.Println(errStoreCustomerFromUseCase)
 		w.WriteHeader(http.StatusInternalServerError)

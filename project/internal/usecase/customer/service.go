@@ -4,9 +4,9 @@ import (
 	"game-store-final-project/project/domain/entity/customer"
 )
 
-func (cu *CustomerUseCaseInteractor) StoreCustomer(nik string, nama string, alamat string, no_tlp string, jenis_kelamin string) (*customer.Customer, error) {
+func (cu *CustomerUseCaseInteractor) StoreCustomer(dataCustomer customer.DTOCustomer) (*customer.Customer, error) {
 	// build data to entity
-	customer, err := customer.NewCustomer(nik, nama, alamat, no_tlp, jenis_kelamin)
+	customer, err := customer.NewCustomer(dataCustomer)
 	if err != nil {
 		return nil, err
 	}
