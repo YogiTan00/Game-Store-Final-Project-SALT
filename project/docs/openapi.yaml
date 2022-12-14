@@ -113,3 +113,126 @@ paths:
                     message: "success",
                   }
                   Data: null
+                  
+  /customer/list-trx/{nik}:
+    get:
+      summary: Customer
+      description: API get customer data with transaction
+      parameters:
+        - name: nik
+          in: path
+          description: nik customer
+          required: true
+          schema:
+            type: string
+      tags: 
+        - Customer
+      responses: 
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example: 
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: {
+                    "id": 1,
+                    "nik": "2147483647",
+                    "nama": "Taupik Pirdian",
+                    "alamat": "Bandung",
+                    "no_tlp": "0858877899887",
+                    "jenis_kelamin": "LK",
+                    "transaction": [
+                        {
+                            "id": 1,
+                            "customerId": 1,
+                            "codeTransaction": "INV05122022190500",
+                            "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                            "total": 12907000,
+                            "transaction_detail": [
+                                {
+                                    "id": 1,
+                                    "transactionId": 1,
+                                    "itemId": 1,
+                                    "detailitem": null,
+                                    "jumlahPembeli": 1,
+                                    "hargaPembeli": 4673000,
+                                    "hargaDiscount": 0,
+                                    "total": 4673000
+                                },
+                                {
+                                    "id": 2,
+                                    "transactionId": 1,
+                                    "itemId": 2,
+                                    "detailitem": null,
+                                    "jumlahPembeli": 2,
+                                    "hargaPembeli": 4117000,
+                                    "hargaDiscount": 0,
+                                    "total": 8234000
+                                }
+                            ]
+                        },
+                        {
+                            "id": 13,
+                            "customerId": 1,
+                            "codeTransaction": "INV-202212133591336316218",
+                            "tanggalPembelian": "2022-10-10T00:00:00+07:00",
+                            "total": 129070000,
+                            "transaction_detail": [
+                                {
+                                    "id": 4,
+                                    "transactionId": 13,
+                                    "itemId": 1,
+                                    "detailitem": null,
+                                    "jumlahPembeli": 10,
+                                    "hargaPembeli": 4673000,
+                                    "hargaDiscount": 0,
+                                    "total": 46730000
+                                },
+                                {
+                                    "id": 5,
+                                    "transactionId": 13,
+                                    "itemId": 2,
+                                    "detailitem": null,
+                                    "jumlahPembeli": 20,
+                                    "hargaPembeli": 4117000,
+                                    "hargaDiscount": 0,
+                                    "total": 82340000
+                                }
+                            ]
+                        },
+                        {
+                            "id": 14,
+                            "customerId": 1,
+                            "codeTransaction": "INV-202212133591336316218",
+                            "tanggalPembelian": "2022-10-10T00:00:00+07:00",
+                            "total": 129070000,
+                            "transaction_detail": [
+                                {
+                                    "id": 6,
+                                    "transactionId": 14,
+                                    "itemId": 1,
+                                    "detailitem": null,
+                                    "jumlahPembeli": 10,
+                                    "hargaPembeli": 4673000,
+                                    "hargaDiscount": 0,
+                                    "total": 46730000
+                                },
+                                {
+                                    "id": 7,
+                                    "transactionId": 14,
+                                    "itemId": 2,
+                                    "detailitem": null,
+                                    "jumlahPembeli": 20,
+                                    "hargaPembeli": 4117000,
+                                    "hargaDiscount": 0,
+                                    "total": 82340000
+                                }
+                            ]
+                        }
+                    ]
+                }
