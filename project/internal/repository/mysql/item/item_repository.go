@@ -26,8 +26,7 @@ func (i *ItemRepositoryMysqlInteractor) GetAllItem(ctx context.Context) ([]*item
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
-	item := model.GetTableItem()
-	stmt := fmt.Sprintf(`SELECT * FROM %s `, item)
+	stmt := fmt.Sprintf(`SELECT * FROM %s `, model.GetTableItem())
 	opts := &dbq.Options{
 		SingleResult:   false,
 		ConcreteStruct: model.ItemModel{},

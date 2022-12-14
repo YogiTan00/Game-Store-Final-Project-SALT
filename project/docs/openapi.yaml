@@ -3,8 +3,8 @@ info:
   title: Salt Academy api documentation for Store Apps (1.0.0)
   version: 1.0.0
   x-logo:
-      url: ""
-      altText: "Salt Academy"
+    url: ""
+    altText: "Salt Academy"
   description: ""
 servers:
   - url: http://localhost:8080
@@ -13,7 +13,7 @@ paths:
     post:
       summary: Customer
       description: API save customer data
-      tags: 
+      tags:
         - Customer
       requestBody:
         required: true
@@ -44,25 +44,25 @@ paths:
                   alamat: "Bandung"
                   no_tlp: "085846132417"
                   jenis_kelamin: "LK"
-      responses: 
+      responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
                 type: object
-                example: 
+                example:
                   Status: {
                     Code: 200,
                     message: "success",
                   }
                   Data: null
-                  
+
   /transaction/store:
     post:
       summary: Transaction
       description: API save Transaction data
-      tags: 
+      tags:
         - Transaction
       requestBody:
         required: true
@@ -98,20 +98,20 @@ paths:
                       jumlah_pembelian: 10
                     }
                   ]
-      responses: 
+      responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
                 type: object
-                example: 
+                example:
                   Status: {
                     Code: 200,
                     message: "success",
                   }
                   Data: null
-                  
+
   /customer/list-trx/{nik}:
     get:
       summary: Customer
@@ -123,16 +123,16 @@ paths:
           required: true
           schema:
             type: string
-      tags: 
+      tags:
         - Customer
-      responses: 
+      responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
                 type: object
-                example: 
+                example:
                   Status: {
                     Code: 200,
                     message: "success",
@@ -145,92 +145,404 @@ paths:
                     "no_tlp": "0858877899887",
                     "jenis_kelamin": "LK",
                     "transaction": [
-                        {
+                      {
+                        "id": 1,
+                        "customerId": 1,
+                        "codeTransaction": "INV05122022190500",
+                        "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                        "total": 12907000,
+                        "transaction_detail": [
+                          {
                             "id": 1,
-                            "customerId": 1,
-                            "codeTransaction": "INV05122022190500",
-                            "tanggalPembelian": "2022-12-05T00:00:00+07:00",
-                            "total": 12907000,
-                            "transaction_detail": [
-                                {
-                                    "id": 1,
-                                    "transactionId": 1,
-                                    "itemId": 1,
-                                    "detailitem": null,
-                                    "jumlahPembeli": 1,
-                                    "hargaPembeli": 4673000,
-                                    "hargaDiscount": 0,
-                                    "total": 4673000
-                                },
-                                {
-                                    "id": 2,
-                                    "transactionId": 1,
-                                    "itemId": 2,
-                                    "detailitem": null,
-                                    "jumlahPembeli": 2,
-                                    "hargaPembeli": 4117000,
-                                    "hargaDiscount": 0,
-                                    "total": 8234000
-                                }
-                            ]
-                        },
-                        {
-                            "id": 13,
-                            "customerId": 1,
-                            "codeTransaction": "INV-202212133591336316218",
-                            "tanggalPembelian": "2022-10-10T00:00:00+07:00",
-                            "total": 129070000,
-                            "transaction_detail": [
-                                {
-                                    "id": 4,
-                                    "transactionId": 13,
-                                    "itemId": 1,
-                                    "detailitem": null,
-                                    "jumlahPembeli": 10,
-                                    "hargaPembeli": 4673000,
-                                    "hargaDiscount": 0,
-                                    "total": 46730000
-                                },
-                                {
-                                    "id": 5,
-                                    "transactionId": 13,
-                                    "itemId": 2,
-                                    "detailitem": null,
-                                    "jumlahPembeli": 20,
-                                    "hargaPembeli": 4117000,
-                                    "hargaDiscount": 0,
-                                    "total": 82340000
-                                }
-                            ]
-                        },
-                        {
-                            "id": 14,
-                            "customerId": 1,
-                            "codeTransaction": "INV-202212133591336316218",
-                            "tanggalPembelian": "2022-10-10T00:00:00+07:00",
-                            "total": 129070000,
-                            "transaction_detail": [
-                                {
-                                    "id": 6,
-                                    "transactionId": 14,
-                                    "itemId": 1,
-                                    "detailitem": null,
-                                    "jumlahPembeli": 10,
-                                    "hargaPembeli": 4673000,
-                                    "hargaDiscount": 0,
-                                    "total": 46730000
-                                },
-                                {
-                                    "id": 7,
-                                    "transactionId": 14,
-                                    "itemId": 2,
-                                    "detailitem": null,
-                                    "jumlahPembeli": 20,
-                                    "hargaPembeli": 4117000,
-                                    "hargaDiscount": 0,
-                                    "total": 82340000
-                                }
-                            ]
-                        }
+                            "transactionId": 1,
+                            "itemId": 1,
+                            "detailitem": null,
+                            "jumlahPembeli": 1,
+                            "hargaPembeli": 4673000,
+                            "hargaDiscount": 0,
+                            "total": 4673000
+                          },
+                          {
+                            "id": 2,
+                            "transactionId": 1,
+                            "itemId": 2,
+                            "detailitem": null,
+                            "jumlahPembeli": 2,
+                            "hargaPembeli": 4117000,
+                            "hargaDiscount": 0,
+                            "total": 8234000
+                          }
+                        ]
+                      },
+                      {
+                        "id": 13,
+                        "customerId": 1,
+                        "codeTransaction": "INV-202212133591336316218",
+                        "tanggalPembelian": "2022-10-10T00:00:00+07:00",
+                        "total": 129070000,
+                        "transaction_detail": [
+                          {
+                            "id": 4,
+                            "transactionId": 13,
+                            "itemId": 1,
+                            "detailitem": null,
+                            "jumlahPembeli": 10,
+                            "hargaPembeli": 4673000,
+                            "hargaDiscount": 0,
+                            "total": 46730000
+                          },
+                          {
+                            "id": 5,
+                            "transactionId": 13,
+                            "itemId": 2,
+                            "detailitem": null,
+                            "jumlahPembeli": 20,
+                            "hargaPembeli": 4117000,
+                            "hargaDiscount": 0,
+                            "total": 82340000
+                          }
+                        ]
+                      },
+                      {
+                        "id": 14,
+                        "customerId": 1,
+                        "codeTransaction": "INV-202212133591336316218",
+                        "tanggalPembelian": "2022-10-10T00:00:00+07:00",
+                        "total": 129070000,
+                        "transaction_detail": [
+                          {
+                            "id": 6,
+                            "transactionId": 14,
+                            "itemId": 1,
+                            "detailitem": null,
+                            "jumlahPembeli": 10,
+                            "hargaPembeli": 4673000,
+                            "hargaDiscount": 0,
+                            "total": 46730000
+                          },
+                          {
+                            "id": 7,
+                            "transactionId": 14,
+                            "itemId": 2,
+                            "detailitem": null,
+                            "jumlahPembeli": 20,
+                            "hargaPembeli": 4117000,
+                            "hargaDiscount": 0,
+                            "total": 82340000
+                          }
+                        ]
+                      }
                     ]
-                }
+                  }
+  /get-transaction:
+    get:
+      summary: Transaction
+      description: API get ALL Transaction with Transaction Detail
+      tags:
+        - Transaction
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: [
+                    {
+                      "id": 1,
+                      "customerId": 1,
+                      "codeTransaction": "INV05122022190500",
+                      "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                      "total": 12907000,
+                      "transaction_detail": [
+                        {
+                          "id": 1,
+                          "transactionId": 1,
+                          "itemId": 1,
+                          "detailitem": null,
+                          "jumlahPembeli": 1,
+                          "hargaPembeli": 4673000,
+                          "hargaDiscount": 0,
+                          "total": 4673000
+                        },
+                        {
+                          "id": 2,
+                          "transactionId": 1,
+                          "itemId": 2,
+                          "detailitem": null,
+                          "jumlahPembeli": 2,
+                          "hargaPembeli": 4117000,
+                          "hargaDiscount": 0,
+                          "total": 8234000
+                        }
+                      ]
+                    },
+                    {
+                      "id": 2,
+                      "customerId": 2,
+                      "codeTransaction": "INV06122022190500",
+                      "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                      "total": 12907000,
+                      "transaction_detail": [
+                        {
+                          "id": 3,
+                          "transactionId": 2,
+                          "itemId": 1,
+                          "detailitem": null,
+                          "jumlahPembeli": 1,
+                          "hargaPembeli": 4673000,
+                          "hargaDiscount": 0,
+                          "total": 4673000
+                        },
+                      ]
+                    }
+                  ]
+  /get-transaction/{id}:
+    get:
+      summary: Transaction
+      description: API get ALL Transaction with Transaction Detail
+      parameters:
+        - name: id
+          in: path
+          description: id transaction
+          required: true
+          schema:
+            type: string
+      tags:
+        - Transaction
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: [
+                    {
+                      "id": 1,
+                      "customerId": 1,
+                      "codeTransaction": "INV05122022190500",
+                      "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                      "total": 12907000,
+                      "transaction_detail": [
+                        {
+                          "id": 1,
+                          "transactionId": 1,
+                          "itemId": 1,
+                          "detailitem": null,
+                          "jumlahPembeli": 1,
+                          "hargaPembeli": 4673000,
+                          "hargaDiscount": 0,
+                          "total": 4673000
+                        },
+                        {
+                          "id": 2,
+                          "transactionId": 1,
+                          "itemId": 2,
+                          "detailitem": null,
+                          "jumlahPembeli": 2,
+                          "hargaPembeli": 4117000,
+                          "hargaDiscount": 0,
+                          "total": 8234000
+                        }
+                      ]
+                    },
+                    {
+                      "id": 2,
+                      "customerId": 1,
+                      "codeTransaction": "INV06122022190500",
+                      "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                      "total": 12907000,
+                      "transaction_detail": [
+                        {
+                          "id": 3,
+                          "transactionId": 1,
+                          "itemId": 1,
+                          "detailitem": null,
+                          "jumlahPembeli": 1,
+                          "hargaPembeli": 4673000,
+                          "hargaDiscount": 0,
+                          "total": 4673000
+                        },
+                      ]
+                    }
+                  ]
+  /get-transaction-detail:
+    get:
+      summary: Transaction Detail
+      description: API get ALL Transaction Detail with Item
+      tags:
+        - Transaction Detail
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: [
+                    {
+                      "id": 1,
+                      "transactionId": 1,
+                      "itemId": 1,
+                      "detailitem":
+                        {
+                          "nama": "Service Console Xbox Sereis X",
+                          "kategori": "Service Console"
+                        },
+                      "jumlahPembeli": 1,
+                      "hargaPembeli": 4673000,
+                      "hargaDiscount": 0,
+                      "total": 4673000
+                    },
+                    {
+                      "id": 2,
+                      "transactionId": 1,
+                      "itemId": 2,
+                      "detailitem":
+                        {
+                          "nama": "Service Console PS 5",
+                          "kategori": "Service Console"
+                        },
+                      "jumlahPembeli": 2,
+                      "hargaPembeli": 4117000,
+                      "hargaDiscount": 0,
+                      "total": 8234000
+                    }
+                  ]
+  /get-transaction-detail/{id}:
+    get:
+      summary: Transaction Detail
+      description: API get ALL Transaction with Transaction Detail
+      parameters:
+        - name: id
+          in: path
+          description: id transaction detail
+          required: true
+          schema:
+            type: string
+      tags:
+        - Transaction Detail
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: [
+                    {
+                      "id": 1,
+                      "transactionId": 1,
+                      "itemId": 1,
+                      "detailitem":
+                        {
+                          "nama": "Service Console Xbox Sereis X",
+                          "kategori": "Service Console"
+                        },
+                      "jumlahPembeli": 1,
+                      "hargaPembeli": 4673000,
+                      "hargaDiscount": 0,
+                      "total": 4673000
+                    },
+                    {
+                      "id": 2,
+                      "transactionId": 1,
+                      "itemId": 2,
+                      "detailitem":
+                        {
+                          "nama": "Service Console PS 5",
+                          "kategori": "Service Console"
+                        },
+                      "jumlahPembeli": 2,
+                      "hargaPembeli": 4117000,
+                      "hargaDiscount": 0,
+                      "total": 8234000
+                    }
+                  ]
+  /get-item:
+    get:
+      summary: Item
+      description: API get ALL Item
+      tags:
+        - Item
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: [
+                    {
+                      "id": 1,
+                      "nama": "Service Console Xbox Sereis X",
+                      "categoryId": "Service Console",
+                      "harga": 4673000,
+                      "jumlah": 999
+                    },
+                    {
+                      "id": 2,
+                      "nama": "Service Console PS 5",
+                      "categoryId": "Service Console",
+                      "harga": 4117000,
+                      "jumlah": 999
+                    }
+                  ]
+  /get-item/{id}:
+    get:
+      summary: Item
+      description: API get ALL Item
+      parameters:
+        - name: id
+          in: path
+          description: id item
+          required: true
+          schema:
+            type: string
+      tags:
+        - Item
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: {
+                    "id": 1,
+                    "nama": "Service Console Xbox Sereis X",
+                    "categoryId": "Service Console",
+                    "harga": 4673000,
+                    "jumlah": 999
+                  }
