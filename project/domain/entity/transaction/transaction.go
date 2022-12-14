@@ -34,8 +34,19 @@ func NewTransaction(t DTOTransaction) (*Transaction, error) {
 		return nil, errors.New("ID COSTOMER NOT SET")
 	}
 
-	// convert string to time
-	//date, _ := time.Parse("02-01-2006 15:04:05", t.Tanggalpembelian)
+	return &Transaction{
+		id:               t.Id,
+		customerId:       t.CustomerId,
+		codeTransaction:  t.CodeTransaction,
+		tanggalPembelian: t.Tanggalpembelian,
+		total:            t.Total,
+	}, nil
+}
+
+func NewTransactionWithDetail(t DTOTransaction, d []*transaction_detail.TransactionDetail) (*Transaction, error) {
+	if t.CustomerId == 0 {
+		return nil, errors.New("ID COSTOMER NOT SET")
+	}
 
 	return &Transaction{
 		id:               t.Id,
@@ -43,6 +54,7 @@ func NewTransaction(t DTOTransaction) (*Transaction, error) {
 		codeTransaction:  t.CodeTransaction,
 		tanggalPembelian: t.Tanggalpembelian,
 		total:            t.Total,
+		transDetail:      d,
 	}, nil
 }
 

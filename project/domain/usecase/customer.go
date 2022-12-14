@@ -10,4 +10,5 @@ usecase adalah aturan logic dari team bisnis
 
 type CustomerUseCase interface {
 	StoreCustomer(dc customer.DTOCustomer) (*customer.Customer, error)
+	IndexCustomerTrx(nik string) (*customer.Customer, error)
 }

@@ -1,21 +1,28 @@
 package customer
 
-import "errors"
+import (
+	"errors"
+	"game-store-final-project/project/domain/entity/transaction"
+)
 
 type Customer struct {
+	id           int
 	nik          string
 	nama         string
 	alamat       string
 	noTlp        string
 	jenisKelamin string
+	transaction  []*transaction.Transaction
 }
 
 type DTOCustomer struct {
+	Id           int
 	Nik          string
 	Nama         string
 	Alamat       string
 	NoTlp        string
 	JenisKelamin string
+	Transaction  []*transaction.DTOTransaction
 }
 
 /*
@@ -43,12 +50,22 @@ func NewCustomer(dataCustomer DTOCustomer) (*Customer, error) {
 	}
 
 	return &Customer{
+		id:           dataCustomer.Id,
 		nik:          dataCustomer.Nik,
 		nama:         dataCustomer.Nama,
 		alamat:       dataCustomer.Alamat,
 		noTlp:        dataCustomer.NoTlp,
 		jenisKelamin: dataCustomer.JenisKelamin,
 	}, nil
+}
+
+func (cu *Customer) AddTrx(dataTransaction []*transaction.Transaction) *Customer {
+	cu.transaction = dataTransaction
+	return cu
+}
+
+func (cu *Customer) GetId() int {
+	return cu.id
 }
 
 func (cu *Customer) GetNik() string {
@@ -69,4 +86,8 @@ func (cu *Customer) GetNoTlp() string {
 
 func (cu *Customer) GetJenisKelamin() string {
 	return cu.jenisKelamin
+}
+
+func (cu *Customer) GetDetailTrx() []*transaction.Transaction {
+	return *&cu.transaction
 }

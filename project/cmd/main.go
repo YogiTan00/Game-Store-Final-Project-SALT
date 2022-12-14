@@ -43,6 +43,7 @@ func main() {
 	handlerTransactionDetail := transaction_handler.NewTransactionDetailHandler(repoTransactionDetail, repoItem)
 	handlerItem := item_handler.NewItemHandler(repoItem)
 	// customer
+	r.HandleFunc("/customer/list-trx/{nik}", handlerCustomer.IndexController).Methods(http.MethodGet)
 	r.HandleFunc("/customer/store", handlerCustomer.StoreController).Methods(http.MethodPost)
 
 	// transaksi

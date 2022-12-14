@@ -20,3 +20,13 @@ func (cu *CustomerUseCaseInteractor) StoreCustomer(dataCustomer customer.DTOCust
 
 	return customer, nil
 }
+
+func (cu *CustomerUseCaseInteractor) IndexCustomerTrx(nik string) (*customer.Customer, error) {
+	// connect to repo
+	customer, err := cu.RepoCustomer.IndexCustomerWithTransaction(cu.ctx, nik)
+	if err != nil {
+		return nil, err
+	}
+
+	return customer, nil
+}
