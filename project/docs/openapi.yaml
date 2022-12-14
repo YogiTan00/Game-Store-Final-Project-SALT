@@ -6,10 +6,8 @@ info:
       url: ""
       altText: "Salt Academy"
   description: ""
-
 servers:
-  - url: http://localhost:8080/
-
+  - url: http://localhost:8080
 paths:
   /customer/store:
     post:
