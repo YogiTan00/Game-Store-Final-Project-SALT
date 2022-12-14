@@ -86,3 +86,7 @@ func (t *Transaction) AddTransDetail(dataTransDetail []*transaction_detail.Trans
 	t.transDetail = dataTransDetail
 	return t
 }
+
+func (t *Transaction) GetDetailTrx() []*transaction_detail.TransactionDetail {
+	return *&t.transDetail
+}

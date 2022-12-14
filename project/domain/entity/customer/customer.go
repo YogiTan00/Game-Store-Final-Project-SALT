@@ -88,6 +88,6 @@ func (cu *Customer) GetJenisKelamin() string {
 	return cu.jenisKelamin
 }
 
-func (cu *Customer) GetDetailTrx() []*transaction.Transaction {
+func (cu *Customer) GetTrx() []*transaction.Transaction {
 	return *&cu.transaction
 }

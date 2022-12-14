@@ -3,6 +3,7 @@ package http_response
 import (
 	"encoding/json"
 	"game-store-final-project/project/domain/entity/transaction"
+	"time"
 )
 
 type StatusTransaction struct {
@@ -26,6 +27,15 @@ type ResponseTransactionJson struct {
 	CodeTransaction  string `json:"codeTransaction"`
 	TanggalPembelian string `json:"tanggalPembelian"`
 	Total            int64  `json:"total"`
+}
+
+type ResponseTransactionWithDetailJson struct {
+	Id                int                              `json:"id"`
+	CustomerId        int                              `json:"customerId"`
+	CodeTransaction   string                           `json:"codeTransaction"`
+	TanggalPembelian  time.Time                        `json:"tanggalPembelian"`
+	Total             int64                            `json:"total"`
+	TransactionDetail []*ResponseTransactionDetailJson `json:"transaction_detail"`
 }
 
 func MapResponseTransaction(dataTransaction *transaction.Transaction, code int, message string) ([]byte, error) {
