@@ -57,13 +57,13 @@ func (h *TransactionHandler) GetAllTransactionHandler(w http.ResponseWriter, r *
 	w.Write(response)
 }
 
-func (h *TransactionHandler) GetAllTransactionByIDHandler(w http.ResponseWriter, r *http.Request) {
+func (h *TransactionHandler) GetAllTransactionByCustomerIDHandler(w http.ResponseWriter, r *http.Request) {
 	var (
 		ctx  = context.Background()
 		vars = mux.Vars(r)
 	)
 
-	listTransaction, err := h.repoTransaction.GetAllTransactionByID(ctx, vars["id"])
+	listTransaction, err := h.repoTransaction.GetAllTransactionByCustomerID(ctx, vars["id"])
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))

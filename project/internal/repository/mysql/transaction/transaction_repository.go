@@ -68,7 +68,7 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransaction(ctx context.Con
 	return dataTransaction, nil
 }
 
-func (t *TransactionRepositoryMysqlInteractor) GetAllTransactionByID(ctx context.Context, id string) ([]*transaction.Transaction, error) {
+func (t *TransactionRepositoryMysqlInteractor) GetAllTransactionByCustomerID(ctx context.Context, id string) ([]*transaction.Transaction, error) {
 	var (
 		errMysql error
 	)
