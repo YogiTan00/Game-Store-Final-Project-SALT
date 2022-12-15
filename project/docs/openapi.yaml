@@ -57,7 +57,6 @@ paths:
                     message: "success",
                   }
                   Data: null
-
   /transaction/store:
     post:
       summary: Transaction
@@ -111,7 +110,6 @@ paths:
                     message: "success",
                   }
                   Data: null
-
   /customer/list-trx/{nik}:
     get:
       summary: Customer
@@ -156,7 +154,10 @@ paths:
                             "id": 1,
                             "transactionId": 1,
                             "itemId": 1,
-                            "detailitem": null,
+                            "detailitem": {
+                              "nama": "Service Console Xbox Sereis X",
+                              "kategori": "Service Console"
+                            },
                             "jumlahPembeli": 1,
                             "hargaPembeli": 4673000,
                             "hargaDiscount": 0,
@@ -166,7 +167,10 @@ paths:
                             "id": 2,
                             "transactionId": 1,
                             "itemId": 2,
-                            "detailitem": null,
+                            "detailitem": {
+                              "nama": "Service Console PS 5",
+                              "kategori": "Service Console"
+                            },
                             "jumlahPembeli": 2,
                             "hargaPembeli": 4117000,
                             "hargaDiscount": 0,
@@ -185,21 +189,27 @@ paths:
                             "id": 4,
                             "transactionId": 13,
                             "itemId": 1,
-                            "detailitem": null,
+                            "detailitem": {
+                              "nama": "Service Console PS4",
+                              "kategori": "Service Console"
+                            },
                             "jumlahPembeli": 10,
-                            "hargaPembeli": 4673000,
+                            "hargaPembeli": 2227000,
                             "hargaDiscount": 0,
-                            "total": 46730000
+                            "total": 22270000
                           },
                           {
                             "id": 5,
                             "transactionId": 13,
                             "itemId": 2,
-                            "detailitem": null,
+                            "detailitem": {
+                              "nama": "Service Console Nintendo Switch",
+                              "kategori": "Service Console"
+                            },
                             "jumlahPembeli": 20,
-                            "hargaPembeli": 4117000,
+                            "hargaPembeli": 973000,
                             "hargaDiscount": 0,
-                            "total": 82340000
+                            "total": 19460000
                           }
                         ]
                       },
@@ -214,26 +224,33 @@ paths:
                             "id": 6,
                             "transactionId": 14,
                             "itemId": 1,
-                            "detailitem": null,
+                            "detailitem": {
+                              "nama": "Xbox Series X",
+                              "kategori": "Buy New Console"
+                            },
                             "jumlahPembeli": 10,
-                            "hargaPembeli": 4673000,
+                            "hargaPembeli": 9000000,
                             "hargaDiscount": 0,
-                            "total": 46730000
+                            "total": 90000000
                           },
                           {
                             "id": 7,
                             "transactionId": 14,
                             "itemId": 2,
-                            "detailitem": null,
+                            "detailitem": {
+                              "nama": "Play Station 5",
+                              "kategori": "Service Console"
+                            },
                             "jumlahPembeli": 20,
-                            "hargaPembeli": 4117000,
+                            "hargaPembeli": 8800000,
                             "hargaDiscount": 0,
-                            "total": 82340000
+                            "total": 176000000
                           }
                         ]
                       }
                     ]
                   }
+
   /get-transaction:
     get:
       summary: Transaction
@@ -264,7 +281,10 @@ paths:
                           "id": 1,
                           "transactionId": 1,
                           "itemId": 1,
-                          "detailitem": null,
+                          "detailitem": {
+                            "nama": "Service Console Xbox Sereis X",
+                            "kategori": "Service Console"
+                          },
                           "jumlahPembeli": 1,
                           "hargaPembeli": 4673000,
                           "hargaDiscount": 0,
@@ -274,9 +294,12 @@ paths:
                           "id": 2,
                           "transactionId": 1,
                           "itemId": 2,
-                          "detailitem": null,
+                          "detailitem": {
+                            "nama": "Service Console PS 5",
+                            "kategori": "Service Console"
+                          },
                           "jumlahPembeli": 2,
-                          "hargaPembeli": 4117000,
+                          "hargaPembeli": 8234000,
                           "hargaDiscount": 0,
                           "total": 8234000
                         }
@@ -290,26 +313,89 @@ paths:
                       "total": 12907000,
                       "transaction_detail": [
                         {
-                          "id": 3,
-                          "transactionId": 2,
+                          "id": 1,
+                          "transactionId": 1,
                           "itemId": 1,
-                          "detailitem": null,
+                          "detailitem": {
+                            "nama": "Service Console Xbox Sereis X",
+                            "kategori": "Service Console"
+                          },
                           "jumlahPembeli": 1,
                           "hargaPembeli": 4673000,
                           "hargaDiscount": 0,
                           "total": 4673000
-                        },
+                        }
                       ]
                     }
                   ]
   /get-transaction/{id}:
     get:
       summary: Transaction
-      description: API get ALL Transaction with Transaction Detail
+      description: API get ALL Transaction with Transaction Detail By ID
       parameters:
         - name: id
           in: path
           description: id transaction
+          required: true
+          schema:
+            type: string
+      tags:
+        - Transaction
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: {
+                    "id": 1,
+                    "customerId": 1,
+                    "codeTransaction": "INV05122022190500",
+                    "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                    "total": 12907000,
+                    "transaction_detail": [
+                      {
+                        "id": 1,
+                        "transactionId": 1,
+                        "itemId": 1,
+                        "detailitem": {
+                          "nama": "Service Console Xbox Sereis X",
+                          "kategori": "Service Console"
+                        },
+                        "jumlahPembeli": 1,
+                        "hargaPembeli": 4673000,
+                        "hargaDiscount": 0,
+                        "total": 4673000
+                      },
+                      {
+                        "id": 2,
+                        "transactionId": 1,
+                        "itemId": 2,
+                        "detailitem": {
+                          "nama": "Service Console PS 5",
+                          "kategori": "Service Console"
+                        },
+                        "jumlahPembeli": 2,
+                        "hargaPembeli": 8234000,
+                        "hargaDiscount": 0,
+                        "total": 8234000
+                      }
+                    ]
+                  }
+  /get-transaction/customer/{customer_id}:
+    get:
+      summary: Transaction
+      description: API get ALL Transaction with Transaction Detail By Customer ID
+      parameters:
+        - name: customer_id
+          in: path
+          description: customer id transaction
           required: true
           schema:
             type: string
@@ -339,7 +425,10 @@ paths:
                           "id": 1,
                           "transactionId": 1,
                           "itemId": 1,
-                          "detailitem": null,
+                          "detailitem": {
+                            "nama": "Service Console Xbox Sereis X",
+                            "kategori": "Service Console"
+                          },
                           "jumlahPembeli": 1,
                           "hargaPembeli": 4673000,
                           "hargaDiscount": 0,
@@ -349,31 +438,50 @@ paths:
                           "id": 2,
                           "transactionId": 1,
                           "itemId": 2,
-                          "detailitem": null,
+                          "detailitem": {
+                            "nama": "Service Console PS 5",
+                            "kategori": "Service Console"
+                          },
                           "jumlahPembeli": 2,
-                          "hargaPembeli": 4117000,
+                          "hargaPembeli": 8234000,
                           "hargaDiscount": 0,
                           "total": 8234000
                         }
                       ]
                     },
                     {
-                      "id": 2,
-                      "customerId": 1,
-                      "codeTransaction": "INV06122022190500",
+                      "id": 1,
+                      "customerId": 2,
+                      "codeTransaction": "INV05122022190500",
                       "tanggalPembelian": "2022-12-05T00:00:00+07:00",
                       "total": 12907000,
                       "transaction_detail": [
                         {
-                          "id": 3,
+                          "id": 1,
                           "transactionId": 1,
                           "itemId": 1,
-                          "detailitem": null,
-                          "jumlahPembeli": 1,
-                          "hargaPembeli": 4673000,
+                          "detailitem": {
+                            "nama": "Xbox Series X",
+                            "kategori": "Buy New Console"
+                          },
+                          "jumlahPembeli": 10,
+                          "hargaPembeli": 9000000,
                           "hargaDiscount": 0,
-                          "total": 4673000
+                          "total": 90000000
                         },
+                        {
+                          "id": 2,
+                          "transactionId": 2,
+                          "itemId": 2,
+                          "detailitem": {
+                            "nama": "Play Station 5",
+                            "kategori": "Service Console"
+                          },
+                          "jumlahPembeli": 20,
+                          "hargaPembeli": 8800000,
+                          "hargaDiscount": 0,
+                          "total": 176000000
+                        }
                       ]
                     }
                   ]
@@ -442,4 +550,78 @@ paths:
                     "categoryId": "Service Console",
                     "harga": 4673000,
                     "jumlah": 999
+                  }
+
+  /voucher/{customer_id}:
+    get:
+      summary: Voucher
+      description: API get list data voucher
+      parameters:
+        - name: customer_id
+          in: path
+          description: get list voucher
+          required: true
+          schema:
+            type: string
+      tags:
+        - Voucher
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: {
+                    "id": 1,
+                    "nik": "2147483647",
+                    "nama": "Taupik Pirdian",
+                    "alamat": "Bandung",
+                    "no_tlp": "0858877899887",
+                    "jenis_kelamin": "LK",
+                    "voucher": [
+                      {
+                        "id": 1,
+                        "customerId": 1,
+                        "codeVoucher": "ULTI-RND7821387123456",
+                        "namaVoucher": "ULTI",
+                        "startDate": "2022-12-09",
+                        "endDate": "2023-12-09",
+                        "useDate": null,
+                        "status": 1,
+                        "nilaiDisc":30,
+                        "typeDisc":1,
+                      },
+
+                      {
+                        "id": 2,
+                        "customerId": 1,
+                        "codeVoucher": "PREMI-15D12M2022Y21H45M11S73NF7JB6CG57X",
+                        "namaVoucher": "PREMI",
+                        "startDate": "2022-12-09",
+                        "endDate": "2023-12-09",
+                        "useDate": null,
+                        "status": 1,
+                        "nilaiDisc":15,
+                        "typeDisc":1,
+                      },
+
+                      {
+                        "id": 3,
+                        "customerId": 1,
+                        "codeVoucher": "BASIC-15D12M2022Y21H45M11S73NF7JB6CG57X",
+                        "namaVoucher": "BASIC",
+                        "startDate": "2022-12-09",
+                        "endDate": "2023-12-09",
+                        "useDate": null,
+                        "status": 1,
+                        "nilaiDisc":15,
+                        "typeDisc":1,
+                      }
+                    ]
                   }

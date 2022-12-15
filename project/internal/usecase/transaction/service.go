@@ -57,9 +57,9 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 		Pelanggan yang purchase more than 6.000.000 get disc 5% (Second Game)
 
 		Rule CodeVocuher:
-		kupon 30% dengan prefix ULTI: ULTI-INV(code) 2022128(date) 7821387123456(13 rand digit)
-		kupon 15% dengan prefix PREMI: PREMI-INV(code) 2022128(date) 7821387123456(13 rand digit)
-		kupon 5% dengan prefix BASIC: BASIC-INV(code) 2022128(date) 7821387123456(13 rand digit)
+		kupon 30% dengan prefix ULTI: ULTI-2022Y12M08D12H02M12S(date) 78SD138SS1234(13 rand digit)
+		kupon 15% dengan prefix PREMI: PREMI-2022Y12M08D12H02M12S(date) 78SD138SS1234(13 rand digit)
+		kupon 5% dengan prefix BASIC: BASIC-2022Y12M08D12H02M12S(date) 78SD138SS1234(13 rand digit)
 	*/
 
 	// get product
@@ -202,21 +202,25 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 }
 
 func generateCodeVoucher(n int, name string, date time.Time) string {
-	var randString = []rune("123456789")
-	time := date.Format("20060102")
+	var randString = []rune("123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	time := date.Format("02D01M2006Y15H04M05S")
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = randString[rand.Intn(len(randString))]
 	}
-	return name + "-INV" + time + string(b)
+	return name + "-" + time + string(b)
 }
 
 func generateCodeTrx(n int, date time.Time) string {
 	var randString = []rune("123456789")
-	time := date.Format("2006 01 02 15 04 05")
+	//<<<<<<< HEAD
+	//	time := date.Format("2006 01 02 15 04 05")
+	//=======
+	time := date.Format("02D01M2006Y15H04M05S")
+	//>>>>>>> b730f9529cd10ab0692658eaf1d6fcce34a8ad71
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = randString[rand.Intn(len(randString))]
 	}
-	return "INV-" + time + string(b)
+	return "INV-" + time
 }
