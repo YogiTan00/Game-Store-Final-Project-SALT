@@ -3,6 +3,8 @@ package customer
 import (
 	"errors"
 	"game-store-final-project/project/domain/entity/transaction"
+	"regexp"
+	"unicode/utf8"
 )
 
 type Customer struct {
@@ -33,6 +35,10 @@ func NewCustomer(dataCustomer DTOCustomer) (*Customer, error) {
 		return nil, errors.New("NIK NOT SET")
 	}
 
+	if utf8.RuneCountInString(dataCustomer.Nik) != 16 {
+		return nil, errors.New("NIK MUST 16 DIGIT")
+	}
+
 	if dataCustomer.Nama == "" {
 		return nil, errors.New("NAMA NOT SET")
 	}
@@ -43,6 +49,10 @@ func NewCustomer(dataCustomer DTOCustomer) (*Customer, error) {
 
 	if dataCustomer.NoTlp == "" {
 		return nil, errors.New("NO TLP NOT SET")
+	}
+
+	if findString(dataCustomer.NoTlp) != 0 {
+		return nil, errors.New("NO TLP CAN ONLY NUMBER")
 	}
 
 	if dataCustomer.JenisKelamin == "" {
@@ -62,6 +72,12 @@ func NewCustomer(dataCustomer DTOCustomer) (*Customer, error) {
 func (cu *Customer) AddTrx(dataTransaction []*transaction.Transaction) *Customer {
 	cu.transaction = dataTransaction
 	return cu
+}
+
+func findString(s string) int {
+	re := regexp.MustCompile("[a-zA-Z]+")
+	findAlphabet := re.FindAllString(s, -1)
+	return len(findAlphabet)
 }
 
 func (cu *Customer) GetId() int {

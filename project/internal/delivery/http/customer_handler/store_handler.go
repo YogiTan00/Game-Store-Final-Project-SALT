@@ -2,7 +2,6 @@ package customer_handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"game-store-final-project/project/domain/entity/customer"
 	"game-store-final-project/project/internal/delivery/http_request"
 	"game-store-final-project/project/internal/delivery/http_response"
@@ -31,20 +30,34 @@ func (s_handler *CustomerHandlerInteractor) StoreController(w http.ResponseWrite
 		JenisKelamin: req.JenisKelamin,
 	}
 
-	_, errStoreCustomerFromUseCase := s_handler.CustomerUseCase.StoreCustomer(dataCustomer)
+	result, errStoreCustomerFromUseCase := s_handler.CustomerUseCase.StoreCustomer(dataCustomer)
 	if errStoreCustomerFromUseCase != nil {
-		fmt.Println(errStoreCustomerFromUseCase)
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("Error on Usecase"))
+		response, errMap := http_response.MapResponse(200, errStoreCustomerFromUseCase.Error())
+		if errMap != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Error mapping data"))
+		}
+		w.WriteHeader(200)
+		w.Write(response)
 		return
 	}
 
-	response, errMap := http_response.MapResponse(200, "Success")
-	if errMap != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("Error mapping data"))
+	if result != nil {
+		response, errMap := http_response.MapResponse(200, "Success")
+		if errMap != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Error mapping data"))
+		}
+		w.WriteHeader(200)
+		w.Write(response)
+	} else {
+		response, errMap := http_response.MapResponse(200, "Data customer already")
+		if errMap != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Error mapping data"))
+		}
+		w.WriteHeader(200)
+		w.Write(response)
 	}
 
-	w.WriteHeader(200)
-	w.Write(response)
 }
