@@ -39,6 +39,19 @@ func TestValidationErrorNewCustomerNik(t *testing.T) {
 	assert.Equal(t, "NIK NOT SET", err.Error())
 }
 
+func TestValidationErrorNewCustomerNikDigit(t *testing.T) {
+	_, err := customer.NewCustomer(customer.DTOCustomer{
+		Nik:          "23",
+		Nama:         "Taupik Pirdian",
+		Alamat:       "Bandung",
+		NoTlp:        "085846342122",
+		JenisKelamin: "LK",
+	})
+
+	assert.NotNil(t, err)
+	assert.Equal(t, "NIK MUST 16 DIGIT", err.Error())
+}
+
 func TestValidationErrorNewCustomerNama(t *testing.T) {
 	_, err := customer.NewCustomer(customer.DTOCustomer{
 		Nik:          "3204223423442582",
@@ -76,6 +89,19 @@ func TestValidationErrorNewCustomerNoTelp(t *testing.T) {
 
 	assert.NotNil(t, err)
 	assert.Equal(t, "NO TLP NOT SET", err.Error())
+}
+
+func TestValidationErrorNewCustomerNoTelpAlphabet(t *testing.T) {
+	_, err := customer.NewCustomer(customer.DTOCustomer{
+		Nik:          "3204223423442582",
+		Nama:         "Taupik Pirdian",
+		Alamat:       "Bandung",
+		NoTlp:        "08584613241p",
+		JenisKelamin: "LK",
+	})
+
+	assert.NotNil(t, err)
+	assert.Equal(t, "NO TLP CAN ONLY NUMBER", err.Error())
 }
 
 func TestValidationErrorNewCustomerJenisKelamin(t *testing.T) {
