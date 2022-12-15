@@ -76,7 +76,7 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransactionByID(ctx context
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
-	stmt := fmt.Sprintf(`SELECT * FROM %s WHERE id=?`, model.GetTableTransaction())
+	stmt := fmt.Sprintf(`SELECT * FROM %s WHERE customer_id=?`, model.GetTableTransaction())
 	rows, errMysql := t.dbConn.QueryContext(ctx, stmt, id)
 	if errMysql != nil {
 		return nil, errMysql
