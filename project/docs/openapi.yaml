@@ -443,3 +443,76 @@ paths:
                     "harga": 4673000,
                     "jumlah": 999
                   }
+  /voucher/{customer_id}:
+    get:
+      summary: Voucher
+      description: API get list data voucher
+      parameters:
+        - name: customer_id
+          in: path
+          description: get list voucher
+          required: true
+          schema:
+            type: string
+      tags:
+        - Voucher
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: {
+                    "id": 1,
+                    "nik": "2147483647",
+                    "nama": "Taupik Pirdian",
+                    "alamat": "Bandung",
+                    "no_tlp": "0858877899887",
+                    "jenis_kelamin": "LK",
+                    "voucher": [
+                      {
+                        "id": 1,
+                        "customerId": 1,
+                        "codeVoucher": "ULTI-RND7821387123456",
+                        "namaVoucher": "ULTI",
+                        "startDate": "2022-12-09",
+                        "endDate": "2023-12-09",
+                        "useDate": null,
+                        "status": 1,
+                        "nilaiDisc":30,
+                        "typeDisc":1,
+                      },
+
+                      {
+                        "id": 2,
+                        "customerId": 1,
+                        "codeVoucher": "PREMI-15D12M2022Y21H45M11S73NF7JB6CG57X",
+                        "namaVoucher": "PREMI",
+                        "startDate": "2022-12-09",
+                        "endDate": "2023-12-09",
+                        "useDate": null,
+                        "status": 1,
+                        "nilaiDisc":15,
+                        "typeDisc":1,
+                      },
+
+                      {
+                        "id": 3,
+                        "customerId": 1,
+                        "codeVoucher": "BASIC-15D12M2022Y21H45M11S73NF7JB6CG57X",
+                        "namaVoucher": "BASIC",
+                        "startDate": "2022-12-09",
+                        "endDate": "2023-12-09",
+                        "useDate": null,
+                        "status": 1,
+                        "nilaiDisc":15,
+                        "typeDisc":1,
+                      }
+                    ]
+                  }
