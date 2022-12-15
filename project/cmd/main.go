@@ -49,11 +49,11 @@ func main() {
 	// transaksi
 	r.HandleFunc("/transaction/store", handlerTrx.StoreController).Methods(http.MethodPost)
 	r.HandleFunc("/get-transaction", handlerTransaction.GetAllTransactionHandler).Methods(http.MethodGet)
-	r.HandleFunc("/get-transaction/{id}", handlerTransaction.GetTransactionByIDHandler).Methods(http.MethodGet)
+	r.HandleFunc("/get-transaction/{id}", handlerTransaction.GetAllTransactionByIDHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction-detail", handlerTransactionDetail.GetAllTransactionDetailHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction-detail/{id}", handlerTransactionDetail.GeAllTransactionDetailByIDHandler).Methods(http.MethodGet)
-	r.HandleFunc("/get-item_handler", handlerItem.GetAllItemHandler).Methods(http.MethodGet)
-	r.HandleFunc("/get-item_handler/{id}", handlerItem.GetItemByIDHandler).Methods(http.MethodGet)
+	r.HandleFunc("/get-item", handlerItem.GetAllItemHandler).Methods(http.MethodGet)
+	r.HandleFunc("/get-item/{id}", handlerItem.GetItemByIDHandler).Methods(http.MethodGet)
 
 	fmt.Println("localhost:8080")
 	http.ListenAndServe(":8080", r)
