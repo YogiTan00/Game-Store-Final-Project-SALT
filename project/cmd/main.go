@@ -40,7 +40,7 @@ func main() {
 	handlerCustomer := customer_handler.NewCustomerHandler(useCaseCustomer)
 	handlerTrx := transaction_handler.NewUsecaseTransactionHandler(useCaseTransaction)
 	handlerTransaction := transaction_handler.NewTransactionHandler(repoTransaction, repoTransactionDetail, repoItem, repoVoucher)
-	//handlerTransactionDetail := transaction_handler.NewTransactionDetailHandler(repoTransactionDetail, repoItem)
+	handlerTransactionDetail := transaction_handler.NewTransactionDetailHandler(repoTransactionDetail, repoItem)
 	handlerItem := item_handler.NewItemHandler(repoItem)
 	// customer
 	r.HandleFunc("/customer/list-trx/{nik}", handlerCustomer.IndexController).Methods(http.MethodGet)
@@ -51,8 +51,8 @@ func main() {
 	r.HandleFunc("/get-transaction", handlerTransaction.GetAllTransactionHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction/{id}", handlerTransaction.GetTransactionByIDHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction/customer/{id}", handlerTransaction.GetAllTransactionByCustomerIDHandler).Methods(http.MethodGet)
-	//r.HandleFunc("/get-transaction-detail", handlerTransactionDetail.GetAllTransactionDetailHandler).Methods(http.MethodGet)
-	//r.HandleFunc("/get-transaction-detail/{id}", handlerTransactionDetail.GeAllTransactionDetailByIDHandler).Methods(http.MethodGet)
+	r.HandleFunc("/get-transaction-detail", handlerTransactionDetail.GetAllTransactionDetailHandler).Methods(http.MethodGet)
+	r.HandleFunc("/get-transaction-detail/{id}", handlerTransactionDetail.GeAllTransactionDetailByIDHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-item", handlerItem.GetAllItemHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-item/{id}", handlerItem.GetItemByIDHandler).Methods(http.MethodGet)
 

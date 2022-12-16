@@ -20,7 +20,7 @@ type DTOTransaction struct {
 	CustomerId       int
 	CodeTransaction  string
 	Tanggalpembelian *time.Time
-	TransDetail      []*transaction_detail.DTOTransactionDetail
+	TransDetail      []*transaction_detail.TransactionDetail
 	Total            int64
 }
 
@@ -39,6 +39,7 @@ func NewTransaction(t DTOTransaction) (*Transaction, error) {
 		customerId:       t.CustomerId,
 		codeTransaction:  t.CodeTransaction,
 		tanggalPembelian: t.Tanggalpembelian,
+		transDetail:      t.TransDetail,
 		total:            t.Total,
 	}, nil
 }
