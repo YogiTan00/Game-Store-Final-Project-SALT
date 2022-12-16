@@ -3,6 +3,7 @@ package customer
 import (
 	"errors"
 	"game-store-final-project/project/domain/entity/transaction"
+	"game-store-final-project/project/domain/entity/voucher"
 	"regexp"
 	"unicode/utf8"
 )
@@ -15,6 +16,7 @@ type Customer struct {
 	noTlp        string
 	jenisKelamin string
 	transaction  []*transaction.Transaction
+	voucher      []*voucher.Voucher
 }
 
 type DTOCustomer struct {
@@ -25,6 +27,7 @@ type DTOCustomer struct {
 	NoTlp        string
 	JenisKelamin string
 	Transaction  []*transaction.DTOTransaction
+	Voucher      []*voucher.Voucher
 }
 
 /*
@@ -71,6 +74,11 @@ func NewCustomer(dataCustomer DTOCustomer) (*Customer, error) {
 
 func (cu *Customer) AddTrx(dataTransaction []*transaction.Transaction) *Customer {
 	cu.transaction = dataTransaction
+	return cu
+}
+
+func (cu *Customer) AddVoucher(dataVoucher []*voucher.Voucher) *Customer {
+	cu.voucher = dataVoucher
 	return cu
 }
 
