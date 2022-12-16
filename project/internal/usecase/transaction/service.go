@@ -33,8 +33,8 @@ func (trx *TransactionUseCaseInteractor) UcStoreTransaction(ctx context.Context,
 	return nil
 }
 
-func (trx *TransactionUseCaseInteractor) UcGetAllTransactionByID(ctx context.Context, id string) ([]*transaction.Transaction, error) {
-	listTransaction, err := trx.repoTransaction.GetAllTransactionByID(ctx, id)
+func (trx *TransactionUseCaseInteractor) UcGetAllTransactionByCustomerID(ctx context.Context, id string) ([]*transaction.Transaction, error) {
+	listTransaction, err := trx.repoTransaction.GetAllTransactionByCustomerID(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -213,7 +213,11 @@ func generateCodeVoucher(n int, name string, date time.Time) string {
 
 func generateCodeTrx(n int, date time.Time) string {
 	var randString = []rune("123456789")
+	//<<<<<<< HEAD
+	//	time := date.Format("2006 01 02 15 04 05")
+	//=======
 	time := date.Format("02D01M2006Y15H04M05S")
+	//>>>>>>> b730f9529cd10ab0692658eaf1d6fcce34a8ad71
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = randString[rand.Intn(len(randString))]

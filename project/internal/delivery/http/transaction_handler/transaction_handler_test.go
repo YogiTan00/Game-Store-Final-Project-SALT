@@ -4,6 +4,7 @@ import (
 	"game-store-final-project/project/internal/delivery/http/transaction_handler"
 	"game-store-final-project/project/internal/usecase/item"
 	"game-store-final-project/project/internal/usecase/transaction"
+	"game-store-final-project/project/internal/usecase/transaction_detail"
 	"game-store-final-project/project/internal/usecase/voucher"
 	"game-store-final-project/project/test_data"
 	"net/http"
@@ -14,16 +15,18 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
+var (
+	useCaseItem        = new(item.RepoItem)
+	useCaseTransaction = new(transaction.RepoTransaction)
+	useCaseTransDetail = new(transaction_detail.RepoTransactionDetail)
+	useCaseVoucher     = new(voucher.RepoVoucher)
+)
+
 func TestTransactionHandler_GetAllTransactionHandler(t *testing.T) {
-	var (
-		useCaseItem        = new(item.RepoItem)
-		useCaseTransaction = new(transaction.RepoTransaction)
-		useCaseVoucher     = new(voucher.RepoVoucher)
-	)
 
 	useCaseTransaction.On("GetAllTransaction", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransaction(5), (error)(nil))
 
-	transactionDetailHandler := transaction_handler.NewTransactionHandler(useCaseTransaction, useCaseItem, useCaseVoucher)
+	transactionDetailHandler := transaction_handler.NewTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
 
 	req, err := http.NewRequest("GET", "/get-transaction", nil)
 	rr := httptest.NewRecorder()
@@ -34,15 +37,10 @@ func TestTransactionHandler_GetAllTransactionHandler(t *testing.T) {
 }
 
 func TestTransactionHandler_GetAllTransactionByIDHandler(t *testing.T) {
-	var (
-		useCaseItem        = new(item.RepoItem)
-		useCaseTransaction = new(transaction.RepoTransaction)
-		useCaseVoucher     = new(voucher.RepoVoucher)
-	)
 
-	useCaseTransaction.On("GetAllTransactionByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransaction(5), (error)(nil))
+	useCaseTransaction.On("GetAllTransactionByCustomerID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransaction(5), (error)(nil))
 
-	transactionDetailHandler := transaction_handler.NewTransactionHandler(useCaseTransaction, useCaseItem, useCaseVoucher)
+	transactionDetailHandler := transaction_handler.NewTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
 
 	req, err := http.NewRequest("GET", "/get-transaction/1", nil)
 	rr := httptest.NewRecorder()
