@@ -69,57 +69,26 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransaction(ctx context.Con
 }
 
 func (t *TransactionRepositoryMysqlInteractor) GetAllTransactionByCustomerID(ctx context.Context, id string) ([]*transaction.Transaction, error) {
-	var (
-		errMysql error
-	)
-
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	stmt := fmt.Sprintf(`SELECT * FROM %s WHERE customer_id=?`, model.GetTableTransaction())
-	rows, errMysql := t.dbConn.QueryContext(ctx, stmt, id)
-	if errMysql != nil {
-		return nil, errMysql
+	opts := &dbq.Options{
+		SingleResult:   false,
+		ConcreteStruct: model.TransactionModel{},
+		DecoderConfig:  dbq.StdTimeConversionConfig(),
+	}
+	result := dbq.MustQ(ctx, t.dbConn, stmt, opts, id)
+	if result == nil {
+		return nil, errors.New("TRANSACTION NOT FOUND")
 	}
 
-	dataTransactionColletion := make([]*transaction.Transaction, 0)
-	for rows.Next() {
-		var (
-			idTrans          int
-			customerId       int
-			codeTransaction  string
-			tanggalPembelian *time.Time
-			total            int64
-		)
-		err := rows.Scan(
-			&idTrans,
-			&customerId,
-			&codeTransaction,
-			&tanggalPembelian,
-			&total,
-		)
-		if err != nil {
-			return nil, err
-		}
-
-		dataTransaction, errTransaction := mapper.DataDbToEntityTransaction(transaction.DTOTransaction{
-			Id:               idTrans,
-			CustomerId:       customerId,
-			CodeTransaction:  codeTransaction,
-			Tanggalpembelian: tanggalPembelian,
-			Total:            total,
-		})
-
-		if errTransaction != nil {
-			return nil, errTransaction
-		}
-
-		dataTransactionColletion = append(dataTransactionColletion, dataTransaction)
-
+	dataTransaction, errMap := mapper.ListModelToDomainTransaction(result.([]*model.TransactionModel))
+	if errMap != nil {
+		return nil, errMap
 	}
-	defer rows.Close()
 
-	return dataTransactionColletion, nil
+	return dataTransaction, nil
 }
 
 func (t *TransactionRepositoryMysqlInteractor) StoreTransaction(ctx context.Context, dataTransaction *transaction.Transaction) (int64, error) {

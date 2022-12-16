@@ -26,8 +26,8 @@ type ResponseTransactionJson struct {
 	CustomerId       int                     `json:"customerId"`
 	CodeTransaction  string                  `json:"codeTransaction"`
 	TanggalPembelian *time.Time              `json:"tanggalPembelian"`
-	TransDetail      []*ResponseTransactionD `json:"transDetail"`
 	Total            int64                   `json:"total"`
+	TransDetail      []*ResponseTransactionD `json:"transDetail"`
 }
 
 type ResponseTransactionWithDetailJson struct {
@@ -79,8 +79,8 @@ func MapResponseTransaction(dataTransaction *transaction.Transaction, code int, 
 		CustomerId:       dataTransaction.GetCustomerID(),
 		CodeTransaction:  dataTransaction.GetCodeTransaction(),
 		TanggalPembelian: dataTransaction.GetTanggalPembelian(),
-		TransDetail:      listTransD,
 		Total:            dataTransaction.GetTotal(),
+		TransDetail:      listTransD,
 	}
 
 	httpResponse := &CustomReponseSingleTransaction{
@@ -101,15 +101,35 @@ func MapResponseTransaction(dataTransaction *transaction.Transaction, code int, 
 
 func MapResponseListTransaction(dataTransaction []*transaction.Transaction, code int, message string) ([]byte, error) {
 	listResponse := make([]*ResponseTransactionJson, 0)
+	listTransD := make([]*ResponseTransactionD, 0)
 	for _, data := range dataTransaction {
+		for _, dataTrans := range data.GetTransDetail() {
+			transD := &ResponseTransactionD{
+				Id:            dataTrans.GetID(),
+				TransactionId: dataTrans.GetTransactionID(),
+				ItemId:        dataTrans.GetItemID(),
+				Detailitem: &ResponseItemDJson{
+					Nama:     dataTrans.GetDetail().GetNama(),
+					Kategori: dataTrans.GetDetail().GetKategori(),
+				},
+				JumlahPembeli: dataTrans.GetJumlahPembelian(),
+				HargaPembeli:  dataTrans.GetHargaPembelian(),
+				HargaDiscount: dataTrans.GetHargaDiscount(),
+				Total:         dataTrans.GetTotal(),
+			}
+			listTransD = append(listTransD, transD)
+		}
+
 		response := &ResponseTransactionJson{
 			Id:               data.GetID(),
 			CustomerId:       data.GetCustomerID(),
 			CodeTransaction:  data.GetCodeTransaction(),
 			TanggalPembelian: data.GetTanggalPembelian(),
 			Total:            data.GetTotal(),
+			TransDetail:      listTransD,
 		}
 		listResponse = append(listResponse, response)
+
 	}
 
 	httpResponse := &CustomReponseCollectionTransaction{

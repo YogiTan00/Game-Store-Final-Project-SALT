@@ -2,15 +2,17 @@ package transaction_handler
 
 import (
 	"context"
+	"game-store-final-project/project/domain/entity/transaction"
 	"game-store-final-project/project/internal/delivery/http_response"
 	"github.com/gorilla/mux"
 	"net/http"
+	"strconv"
 )
 
 func (h *TransactionHandler) GetTransactionByIDHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
 	var (
-		ctx = context.Background()
+		vars = mux.Vars(r)
+		ctx  = context.Background()
 	)
 	Transaction, err := h.repoTransaction.GetTransactionByID(ctx, vars["id"])
 	if err != nil {
@@ -47,7 +49,18 @@ func (h *TransactionHandler) GetAllTransactionHandler(w http.ResponseWriter, r *
 		w.Write([]byte(err.Error()))
 	}
 
-	response, errMap := http_response.MapResponseListTransaction(listTransaction, 200, "Success")
+	dataTrans := make([]*transaction.Transaction, 0)
+	for _, data := range listTransaction {
+		listTransDetail, errDetail := h.repoTransactionDetail.GetAllTransactionDetailByID(ctx, strconv.Itoa(data.GetID()))
+		if errDetail != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(errDetail.Error()))
+		}
+		data = data.AddTransDetail(listTransDetail)
+		dataTrans = append(dataTrans, data)
+	}
+
+	response, errMap := http_response.MapResponseListTransaction(dataTrans, 200, "Success")
 	if errMap != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Error mapping data"))
@@ -69,7 +82,18 @@ func (h *TransactionHandler) GetAllTransactionByCustomerIDHandler(w http.Respons
 		w.Write([]byte(err.Error()))
 	}
 
-	response, errMap := http_response.MapResponseListTransaction(listTransaction, 200, "Success")
+	dataTrans := make([]*transaction.Transaction, 0)
+	for _, data := range listTransaction {
+		listTransDetail, errDetail := h.repoTransactionDetail.GetAllTransactionDetailByID(ctx, strconv.Itoa(data.GetID()))
+		if errDetail != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(errDetail.Error()))
+		}
+		data = data.AddTransDetail(listTransDetail)
+		dataTrans = append(dataTrans, data)
+	}
+
+	response, errMap := http_response.MapResponseListTransaction(dataTrans, 200, "Success")
 	if errMap != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Error mapping data"))
