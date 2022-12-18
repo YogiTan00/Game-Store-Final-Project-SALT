@@ -10,6 +10,15 @@ import (
 	"time"
 )
 
+func (trx *TransactionUseCaseInteractor) UcGetTransactionByID(ctx context.Context, id string) (*transaction.Transaction, error) {
+	listTransaction, err := trx.repoTransaction.GetTransactionByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return listTransaction, nil
+}
+
 func (trx *TransactionUseCaseInteractor) UcGetAllTransaction(ctx context.Context) ([]*transaction.Transaction, error) {
 	listTransaction, err := trx.repoTransaction.GetAllTransaction(ctx)
 	if err != nil {

@@ -29,8 +29,8 @@ func TestTransactionRepositoryMysqlInteractor_GetAllTransaction(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestTransactionRepositoryMysqlInteractor_GetAllTransactionByID(t *testing.T) {
-	transaction, err := repoMysqlTransaction.GetAllTransactionByID(ctx, "1")
+func TestTransactionRepositoryMysqlInteractor_GetAllTransactionByCustomerID(t *testing.T) {
+	transaction, err := repoMysqlTransaction.GetAllTransactionByCustomerID(ctx, "1")
 	fmt.Println(transaction)
 	assert.NotNil(t, transaction)
 	assert.Nil(t, err)

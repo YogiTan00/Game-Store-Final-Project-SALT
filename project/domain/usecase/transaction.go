@@ -6,6 +6,7 @@ import (
 )
 
 type TransactionUseCase interface {
+	UcGetTransactionByID(ctx context.Context, id string) (*transaction.Transaction, error)
 	UcGetAllTransaction(ctx context.Context) ([]*transaction.Transaction, error)
 	UcStoreTransaction(ctx context.Context, dataTransaction *transaction.DTOTransaction) error
 	UcGetAllTransactionByCustomerID(ctx context.Context, id string) ([]*transaction.Transaction, error)

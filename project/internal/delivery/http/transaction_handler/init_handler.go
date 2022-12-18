@@ -10,6 +10,7 @@ import (
 
 type TransactionHandler struct {
 	useCaseTransaction    usecase.TransactionUseCase
+	useCaseTransDetail    usecase.TransactionDetailUseCase
 	repoTransaction       _repository.TransactionRepository
 	repoTransactionDetail _repository.TransactionDetailRepository
 	repoItem              _repository.ItemRepository
@@ -31,8 +32,10 @@ func NewTransactionHandler(repoTransaction _repository.TransactionRepository, re
 		ctx = context.Background()
 	)
 	useCaseTransaction := transaction2.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem, repoVoucher, repoTransactionDetail)
+	useCaseTransDetail := transaction_detail.NewTransactionDetailUseCaseInteractor(repoTransactionDetail)
 	return &TransactionHandler{
 		useCaseTransaction:    useCaseTransaction,
+		useCaseTransDetail:    useCaseTransDetail,
 		repoTransaction:       repoTransaction,
 		repoTransactionDetail: repoTransactionDetail,
 		repoItem:              repoItem,

@@ -16,11 +16,26 @@ import (
 )
 
 var (
-	useCaseItem        = new(item.RepoItem)
 	useCaseTransaction = new(transaction.RepoTransaction)
 	useCaseTransDetail = new(transaction_detail.RepoTransactionDetail)
 	useCaseVoucher     = new(voucher.RepoVoucher)
+	useCaseItem        = new(item.RepoItem)
 )
+
+func TestTransactionHandler_GetTransactionByIDHandler(t *testing.T) {
+	useCaseTransaction.On("GetTransactionByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataTransaction(), (error)(nil))
+
+	transactionHandler := transaction_handler.NewTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
+
+	req, err := http.NewRequest("GET", "/get-transaction/1", nil)
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(transactionHandler.GetTransactionByIDHandler)
+	handler.ServeHTTP(rr, req)
+
+	assert.Equal(t, http.StatusOK, rr.Code)
+	assert.Nil(t, err)
+
+}
 
 func TestTransactionHandler_GetAllTransactionHandler(t *testing.T) {
 
@@ -36,15 +51,15 @@ func TestTransactionHandler_GetAllTransactionHandler(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestTransactionHandler_GetAllTransactionByIDHandler(t *testing.T) {
+func TestTransactionHandler_GetAllTransactionByCustomerIDHandler(t *testing.T) {
 
 	useCaseTransaction.On("GetAllTransactionByCustomerID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransaction(5), (error)(nil))
 
 	transactionDetailHandler := transaction_handler.NewTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
 
-	req, err := http.NewRequest("GET", "/get-transaction/1", nil)
+	req, err := http.NewRequest("GET", "/get-transaction/customer/1", nil)
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(transactionDetailHandler.GetAllTransactionByIDHandler)
+	handler := http.HandlerFunc(transactionDetailHandler.GetAllTransactionByCustomerIDHandler)
 	handler.ServeHTTP(rr, req)
 	assert.Equal(t, http.StatusOK, rr.Code)
 	assert.Nil(t, err)

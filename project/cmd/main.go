@@ -13,7 +13,6 @@ import (
 	repo_voucher "game-store-final-project/project/internal/repository/mysql/voucher"
 	usecase_cust "game-store-final-project/project/internal/usecase/customer"
 	usecase_trx "game-store-final-project/project/internal/usecase/transaction"
-	"game-store-final-project/project/internal/usecase/transaction_detail"
 	"game-store-final-project/project/pkg/mysql_connection"
 	"net/http"
 
@@ -21,16 +20,17 @@ import (
 )
 
 var (
-	ctx                      = context.Background()
-	mysqlConn                = mysql_connection.InitMysqlDB()
-	repoCustomer             = repo.NewCustomerRepositoryMysqlInteractor(mysqlConn)
-	repoTransaction          = transaction.NewTransactionMysqlInteractor(mysqlConn)
-	repoItem                 = item2.NewItemMysqlInteractor(mysqlConn)
-	repoVoucher              = repo_voucher.NewVoucherRepositoryMysqlInteractor(mysqlConn)
-	repoTransactionDetail    = transaction_detail2.NewTransactionDetailMysqlInteractor(mysqlConn)
-	useCaseCustomer          = usecase_cust.NewCustomerUseCaseInteractor(ctx, repoCustomer)
-	useCaseTransaction       = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem, repoVoucher, repoTransactionDetail)
-	useCaseTransactionDetail = transaction_detail.NewTransactionDetailUseCaseInteractor(repoTransactionDetail)
+	ctx                   = context.Background()
+	mysqlConn             = mysql_connection.InitMysqlDB()
+	repoCustomer          = repo.NewCustomerRepositoryMysqlInteractor(mysqlConn)
+	repoTransaction       = transaction.NewTransactionMysqlInteractor(mysqlConn)
+	repoTransactionDetail = transaction_detail2.NewTransactionDetailMysqlInteractor(mysqlConn)
+	repoItem              = item2.NewItemMysqlInteractor(mysqlConn)
+	repoVoucher           = repo_voucher.NewVoucherRepositoryMysqlInteractor(mysqlConn)
+	useCaseCustomer       = usecase_cust.NewCustomerUseCaseInteractor(ctx, repoCustomer)
+	useCaseTransaction    = usecase_trx.NewTransactionUseCaseInteractor(ctx, repoTransaction, repoItem, repoVoucher, repoTransactionDetail)
+	//useCaseTransactionDetail = transaction_detail.NewTransactionDetailUseCaseInteractor(repoTransactionDetail)
+	//useCaseItem = item.NewItemUseCaseInteractor(repoItem)
 )
 
 func main() {

@@ -11,8 +11,8 @@ type Transaction struct {
 	customerId       int
 	codeTransaction  string
 	tanggalPembelian *time.Time
-	transDetail      []*transaction_detail.TransactionDetail
 	total            int64
+	transDetail      []*transaction_detail.TransactionDetail
 }
 
 type DTOTransaction struct {
@@ -20,8 +20,8 @@ type DTOTransaction struct {
 	CustomerId       int
 	CodeTransaction  string
 	Tanggalpembelian *time.Time
-	TransDetail      []*transaction_detail.TransactionDetail
 	Total            int64
+	TransDetail      []*transaction_detail.TransactionDetail
 }
 
 type DTOItemPembelian struct {

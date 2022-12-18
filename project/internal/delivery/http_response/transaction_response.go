@@ -101,8 +101,8 @@ func MapResponseTransaction(dataTransaction *transaction.Transaction, code int, 
 
 func MapResponseListTransaction(dataTransaction []*transaction.Transaction, code int, message string) ([]byte, error) {
 	listResponse := make([]*ResponseTransactionJson, 0)
-	listTransD := make([]*ResponseTransactionD, 0)
 	for _, data := range dataTransaction {
+		listTransD := make([]*ResponseTransactionD, 0)
 		for _, dataTrans := range data.GetTransDetail() {
 			transD := &ResponseTransactionD{
 				Id:            dataTrans.GetID(),
