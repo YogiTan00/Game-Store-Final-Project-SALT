@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"context"
+	"errors"
 	"game-store-final-project/project/domain/entity/transaction"
 	"game-store-final-project/project/domain/entity/transaction_detail"
 	entity_voucher "game-store-final-project/project/domain/entity/voucher"
@@ -62,9 +63,8 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 	if errCustomer != nil {
 		return nil, errCustomer
 	}
-
 	if customer == nil {
-		return nil, nil
+		return nil, errors.New("CUSTOMER NOT FOUND")
 	}
 
 	// get product
@@ -73,7 +73,6 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 	var totalSecondGame int64 = 0
 	var totalSeluruh int64 = 0
 	detailTransaction := make([]*transaction_detail.TransactionDetail, 0)
-
 	for _, data_item := range items {
 		dataItem, err := trx.repoItem.GetItemByID(trx.ctx, strconv.Itoa(data_item.ItemId))
 		if err != nil {
@@ -104,6 +103,46 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 			Total:           totalPerItem,
 		})
 		detailTransaction = append(detailTransaction, dataDetail)
+	}
+
+	// check voucher jika menggunakan
+	var discountAksesorisAndNewGame int64 = 0
+	var discountServiceConsole int64 = 0
+	var discountSecondGame int64 = 0
+	if len(voucher) > 0 {
+		for _, v := range voucher {
+			dataVoucher, errVocuher := trx.repoVoucher.GetVoucherByCode(trx.ctx, v)
+			if errVocuher != nil {
+				return nil, errVocuher
+			}
+
+			if dataVoucher == nil {
+				return nil, errors.New("VOUCHER NOT FOUND OR NON ACTIVE")
+			}
+
+			if dataVoucher.GetNamaVoucher() == "ULTI" {
+				discountAksesorisAndNewGame = discountAksesorisAndNewGame + int64(dataVoucher.GetNilaiDisc())
+			}
+
+			if dataVoucher.GetNamaVoucher() == "PREMI" {
+				discountServiceConsole = discountServiceConsole + int64(dataVoucher.GetNilaiDisc())
+			}
+
+			if dataVoucher.GetNamaVoucher() == "BASIC" {
+				discountSecondGame = discountSecondGame + int64(dataVoucher.GetNilaiDisc())
+			}
+		}
+
+		// count discount
+		if discountAksesorisAndNewGame > 0 {
+			totalAksesorisAndNewGame = (discountAksesorisAndNewGame / 100) * totalAksesorisAndNewGame
+		}
+		if discountServiceConsole > 0 {
+			totalServiceConsole = (discountServiceConsole / 100) * totalServiceConsole
+		}
+		if discountSecondGame > 0 {
+			totalSecondGame = (discountSecondGame / 100) * totalSecondGame
+		}
 	}
 
 	dateNow := time.Now()

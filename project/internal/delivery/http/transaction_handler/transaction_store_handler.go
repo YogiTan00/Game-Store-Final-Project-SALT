@@ -39,8 +39,9 @@ func (s_handler *TransactionHandlerInteractor) StoreController(w http.ResponseWr
 
 	resultUseCase, errStoreTrxFromUseCase := s_handler.TransactionUseCase.StoreTransaction(req.CustomerId, req.TanggalPembelian, req.Voucher, items)
 	if errStoreTrxFromUseCase != nil {
+		response, _ := http_response.MapResponse(200, errStoreTrxFromUseCase.Error())
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("Error on Usecase"))
+		w.Write(response)
 		return
 	}
 
