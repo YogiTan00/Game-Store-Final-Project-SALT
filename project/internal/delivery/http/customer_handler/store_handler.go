@@ -37,7 +37,7 @@ func (s_handler *CustomerHandlerInteractor) StoreController(w http.ResponseWrite
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("Error mapping data"))
 		}
-		w.WriteHeader(200)
+		w.WriteHeader(417) // 417 Expectation Failed
 		w.Write(response)
 		return
 	}
