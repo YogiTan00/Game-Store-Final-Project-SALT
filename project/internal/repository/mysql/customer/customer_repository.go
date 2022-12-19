@@ -3,7 +3,6 @@ package customer
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"game-store-final-project/project/domain/entity/customer"
 	"game-store-final-project/project/domain/entity/transaction"
 	"game-store-final-project/project/domain/entity/transaction_detail"
@@ -159,7 +158,6 @@ func (repo *CustomerRepositoryMysqlInteractor) IndexCustomerWithTransaction(ctx 
 		customer.AddTrx(trxMany)
 		return customer, nil
 	} else {
-		fmt.Println("... GAGAL data tidak ditemukan, dengan nik: " + nik)
 		return nil, nil
 	}
 }
