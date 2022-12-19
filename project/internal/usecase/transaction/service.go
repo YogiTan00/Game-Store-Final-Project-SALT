@@ -57,6 +57,16 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 		kupon 5% dengan prefix BASIC: BASIC-2022Y12M08D12H02M12S(date) 78SD138SS1234(13 rand digit)
 	*/
 
+	// check user terdaftar atau tidak
+	customer, errCustomer := trx.repoCustomer.GetCustomerById(trx.ctx, customer_id)
+	if errCustomer != nil {
+		return nil, errCustomer
+	}
+
+	if customer == nil {
+		return nil, nil
+	}
+
 	// get product
 	var totalAksesorisAndNewGame int64 = 0
 	var totalServiceConsole int64 = 0
@@ -208,11 +218,7 @@ func generateCodeVoucher(n int, name string, date time.Time) string {
 
 func generateCodeTrx(n int, date time.Time) string {
 	var randString = []rune("123456789")
-	//<<<<<<< HEAD
-	//	time := date.Format("2006 01 02 15 04 05")
-	//=======
 	time := date.Format("02D01M2006Y15H04M05S")
-	//>>>>>>> b730f9529cd10ab0692658eaf1d6fcce34a8ad71
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = randString[rand.Intn(len(randString))]

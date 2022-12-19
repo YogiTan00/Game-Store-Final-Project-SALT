@@ -27,9 +27,6 @@ func (s_handler *TransactionHandlerInteractor) StoreController(w http.ResponseWr
 
 	// create DTO items
 	reqItem := req.DetailTransaction
-	// bagaimana cara kirim reqItem sebagai param ???
-	// fmt.Println(reqItem)
-
 	items := make([]*transaction.DTOItemPembelian, 0)
 	// loop and append to DTO
 	for _, item := range *reqItem {
@@ -40,10 +37,22 @@ func (s_handler *TransactionHandlerInteractor) StoreController(w http.ResponseWr
 		items = append(items, dataItem)
 	}
 
-	_, errStoreTrxFromUseCase := s_handler.TransactionUseCase.StoreTransaction(req.CustomerId, req.TanggalPembelian, req.Voucher, items)
+	resultUseCase, errStoreTrxFromUseCase := s_handler.TransactionUseCase.StoreTransaction(req.CustomerId, req.TanggalPembelian, req.Voucher, items)
 	if errStoreTrxFromUseCase != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Error on Usecase"))
+		return
+	}
+
+	if resultUseCase == nil {
+		response, errMap := http_response.MapResponse(200, "DATA CUSTOMER NOT FOUND")
+		if errMap != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Error mapping data"))
+		}
+
+		w.WriteHeader(404)
+		w.Write(response)
 		return
 	}
 

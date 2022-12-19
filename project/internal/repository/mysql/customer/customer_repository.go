@@ -282,3 +282,47 @@ func (repo *CustomerRepositoryMysqlInteractor) GetVoucherByCustomerId(ctx contex
 
 	return nil, nil
 }
+
+func (repo *CustomerRepositoryMysqlInteractor) GetCustomerById(ctx context.Context, id int) (*customer.Customer, error) {
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
+	defer cancel()
+
+	sqlQuery := "SELECT * FROM customers where id = ?"
+	rows, errMysql := repo.dbConn.QueryContext(ctx, sqlQuery, id)
+	if errMysql != nil {
+		return nil, errMysql
+	}
+
+	if rows.Next() {
+		var (
+			id            int
+			nik           string
+			nama          string
+			alamat        string
+			no_tlp        string
+			jenis_kelamin string
+		)
+		// first row
+		err := rows.Scan(&id, &nik, &nama, &alamat, &no_tlp, &jenis_kelamin)
+		if err != nil {
+			return nil, err
+		}
+
+		// build struct customer
+		customer, errBuildCustomer := customer.NewCustomer(customer.DTOCustomer{
+			Id:           id,
+			Nik:          nik,
+			Nama:         nama,
+			Alamat:       alamat,
+			NoTlp:        no_tlp,
+			JenisKelamin: jenis_kelamin,
+		})
+		if errBuildCustomer != nil {
+			return nil, errBuildCustomer
+		}
+
+		return customer, nil
+	} else {
+		return nil, nil
+	}
+}
