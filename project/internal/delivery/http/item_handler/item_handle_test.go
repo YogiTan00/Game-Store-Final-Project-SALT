@@ -16,9 +16,9 @@ func TestItemHandler_GetAllItem(t *testing.T) {
 		useCaseItem = new(item.RepoItem)
 	)
 
-	useCaseItem.On("GetAllItem", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountItem(5), (error)(nil))
+	useCaseItem.On("UcGetAllItem", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountItem(5), (error)(nil))
 
-	itemHandler := item2.NewItemHandler(useCaseItem)
+	itemHandler := item2.NewuseCaseItemHandler(useCaseItem)
 
 	req, err := http.NewRequest("GET", "/get-item", nil)
 	rr := httptest.NewRecorder()
@@ -33,9 +33,9 @@ func TestItemHandler_GetItemByID(t *testing.T) {
 		useCaseItem = new(item.RepoItem)
 	)
 
-	useCaseItem.On("GetItemByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataItem(), (error)(nil))
+	useCaseItem.On("UcGetItemByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataItem(), (error)(nil))
 
-	itemHandler := item2.NewItemHandler(useCaseItem)
+	itemHandler := item2.NewuseCaseItemHandler(useCaseItem)
 
 	req, err := http.NewRequest("GET", "/get-item/1", nil)
 	rr := httptest.NewRecorder()

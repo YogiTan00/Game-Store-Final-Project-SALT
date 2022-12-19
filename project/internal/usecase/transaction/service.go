@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func (trx *TransactionUseCaseInteractor) UcGetTransactionByID(ctx context.Context, id string) (*transaction.Transaction, error) {
+func (trx *TransactionUseCaseInteractor) GetTransactionByID(ctx context.Context, id string) (*transaction.Transaction, error) {
 	listTransaction, err := trx.repoTransaction.GetTransactionByID(ctx, id)
 	if err != nil {
 		return nil, err
@@ -19,7 +19,7 @@ func (trx *TransactionUseCaseInteractor) UcGetTransactionByID(ctx context.Contex
 	return listTransaction, nil
 }
 
-func (trx *TransactionUseCaseInteractor) UcGetAllTransaction(ctx context.Context) ([]*transaction.Transaction, error) {
+func (trx *TransactionUseCaseInteractor) GetAllTransaction(ctx context.Context) ([]*transaction.Transaction, error) {
 	listTransaction, err := trx.repoTransaction.GetAllTransaction(ctx)
 	if err != nil {
 		return nil, err
@@ -28,21 +28,7 @@ func (trx *TransactionUseCaseInteractor) UcGetAllTransaction(ctx context.Context
 	return listTransaction, nil
 }
 
-func (trx *TransactionUseCaseInteractor) UcStoreTransaction(ctx context.Context, dataTransaction *transaction.DTOTransaction) error {
-	trans, err := transaction.NewTransaction(*dataTransaction)
-	if err != nil {
-		return err
-	}
-
-	_, errInsert := trx.repoTransaction.StoreTransaction(ctx, trans)
-	if errInsert != nil {
-		return errInsert
-	}
-
-	return nil
-}
-
-func (trx *TransactionUseCaseInteractor) UcGetAllTransactionByCustomerID(ctx context.Context, id string) ([]*transaction.Transaction, error) {
+func (trx *TransactionUseCaseInteractor) GetAllTransactionByCustomerID(ctx context.Context, id string) ([]*transaction.Transaction, error) {
 	listTransaction, err := trx.repoTransaction.GetAllTransactionByCustomerID(ctx, id)
 	if err != nil {
 		return nil, err

@@ -6,5 +6,5 @@ import (
 )
 
 type VoucherCase interface {
-	UcStoreVoucher(ctx context.Context, dataVoucher *voucher.Voucher) error
+	StoreVoucher(ctx context.Context, dataVoucher *voucher.Voucher) error
 }

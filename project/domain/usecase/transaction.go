@@ -6,9 +6,8 @@ import (
 )
 
 type TransactionUseCase interface {
-	UcGetTransactionByID(ctx context.Context, id string) (*transaction.Transaction, error)
-	UcGetAllTransaction(ctx context.Context) ([]*transaction.Transaction, error)
-	UcStoreTransaction(ctx context.Context, dataTransaction *transaction.DTOTransaction) error
-	UcGetAllTransactionByCustomerID(ctx context.Context, id string) ([]*transaction.Transaction, error)
+	GetTransactionByID(ctx context.Context, id string) (*transaction.Transaction, error)
+	GetAllTransaction(ctx context.Context) ([]*transaction.Transaction, error)
 	StoreTransaction(customer_id int, tanggal_pembelian string, voucher []string, items []*transaction.DTOItemPembelian) (*transaction.Transaction, error)
+	GetAllTransactionByCustomerID(ctx context.Context, id string) ([]*transaction.Transaction, error)
 }

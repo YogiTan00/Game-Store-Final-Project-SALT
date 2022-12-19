@@ -11,10 +11,12 @@ type RepoTransactionDetail struct {
 
 type TransactionDetailUseCaseInteractor struct {
 	repoTransactionDetail repository.TransactionDetailRepository
+	repoItem              repository.ItemRepository
 }
 
-func NewTransactionDetailUseCaseInteractor(repoTransactionDetail repository.TransactionDetailRepository) *TransactionDetailUseCaseInteractor {
+func NewTransactionDetailUseCaseInteractor(repoTransactionDetail repository.TransactionDetailRepository, repoItem repository.ItemRepository) *TransactionDetailUseCaseInteractor {
 	return &TransactionDetailUseCaseInteractor{
 		repoTransactionDetail: repoTransactionDetail,
+		repoItem:              repoItem,
 	}
 }
