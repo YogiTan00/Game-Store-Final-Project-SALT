@@ -11,6 +11,6 @@ type CustomerHandlerInteractor struct {
 	CustomerUseCase usecase.CustomerUseCase
 }
 
-func NewCustomerHandler(usecaseImplement usecase.CustomerUseCase) *CustomerHandlerInteractor {
+func NewUseCaseCustomerHandler(usecaseImplement usecase.CustomerUseCase) *CustomerHandlerInteractor {
 	return &CustomerHandlerInteractor{CustomerUseCase: usecaseImplement}
 }

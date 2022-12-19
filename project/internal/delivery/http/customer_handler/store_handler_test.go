@@ -1,23 +1,38 @@
 package customer_handler_test
 
 import (
+	"game-store-final-project/project/internal/delivery/http/customer_handler"
+	"game-store-final-project/project/internal/usecase/customer"
+	"game-store-final-project/project/test_data"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+	"net/http"
 	"net/http/httptest"
+	"testing"
 )
 
 var (
-	req = httptest.NewRequest("GET", "http://example.com/foo", nil)
-	w   = httptest.NewRecorder()
+	useCaseCustomer = new(customer.RepoCustomer)
 )
 
 // ini unit tes untuk usecase
-// func TestHandlerStoreCustomer(t *testing.T) {
-// 	// useCasePhoneMocks.On("GetPhone").Return(testdata.GenerateListPhoneByEntity(), nil)
+func TestCustomerHandlerInteractor_StoreController(t *testing.T) {
+	expected := &customer_handler.CustomerHandlerInteractor{CustomerUseCase: useCaseCustomer}
 
-// 	handlerInteractorCustomer := customer_handler.NewCustomerHandler(useCasePhoneMocks)
-// 	handlerInteractorCustomer.Store(w, req)
-// 	resp := w.Result()
-// 	body, _ := io.ReadAll(resp.Body)
+	customerHandler := customer_handler.NewUseCaseCustomerHandler(useCaseCustomer)
 
-// 	assert.Equal(t, http.StatusOK, resp.StatusCode)
-// 	assert.NotNil(t, string(body))
-// }
+	assert.NotNil(t, customerHandler)
+	assert.Equalf(t, expected, customerHandler, "NewUseCaseCustomerHandler(%v)", useCaseCustomer)
+}
+
+func TestCustomerHandlerInteractor_IndexController(t *testing.T) {
+	useCaseCustomer.On("IndexCustomerWithTransaction", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCustomer(), (error)(nil))
+
+	customerHandler := customer_handler.NewUseCaseCustomerHandler(useCaseCustomer)
+	req, err := http.NewRequest("GET", "/customer/list-trx/1", nil)
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(customerHandler.IndexController)
+	handler.ServeHTTP(rr, req)
+	assert.Equal(t, http.StatusOK, rr.Code)
+	assert.Nil(t, err)
+}

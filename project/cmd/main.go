@@ -41,7 +41,7 @@ func main() {
 	r := mux.NewRouter()
 
 	// routes customer
-	handlerCustomer := customer_handler.NewCustomerHandler(useCaseCustomer)
+	handlerCustomer := customer_handler.NewUseCaseCustomerHandler(useCaseCustomer)
 	handlerTrx := transaction_handler.NewUsecaseTransactionHandler(useCaseTransaction)
 	handlerTransaction := transaction_handler.NewUseCaseTransactionHandler(useCaseTransaction, useCaseTransactionDetail, useCaseItem, useCaseVoucher)
 	handlerTransactionDetail := transaction_handler.NewUseCaseTransactionDetailHandler(useCaseTransactionDetail, useCaseItem)
