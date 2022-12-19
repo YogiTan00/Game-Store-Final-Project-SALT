@@ -14,13 +14,13 @@ import (
 
 func TestTransactionDetailHandler_GetAllTransactionDetailHandler(t *testing.T) {
 	var (
-		useCaseItem              = new(item.RepoItem)
+		useCaseItems             = new(item.RepoItem)
 		useCaseTransactionDetail = new(transaction_detail.RepoTransactionDetail)
 	)
 
 	useCaseTransactionDetail.On("GetAllTransactionDetail", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransactionDetail(5), (error)(nil))
 
-	transactionDetailHandler := transaction_handler.NewTransactionDetailHandler(useCaseTransactionDetail, useCaseItem)
+	transactionDetailHandler := transaction_handler.NewTransactionDetailHandler(useCaseTransactionDetail, useCaseItems)
 
 	req, err := http.NewRequest("GET", "/get-transaction-detail", nil)
 	rr := httptest.NewRecorder()

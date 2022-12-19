@@ -20,22 +20,27 @@ func (h *TransactionHandler) GetTransactionByIDHandler(w http.ResponseWriter, r 
 		w.Write([]byte(err.Error()))
 	}
 
-	listTransDetail, errDetail := h.useCaseTransDetail.UcGetAllTransactionDetailByID(ctx, strconv.Itoa(transaction.GetID()))
-	if errDetail != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(errDetail.Error()))
+	if transaction != nil {
+
+		listTransDetail, errDetail := h.useCaseTransDetail.UcGetAllTransactionDetailByID(ctx, strconv.Itoa(transaction.GetID()))
+		if errDetail != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(errDetail.Error()))
+		}
+
+		transaction = transaction.AddTransDetail(listTransDetail)
+
+		response, errMap := http_response.MapResponseTransaction(transaction, 200, "Success")
+		if errMap != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Error mapping data"))
+		}
+
+		w.WriteHeader(200)
+		w.Write(response)
+	} else {
+		w.WriteHeader(404)
 	}
-
-	transaction = transaction.AddTransDetail(listTransDetail)
-
-	response, errMap := http_response.MapResponseTransaction(transaction, 200, "Success")
-	if errMap != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("Error mapping data"))
-	}
-
-	w.WriteHeader(200)
-	w.Write(response)
 }
 
 func (h *TransactionHandler) GetAllTransactionHandler(w http.ResponseWriter, r *http.Request) {
