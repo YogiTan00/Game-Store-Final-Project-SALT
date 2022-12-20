@@ -67,48 +67,11 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 		return nil, errors.New("CUSTOMER NOT FOUND")
 	}
 
-	// get product
-	var totalAksesorisAndNewGame int64 = 0
-	var totalServiceConsole int64 = 0
-	var totalSecondGame int64 = 0
-	var totalSeluruh int64 = 0
-	detailTransaction := make([]*transaction_detail.TransactionDetail, 0)
-	for _, data_item := range items {
-		dataItem, err := trx.repoItem.GetItemByID(trx.ctx, strconv.Itoa(data_item.ItemId))
-		if err != nil {
-			return nil, err
-		}
-		totalPerItem := int64(data_item.JumlahPembelian) * dataItem.GetHarga()
-
-		if dataItem.GetKategori() == "Buy Accessories Console" || dataItem.GetKategori() == "Buy New Game" {
-			totalAksesorisAndNewGame = totalAksesorisAndNewGame + totalPerItem
-		}
-
-		if dataItem.GetKategori() == "Service Console" {
-			totalServiceConsole = totalServiceConsole + totalPerItem
-		}
-
-		if dataItem.GetKategori() == "Buy Second Game" {
-			totalSecondGame = totalSecondGame + totalPerItem
-		}
-
-		totalSeluruh = totalSeluruh + totalPerItem
-
-		// build dto details
-		dataDetail, err := transaction_detail.NewTransactionDetailWithoutTrxId(transaction_detail.DTOTransactionDetail{
-			ItemId:          dataItem.GetID(),
-			JumlahPembelian: data_item.JumlahPembelian,
-			HargaPembelian:  dataItem.GetHarga(),
-			HargaDiscount:   0,
-			Total:           totalPerItem,
-		})
-		detailTransaction = append(detailTransaction, dataDetail)
-	}
-
 	// check voucher jika menggunakan
-	var discountAksesorisAndNewGame int64 = 0
-	var discountServiceConsole int64 = 0
-	var discountSecondGame int64 = 0
+	var discountAksesorisAndNewGame float64 = 0
+	var discountServiceConsole float64 = 0
+	var discountSecondGame float64 = 0
+
 	if len(voucher) > 0 {
 		for _, v := range voucher {
 			dataVoucher, errVocuher := trx.repoVoucher.GetVoucherByCode(trx.ctx, v)
@@ -121,28 +84,69 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 			}
 
 			if dataVoucher.GetNamaVoucher() == "ULTI" {
-				discountAksesorisAndNewGame = discountAksesorisAndNewGame + int64(dataVoucher.GetNilaiDisc())
+				discountAksesorisAndNewGame = discountAksesorisAndNewGame + float64(dataVoucher.GetNilaiDisc())
 			}
 
 			if dataVoucher.GetNamaVoucher() == "PREMI" {
-				discountServiceConsole = discountServiceConsole + int64(dataVoucher.GetNilaiDisc())
+				discountServiceConsole = discountServiceConsole + float64(dataVoucher.GetNilaiDisc())
 			}
 
 			if dataVoucher.GetNamaVoucher() == "BASIC" {
-				discountSecondGame = discountSecondGame + int64(dataVoucher.GetNilaiDisc())
+				discountSecondGame = discountSecondGame + float64(dataVoucher.GetNilaiDisc())
+			}
+		}
+	}
+
+	// get product
+	var totalAksesorisAndNewGame int64 = 0
+	var totalServiceConsole int64 = 0
+	var totalSecondGame int64 = 0
+	var totalSeluruh int64 = 0
+	var discountPrice float64 = 0
+
+	detailTransaction := make([]*transaction_detail.TransactionDetail, 0)
+	for _, data_item := range items {
+
+		dataItem, err := trx.repoItem.GetItemByID(trx.ctx, strconv.Itoa(data_item.ItemId))
+		if err != nil {
+			return nil, err
+		}
+		totalPerItem := int64(data_item.JumlahPembelian) * dataItem.GetHarga()
+
+		if dataItem.GetKategori() == "Buy Accessories Console" || dataItem.GetKategori() == "Buy New Game" {
+			totalAksesorisAndNewGame = totalAksesorisAndNewGame + totalPerItem
+			if discountAksesorisAndNewGame > 0 {
+				discountPrice = (discountAksesorisAndNewGame / 100) * float64(totalAksesorisAndNewGame)
 			}
 		}
 
-		// count discount
-		if discountAksesorisAndNewGame > 0 {
-			totalAksesorisAndNewGame = (discountAksesorisAndNewGame / 100) * totalAksesorisAndNewGame
+		if dataItem.GetKategori() == "Service Console" {
+			totalServiceConsole = totalServiceConsole + totalPerItem
+			if discountServiceConsole > 0 {
+				discountPrice = (discountServiceConsole / 100) * float64(totalServiceConsole)
+			}
 		}
-		if discountServiceConsole > 0 {
-			totalServiceConsole = (discountServiceConsole / 100) * totalServiceConsole
+
+		if dataItem.GetKategori() == "Buy Second Game" {
+			totalSecondGame = totalSecondGame + totalPerItem
+			if discountSecondGame > 0 {
+				discountPrice = (discountSecondGame / 100) * float64(totalSecondGame)
+			}
 		}
-		if discountSecondGame > 0 {
-			totalSecondGame = (discountSecondGame / 100) * totalSecondGame
-		}
+
+		valueDiscount := int64(discountPrice)
+		totalSeluruh = (totalSeluruh + totalPerItem) - valueDiscount
+
+		// build dto details
+		dataDetail, err := transaction_detail.NewTransactionDetailWithoutTrxId(transaction_detail.DTOTransactionDetail{
+			ItemId:          dataItem.GetID(),
+			JumlahPembelian: data_item.JumlahPembelian,
+			HargaPembelian:  dataItem.GetHarga(),
+			HargaDiscount:   valueDiscount,
+			Total:           totalPerItem - valueDiscount,
+		})
+
+		detailTransaction = append(detailTransaction, dataDetail)
 	}
 
 	dateNow := time.Now()
