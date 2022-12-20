@@ -81,6 +81,12 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 
 			if dataVoucher == nil {
 				return nil, errors.New("VOUCHER NOT FOUND OR NON ACTIVE")
+			} else {
+				// update status voucher jika menggunakan
+				errUpdate := trx.repoVoucher.UpdateVoucherById(trx.ctx, dataVoucher.GetId())
+				if errUpdate != nil {
+					return nil, errUpdate
+				}
 			}
 
 			if dataVoucher.GetNamaVoucher() == "ULTI" {
@@ -102,10 +108,10 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 	var totalServiceConsole int64 = 0
 	var totalSecondGame int64 = 0
 	var totalSeluruh int64 = 0
-	var discountPrice float64 = 0
 
 	detailTransaction := make([]*transaction_detail.TransactionDetail, 0)
 	for _, data_item := range items {
+		var discountPrice float64 = 0
 
 		dataItem, err := trx.repoItem.GetItemByID(trx.ctx, strconv.Itoa(data_item.ItemId))
 		if err != nil {
@@ -243,8 +249,6 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 			return nil, errInsertDetail
 		}
 	}
-
-	// update status voucher jika menggunakan
 
 	return transaction, nil
 }

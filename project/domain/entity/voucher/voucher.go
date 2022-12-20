@@ -68,6 +68,10 @@ func NewVoucherSingle(v DTOVoucher) (*Voucher, error) {
 	return voucher, nil
 }
 
+func (vo *Voucher) GetId() int {
+	return vo.id
+}
+
 func (vo *Voucher) GetCustomerId() int {
 	return vo.customerId
 }

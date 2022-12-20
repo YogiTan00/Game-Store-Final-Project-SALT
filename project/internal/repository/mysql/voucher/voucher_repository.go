@@ -93,3 +93,25 @@ func (repo *VoucherRepositoryMysqlInteractor) GetVoucherByCode(ctx context.Conte
 		return nil, nil
 	}
 }
+
+func (repo *VoucherRepositoryMysqlInteractor) UpdateVoucherById(ctx context.Context, id int) error {
+	currentTime := time.Now()
+
+	var (
+		errMysql error
+	)
+
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
+	defer cancel()
+
+	// query insert to table voucher_customer
+	insertQuery := "UPDATE voucher_customer SET use_date = ?, status = ? WHERE id = ?"
+
+	_, errMysql = repo.dbConn.Exec(insertQuery, currentTime.Format("2006-01-02"), 0, id)
+
+	if errMysql != nil {
+		return errMysql
+	}
+
+	return nil
+}
