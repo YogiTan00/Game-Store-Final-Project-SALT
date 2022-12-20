@@ -1,6 +1,9 @@
 package voucher
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 type Voucher struct {
 	id            int
@@ -51,6 +54,42 @@ func NewVoucher(t []*DTOVoucher) ([]*Voucher, error) {
 }
 
 func NewVoucherSingle(v DTOVoucher) (*Voucher, error) {
+	if v.CustomerId == 0 {
+		return nil, errors.New("CUSTOMER ID NOT SET")
+	}
+
+	if v.TransactionId == 0 {
+		return nil, errors.New("TRANSACTION ID NOT SET")
+	}
+
+	if v.CodeVoucher == "" {
+		return nil, errors.New("CODE NOT SET")
+	}
+
+	if v.NamaVoucher == "" {
+		return nil, errors.New("NAME NOT SET")
+	}
+
+	if v.StartDate.IsZero() {
+		return nil, errors.New("START Date NOT SET")
+	}
+
+	if v.EndDate.IsZero() {
+		return nil, errors.New("END Date NOT SET")
+	}
+
+	if v.Status == 0 {
+		return nil, errors.New("STATUS NOT SET")
+	}
+
+	if v.NilaiDisc == 0 {
+		return nil, errors.New("NILAI NOT SET")
+	}
+
+	if v.TypeDisc == 0 {
+		return nil, errors.New("TYPE NOT SET")
+	}
+
 	voucher := &Voucher{
 		id:            v.Id,
 		customerId:    v.CustomerId,
