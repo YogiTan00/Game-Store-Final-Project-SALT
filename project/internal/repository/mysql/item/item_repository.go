@@ -3,7 +3,6 @@ package item
 import (
 	"context"
 	"database/sql"
-	"errors"
 	"fmt"
 	"game-store-final-project/project/domain/entity/item"
 	"game-store-final-project/project/domain/repository"
@@ -34,7 +33,7 @@ func (i *ItemRepositoryMysqlInteractor) GetAllItem(ctx context.Context) ([]*item
 	}
 	result := dbq.MustQ(ctx, i.dbConn, stmt, opts)
 	if result == nil {
-		return nil, errors.New("ITEM NOT FOUND")
+		return nil, nil
 	}
 
 	listItem, errMap := mapper.ListModelToDomainItem(result.([]*model.ItemModel))
@@ -57,7 +56,7 @@ func (i *ItemRepositoryMysqlInteractor) GetItemByID(ctx context.Context, id stri
 	}
 	result := dbq.MustQ(ctx, i.dbConn, stmt, opts, id)
 	if result == nil {
-		return nil, errors.New("ITEM NOT FOUND")
+		return nil, nil
 	}
 
 	dataItem, errMap := mapper.ModelToDomainItem(result.(*model.ItemModel))

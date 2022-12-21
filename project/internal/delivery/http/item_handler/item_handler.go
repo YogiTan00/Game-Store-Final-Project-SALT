@@ -65,7 +65,7 @@ func (h *ItemHandler) GetItemByIDHandler(w http.ResponseWriter, r *http.Request)
 		w.WriteHeader(200)
 		w.Write(response)
 	} else {
-		response, errMap := http_response.MapResponse(200, "TRANSACTION DETAIL NOT FOUND")
+		response, errMap := http_response.MapResponse(200, "ITEM NOT FOUND")
 		if errMap != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("Error mapping data"))

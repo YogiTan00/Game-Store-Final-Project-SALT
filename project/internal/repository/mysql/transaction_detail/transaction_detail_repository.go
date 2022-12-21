@@ -3,7 +3,6 @@ package transaction_detail
 import (
 	"context"
 	"database/sql"
-	"errors"
 	"fmt"
 	item2 "game-store-final-project/project/domain/entity/item"
 	"game-store-final-project/project/domain/entity/transaction_detail"
@@ -107,7 +106,7 @@ func (t *TransactionDetailRepositoryMysqlInteractor) GetTransactionDetailByID(ct
 	}
 	result := dbq.MustQ(ctx, t.dbConn, stmt, opts, id)
 	if result == nil {
-		return nil, errors.New("ITEM NOT FOUND")
+		return nil, nil
 	}
 
 	listTransD, errMap := mapper.ModelToDomainTransactionDetail(result.(*model.TransactionDetailModel))
