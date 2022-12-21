@@ -1,29 +1,36 @@
 package voucher
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 type Voucher struct {
-	customerId  int
-	codeVoucher string
-	namaVoucher string
-	startDate   time.Time
-	endDate     time.Time
-	useDate     time.Time
-	status      int
-	nilaiDisc   int
-	typeDisc    int
+	id            int
+	customerId    int
+	transactionId int
+	codeVoucher   string
+	namaVoucher   string
+	startDate     time.Time
+	endDate       time.Time
+	useDate       time.Time
+	status        int
+	nilaiDisc     int
+	typeDisc      int
 }
 
 type DTOVoucher struct {
-	CustomerId  int
-	CodeVoucher string
-	NamaVoucher string
-	StartDate   time.Time
-	EndDate     time.Time
-	UseDate     time.Time
-	Status      int
-	NilaiDisc   int
-	TypeDisc    int
+	Id            int
+	CustomerId    int
+	TransactionId int
+	CodeVoucher   string
+	NamaVoucher   string
+	StartDate     time.Time
+	EndDate       time.Time
+	UseDate       time.Time
+	Status        int
+	NilaiDisc     int
+	TypeDisc      int
 }
 
 func NewVoucher(t []*DTOVoucher) ([]*Voucher, error) {
@@ -44,6 +51,64 @@ func NewVoucher(t []*DTOVoucher) ([]*Voucher, error) {
 	}
 
 	return vouchers, nil
+}
+
+func NewVoucherSingle(v DTOVoucher) (*Voucher, error) {
+	if v.CustomerId == 0 {
+		return nil, errors.New("CUSTOMER ID NOT SET")
+	}
+
+	if v.TransactionId == 0 {
+		return nil, errors.New("TRANSACTION ID NOT SET")
+	}
+
+	if v.CodeVoucher == "" {
+		return nil, errors.New("CODE NOT SET")
+	}
+
+	if v.NamaVoucher == "" {
+		return nil, errors.New("NAME NOT SET")
+	}
+
+	if v.StartDate.IsZero() {
+		return nil, errors.New("START Date NOT SET")
+	}
+
+	if v.EndDate.IsZero() {
+		return nil, errors.New("END Date NOT SET")
+	}
+
+	if v.Status == 0 {
+		return nil, errors.New("STATUS NOT SET")
+	}
+
+	if v.NilaiDisc == 0 {
+		return nil, errors.New("NILAI NOT SET")
+	}
+
+	if v.TypeDisc == 0 {
+		return nil, errors.New("TYPE NOT SET")
+	}
+
+	voucher := &Voucher{
+		id:            v.Id,
+		customerId:    v.CustomerId,
+		transactionId: v.TransactionId,
+		codeVoucher:   v.CodeVoucher,
+		namaVoucher:   v.NamaVoucher,
+		startDate:     v.StartDate,
+		endDate:       v.EndDate,
+		useDate:       v.UseDate,
+		status:        v.Status,
+		nilaiDisc:     v.NilaiDisc,
+		typeDisc:      v.TypeDisc,
+	}
+
+	return voucher, nil
+}
+
+func (vo *Voucher) GetId() int {
+	return vo.id
 }
 
 func (vo *Voucher) GetCustomerId() int {

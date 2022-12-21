@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"context"
+	"errors"
 	"game-store-final-project/project/domain/entity/transaction"
 	"game-store-final-project/project/domain/entity/transaction_detail"
 	entity_voucher "game-store-final-project/project/domain/entity/voucher"
@@ -57,14 +58,61 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 		kupon 5% dengan prefix BASIC: BASIC-2022Y12M08D12H02M12S(date) 78SD138SS1234(13 rand digit)
 	*/
 
+	// check user terdaftar atau tidak
+	customer, errCustomer := trx.repoCustomer.GetCustomerById(trx.ctx, customer_id)
+	if errCustomer != nil {
+		return nil, errCustomer
+	}
+	if customer == nil {
+		return nil, errors.New("CUSTOMER NOT FOUND")
+	}
+
+	// check voucher jika menggunakan
+	var discountAksesorisAndNewGame float64 = 0
+	var discountServiceConsole float64 = 0
+	var discountSecondGame float64 = 0
+
+	if len(voucher) > 0 {
+		for _, v := range voucher {
+			dataVoucher, errVocuher := trx.repoVoucher.GetVoucherByCode(trx.ctx, v)
+			if errVocuher != nil {
+				return nil, errVocuher
+			}
+
+			if dataVoucher == nil {
+				return nil, errors.New("VOUCHER NOT FOUND OR NON ACTIVE")
+			} else {
+				// update status voucher jika menggunakan
+				errUpdate := trx.repoVoucher.UpdateVoucherById(trx.ctx, dataVoucher.GetId())
+				if errUpdate != nil {
+					return nil, errUpdate
+				}
+			}
+
+			if dataVoucher.GetNamaVoucher() == "ULTI" {
+				discountAksesorisAndNewGame = discountAksesorisAndNewGame + float64(dataVoucher.GetNilaiDisc())
+			}
+
+			if dataVoucher.GetNamaVoucher() == "PREMI" {
+				discountServiceConsole = discountServiceConsole + float64(dataVoucher.GetNilaiDisc())
+			}
+
+			if dataVoucher.GetNamaVoucher() == "BASIC" {
+				discountSecondGame = discountSecondGame + float64(dataVoucher.GetNilaiDisc())
+			}
+		}
+	}
+
 	// get product
 	var totalAksesorisAndNewGame int64 = 0
 	var totalServiceConsole int64 = 0
 	var totalSecondGame int64 = 0
 	var totalSeluruh int64 = 0
-	detailTransaction := make([]*transaction_detail.TransactionDetail, 0)
 
+	detailTransaction := make([]*transaction_detail.TransactionDetail, 0)
 	for _, data_item := range items {
+		var discountPrice float64 = 0
+
 		dataItem, err := trx.repoItem.GetItemByID(trx.ctx, strconv.Itoa(data_item.ItemId))
 		if err != nil {
 			return nil, err
@@ -73,26 +121,37 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 
 		if dataItem.GetKategori() == "Buy Accessories Console" || dataItem.GetKategori() == "Buy New Game" {
 			totalAksesorisAndNewGame = totalAksesorisAndNewGame + totalPerItem
+			if discountAksesorisAndNewGame > 0 {
+				discountPrice = (discountAksesorisAndNewGame / 100) * float64(totalAksesorisAndNewGame)
+			}
 		}
 
 		if dataItem.GetKategori() == "Service Console" {
 			totalServiceConsole = totalServiceConsole + totalPerItem
+			if discountServiceConsole > 0 {
+				discountPrice = (discountServiceConsole / 100) * float64(totalServiceConsole)
+			}
 		}
 
 		if dataItem.GetKategori() == "Buy Second Game" {
 			totalSecondGame = totalSecondGame + totalPerItem
+			if discountSecondGame > 0 {
+				discountPrice = (discountSecondGame / 100) * float64(totalSecondGame)
+			}
 		}
 
-		totalSeluruh = totalSeluruh + totalPerItem
+		valueDiscount := int64(discountPrice)
+		totalSeluruh = (totalSeluruh + totalPerItem) - valueDiscount
 
 		// build dto details
 		dataDetail, err := transaction_detail.NewTransactionDetailWithoutTrxId(transaction_detail.DTOTransactionDetail{
 			ItemId:          dataItem.GetID(),
 			JumlahPembelian: data_item.JumlahPembelian,
 			HargaPembelian:  dataItem.GetHarga(),
-			HargaDiscount:   0,
-			Total:           totalPerItem,
+			HargaDiscount:   valueDiscount,
+			Total:           totalPerItem - valueDiscount,
 		})
+
 		detailTransaction = append(detailTransaction, dataDetail)
 	}
 
@@ -191,8 +250,6 @@ func (trx *TransactionUseCaseInteractor) StoreTransaction(customer_id int, tangg
 		}
 	}
 
-	// update status voucher jika menggunakan
-
 	return transaction, nil
 }
 
@@ -208,11 +265,7 @@ func generateCodeVoucher(n int, name string, date time.Time) string {
 
 func generateCodeTrx(n int, date time.Time) string {
 	var randString = []rune("123456789")
-	//<<<<<<< HEAD
-	//	time := date.Format("2006 01 02 15 04 05")
-	//=======
 	time := date.Format("02D01M2006Y15H04M05S")
-	//>>>>>>> b730f9529cd10ab0692658eaf1d6fcce34a8ad71
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = randString[rand.Intn(len(randString))]
