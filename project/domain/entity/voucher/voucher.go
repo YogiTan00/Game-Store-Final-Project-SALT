@@ -107,6 +107,52 @@ func NewVoucherSingle(v DTOVoucher) (*Voucher, error) {
 	return voucher, nil
 }
 
+func NewVoucherCustomer(v DTOVoucher) (*Voucher, error) {
+	if v.CustomerId == 0 {
+		return nil, errors.New("CUSTOMER ID NOT SET")
+	}
+
+	if v.CodeVoucher == "" {
+		return nil, errors.New("CODE NOT SET")
+	}
+
+	if v.NamaVoucher == "" {
+		return nil, errors.New("NAME NOT SET")
+	}
+
+	if v.StartDate.IsZero() {
+		return nil, errors.New("START Date NOT SET")
+	}
+
+	if v.EndDate.IsZero() {
+		return nil, errors.New("END Date NOT SET")
+	}
+
+	if v.NilaiDisc == 0 {
+		return nil, errors.New("NILAI NOT SET")
+	}
+
+	if v.TypeDisc == 0 {
+		return nil, errors.New("TYPE NOT SET")
+	}
+
+	voucher := &Voucher{
+		id:            v.Id,
+		customerId:    v.CustomerId,
+		transactionId: v.TransactionId,
+		codeVoucher:   v.CodeVoucher,
+		namaVoucher:   v.NamaVoucher,
+		startDate:     v.StartDate,
+		endDate:       v.EndDate,
+		useDate:       v.UseDate,
+		status:        v.Status,
+		nilaiDisc:     v.NilaiDisc,
+		typeDisc:      v.TypeDisc,
+	}
+
+	return voucher, nil
+}
+
 func (vo *Voucher) GetId() int {
 	return vo.id
 }

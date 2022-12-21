@@ -6,6 +6,7 @@ import (
 	"game-store-final-project/project/internal/delivery/http/customer_handler"
 	"game-store-final-project/project/internal/delivery/http/item_handler"
 	"game-store-final-project/project/internal/delivery/http/transaction_handler"
+	"game-store-final-project/project/internal/delivery/http/voucher_handler"
 	repo "game-store-final-project/project/internal/repository/mysql/customer"
 	item2 "game-store-final-project/project/internal/repository/mysql/item"
 	"game-store-final-project/project/internal/repository/mysql/transaction"
@@ -16,6 +17,7 @@ import (
 	usecase_trx "game-store-final-project/project/internal/usecase/transaction"
 	"game-store-final-project/project/internal/usecase/transaction_detail"
 	"game-store-final-project/project/internal/usecase/voucher"
+	"game-store-final-project/project/internal/usecase/voucher_customer"
 	"game-store-final-project/project/pkg/mysql_connection"
 	"net/http"
 
@@ -35,6 +37,7 @@ var (
 	useCaseTransactionDetail = transaction_detail.NewTransactionDetailUseCaseInteractor(repoTransactionDetail, repoItem)
 	useCaseItem              = item.NewItemUseCaseInteractor(repoItem)
 	useCaseVoucher           = voucher.NewVoucherUseCaseInteractor(repoVoucher)
+	useCaseVoucherCustomer   = voucher_customer.NewVoucherCustomerUseCaseInteractor(repoVoucher, repoCustomer)
 )
 
 func main() {
@@ -46,6 +49,7 @@ func main() {
 	handlerTransaction := transaction_handler.NewUseCaseTransactionHandler(useCaseTransaction, useCaseTransactionDetail, useCaseItem, useCaseVoucher)
 	handlerTransactionDetail := transaction_handler.NewUseCaseTransactionDetailHandler(useCaseTransactionDetail, useCaseItem)
 	handlerItem := item_handler.NewuseCaseItemHandler(useCaseItem)
+	handlerVoucher := voucher_handler.NewVoucherHandler(useCaseVoucherCustomer, useCaseCustomer)
 	// customer
 	r.HandleFunc("/customer/list-trx/{nik}", handlerCustomer.IndexController).Methods(http.MethodGet)
 	r.HandleFunc("/customer/store", handlerCustomer.StoreController).Methods(http.MethodPost)
@@ -59,6 +63,7 @@ func main() {
 	r.HandleFunc("/get-transaction-detail/{id}", handlerTransactionDetail.GetAllTransactionDetailByIDHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-item", handlerItem.GetAllItemHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-item/{id}", handlerItem.GetItemByIDHandler).Methods(http.MethodGet)
+	r.HandleFunc("/get-voucher/{id}", handlerVoucher.GetVoucherCustomerByIdHandler).Methods(http.MethodGet)
 
 	fmt.Println("localhost:8080")
 	http.ListenAndServe(":8080", r)

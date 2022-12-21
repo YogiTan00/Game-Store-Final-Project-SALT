@@ -115,3 +115,7 @@ func (cu *Customer) GetJenisKelamin() string {
 func (cu *Customer) GetTrx() []*transaction.Transaction {
 	return *&cu.transaction
 }
+
+func (cu *Customer) GetListVoucher() []*voucher.Voucher {
+	return cu.voucher
+}

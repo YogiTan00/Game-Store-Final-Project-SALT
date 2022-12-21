@@ -8,7 +8,7 @@ type TransactionHandler struct {
 	useCaseTransaction usecase.TransactionUseCase
 	useCaseTransDetail usecase.TransactionDetailUseCase
 	useCaseItem        usecase.ItemUseCase
-	useCaseVoucher     usecase.VoucherCase
+	useCaseVoucher     usecase.VoucherUseCase
 }
 
 type TransactionDetailHandler struct {
@@ -24,7 +24,7 @@ func NewUseCaseTransactionHandler(
 	useCaseTransaction usecase.TransactionUseCase,
 	useCaseTransDetail usecase.TransactionDetailUseCase,
 	useCaseItem usecase.ItemUseCase,
-	useCaseVoucher usecase.VoucherCase,
+	useCaseVoucher usecase.VoucherUseCase,
 ) *TransactionHandler {
 
 	return &TransactionHandler{

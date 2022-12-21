@@ -5,7 +5,7 @@ import (
 	"game-store-final-project/project/domain/entity/customer"
 )
 
-func (uc *VoucherCustomerUseCaseInteractor) UCGetVoucherByCustomerId(ctx context.Context, id string) (*customer.Customer, error) {
+func (uc *VoucherCustomerUseCaseInteractor) GetVoucherByCustomerId(ctx context.Context, id string) (*customer.Customer, error) {
 	listVoucherCustomer, err := uc.repoVoucherCustomer.GetVoucherByCustomerId(ctx, id)
 	if err != nil {
 		return nil, err

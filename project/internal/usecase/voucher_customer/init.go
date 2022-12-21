@@ -5,16 +5,18 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-type RepoVoucherCustomerById struct {
+type RepoVoucherCustomer struct {
 	mock.Mock
 }
 
 type VoucherCustomerUseCaseInteractor struct {
 	repoVoucherCustomer repository.VoucherRepository
+	repoCustomer        repository.CustomerRepository
 }
 
-func NewVoucherCustomerUseCaseInteractor(repoVoucherCustomerById repository.VoucherRepository) *VoucherCustomerUseCaseInteractor {
+func NewVoucherCustomerUseCaseInteractor(repoVoucherCustomer repository.VoucherRepository, repoCustomer repository.CustomerRepository) *VoucherCustomerUseCaseInteractor {
 	return &VoucherCustomerUseCaseInteractor{
-		repoVoucherCustomer: repoVoucherCustomerById,
+		repoVoucherCustomer: repoVoucherCustomer,
+		repoCustomer:        repoCustomer,
 	}
 }

@@ -99,7 +99,7 @@ func (repo *VoucherRepositoryMysqlInteractor) GetVoucherByCustomerId(ctx context
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
-	sqlQuery := "SELECT * FROM customers where nik = ?"
+	sqlQuery := "SELECT * FROM customers where id = ?"
 	rows, errMysql := repo.dbConn.QueryContext(ctx, sqlQuery, id)
 	if errMysql != nil {
 		return nil, errMysql
@@ -107,7 +107,7 @@ func (repo *VoucherRepositoryMysqlInteractor) GetVoucherByCustomerId(ctx context
 
 	if rows.Next() {
 		var (
-			id            int
+			idCustomer    int
 			nik           string
 			nama          string
 			alamat        string
@@ -115,14 +115,14 @@ func (repo *VoucherRepositoryMysqlInteractor) GetVoucherByCustomerId(ctx context
 			jenis_kelamin string
 		)
 		// first row
-		err := rows.Scan(&id, &nik, &nama, &alamat, &no_tlp, &jenis_kelamin)
+		err := rows.Scan(&idCustomer, &nik, &nama, &alamat, &no_tlp, &jenis_kelamin)
 		if err != nil {
 			return nil, err
 		}
 
 		// build struct customer
 		customer, errBuildCustomer := customer.NewCustomer(customer.DTOCustomer{
-			Id:           id,
+			Id:           idCustomer,
 			Nik:          nik,
 			Nama:         nama,
 			Alamat:       alamat,
@@ -137,42 +137,49 @@ func (repo *VoucherRepositoryMysqlInteractor) GetVoucherByCustomerId(ctx context
 		if errVoucherMysql != nil {
 			return nil, errVoucherMysql
 		}
-
+		listVoucher := make([]*voucher.Voucher, 0)
 		for rowsVoucher.Next() {
 			var (
-				customerId  int
-				codeVoucher string
-				namaVoucher string
-				startDate   time.Time
-				endDate     time.Time
-				useDate     time.Time
-				status      int
-				nilaiDisc   int
-				typeDisc    int
+				idVoucher      int
+				customerId     int
+				transaction_id int
+				codeVoucher    string
+				namaVoucher    string
+				startDate      time.Time
+				endDate        time.Time
+				useDate        time.Time
+				status         int
+				nilaiDisc      int
+				typeDisc       int
 			)
 			// first row
-			err := rowsVoucher.Scan(&customerId, &codeVoucher, &namaVoucher, &startDate, &endDate, &useDate, status, nilaiDisc, typeDisc)
-			if err != nil {
-				return nil, err
+			errVoucher := rowsVoucher.Scan(&idVoucher, &customerId, &transaction_id, &codeVoucher, &namaVoucher,
+				&startDate, &endDate, &useDate, &status, &nilaiDisc, &typeDisc)
+			if errVoucher != nil {
+				return nil, errVoucher
 			}
 
 			// build struct customer
-			voucher, errBuildVoucher := voucher.NewVoucher([]*voucher.DTOVoucher{
-				{CustomerId: customerId,
-					CodeVoucher: codeVoucher,
-					NamaVoucher: namaVoucher,
-					StartDate:   startDate,
-					EndDate:     endDate,
-					UseDate:     useDate,
-					Status:      status,
-					NilaiDisc:   nilaiDisc,
-					TypeDisc:    typeDisc},
+			voucher, errBuildVoucher := voucher.NewVoucherCustomer(voucher.DTOVoucher{
+				Id:            idVoucher,
+				CustomerId:    customerId,
+				TransactionId: transaction_id,
+				CodeVoucher:   codeVoucher,
+				NamaVoucher:   namaVoucher,
+				StartDate:     startDate,
+				EndDate:       endDate,
+				UseDate:       useDate,
+				Status:        status,
+				NilaiDisc:     nilaiDisc,
+				TypeDisc:      typeDisc,
 			})
 			if errBuildVoucher != nil {
 				return nil, errBuildVoucher
 			}
-			customer.AddVoucher(voucher)
+			listVoucher = append(listVoucher, voucher)
 		}
+		defer rowsVoucher.Close()
+		customer.AddVoucher(listVoucher)
 		return customer, nil
 	} else {
 		return nil, nil

@@ -1,20 +1,17 @@
 package voucher_handler
 
 import (
-	"game-store-final-project/project/domain/repository"
 	"game-store-final-project/project/domain/usecase"
-	"game-store-final-project/project/internal/usecase/voucher"
 )
 
 type VoucherHandler struct {
-	useCaseVoucher usecase.VoucherCase
-	repoVoucher    repository.VoucherRepository
+	useCaseVoucher  usecase.VoucherCustomerUseCase
+	useCaseCustomer usecase.CustomerUseCase
 }
 
-func NewVoucherHandler(repoVoucher repository.VoucherRepository) *VoucherHandler {
-	voucherUseCase := voucher.NewVoucherUseCaseInteractor(repoVoucher)
+func NewVoucherHandler(useCaseVoucher usecase.VoucherCustomerUseCase, useCaseCustomer usecase.CustomerUseCase) *VoucherHandler {
 	return &VoucherHandler{
-		useCaseVoucher: voucherUseCase,
-		repoVoucher:    repoVoucher,
+		useCaseVoucher:  useCaseVoucher,
+		useCaseCustomer: useCaseCustomer,
 	}
 }
