@@ -6,7 +6,7 @@ import (
 )
 
 type TransactionDetailUseCase interface {
-	UcGetAllTransactionDetail(ctx context.Context) ([]*transaction_detail.TransactionDetail, error)
-	UcGetTransactionDetailByID(ctx context.Context, id string) (*transaction_detail.TransactionDetail, error)
-	UcGetAllTransactionDetailByID(ctx context.Context, id string) ([]*transaction_detail.TransactionDetail, error)
+	GetAllTransactionDetail(ctx context.Context) ([]*transaction_detail.TransactionDetail, error)
+	GetTransactionDetailByID(ctx context.Context, id string) (*transaction_detail.TransactionDetail, error)
+	GetAllTransactionDetailByID(ctx context.Context, id string) ([]*transaction_detail.TransactionDetail, error)
 }

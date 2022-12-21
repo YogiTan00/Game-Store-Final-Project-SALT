@@ -15,20 +15,30 @@ func (h *ItemHandler) GetAllItemHandler(w http.ResponseWriter, r *http.Request) 
 		errGet error
 	)
 
-	item, errGet = h.useCaseItem.UcGetAllItem(ctx)
+	item, errGet = h.useCaseItem.GetAllItem(ctx)
+	if len(item) > 0 {
+		if errGet != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(errGet.Error()))
+		}
 
-	if errGet != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(errGet.Error()))
-	}
+		response, errMap := http_response.MapResponseListItem(item, 200, "Success")
+		if errMap != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Error mapping data"))
+		}
+		w.WriteHeader(200)
+		w.Write(response)
+	} else {
+		response, errMap := http_response.MapResponse(200, "ITEM NOT FOUND")
+		if errMap != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Error mapping data"))
+		}
 
-	response, errMap := http_response.MapResponseListItem(item, 200, "Success")
-	if errMap != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("Error mapping data"))
+		w.WriteHeader(404)
+		w.Write(response)
 	}
-	w.WriteHeader(200)
-	w.Write(response)
 }
 
 func (h *ItemHandler) GetItemByIDHandler(w http.ResponseWriter, r *http.Request) {
@@ -40,18 +50,28 @@ func (h *ItemHandler) GetItemByIDHandler(w http.ResponseWriter, r *http.Request)
 		errGet error
 	)
 
-	item, errGet = h.useCaseItem.UcGetItemByID(ctx, vars["id"])
+	item, errGet = h.useCaseItem.GetItemByID(ctx, vars["id"])
+	if item != nil {
+		if errGet != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(errGet.Error()))
+		}
 
-	if errGet != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(errGet.Error()))
-	}
+		response, errMap := http_response.MapResponseItem(item, 200, "Success")
+		if errMap != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Error mapping data"))
+		}
+		w.WriteHeader(200)
+		w.Write(response)
+	} else {
+		response, errMap := http_response.MapResponse(200, "TRANSACTION DETAIL NOT FOUND")
+		if errMap != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Error mapping data"))
+		}
 
-	response, errMap := http_response.MapResponseItem(item, 200, "Success")
-	if errMap != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("Error mapping data"))
+		w.WriteHeader(404)
+		w.Write(response)
 	}
-	w.WriteHeader(200)
-	w.Write(response)
 }

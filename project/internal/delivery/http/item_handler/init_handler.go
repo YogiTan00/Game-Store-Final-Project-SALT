@@ -1,20 +1,15 @@
 package item_handler
 
 import (
-	_repository "game-store-final-project/project/domain/repository"
 	"game-store-final-project/project/domain/usecase"
-	"game-store-final-project/project/internal/usecase/item"
 )
 
 type ItemHandler struct {
 	useCaseItem usecase.ItemUseCase
-	repoItem    _repository.ItemRepository
 }
 
-func NewItemHandler(repoItem _repository.ItemRepository) *ItemHandler {
-	itemUseCase := item.NewItemUseCaseInteractor(repoItem)
+func NewuseCaseItemHandler(useCaseItem usecase.ItemUseCase) *ItemHandler {
 	return &ItemHandler{
-		useCaseItem: itemUseCase,
-		repoItem:    repoItem,
+		useCaseItem: useCaseItem,
 	}
 }

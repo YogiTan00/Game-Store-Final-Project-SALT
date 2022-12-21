@@ -16,7 +16,7 @@ func (s_handler *CustomerHandlerInteractor) IndexController(w http.ResponseWrite
 
 	nik := vars["nik"]
 
-	customer, errCustomerFromUseCase := s_handler.CustomerUseCase.IndexCustomerTrx(nik)
+	customer, errCustomerFromUseCase := s_handler.CustomerUseCase.IndexCustomerWithTransaction(nik)
 	if errCustomerFromUseCase != nil {
 		fmt.Println(errCustomerFromUseCase)
 		w.WriteHeader(http.StatusInternalServerError)

@@ -14,8 +14,3 @@ func (r *RepoItem) GetItemByID(ctx context.Context, id string) (*item.Item, erro
 	args := r.Called(ctx, id)
 	return args.Get(0).(*item.Item), args.Error(1)
 }
-
-func (r *RepoItem) GetAllItemByID(ctx context.Context, id string) ([]*item.Item, error) {
-	args := r.Called(ctx, id)
-	return args.Get(0).([]*item.Item), args.Error(1)
-}

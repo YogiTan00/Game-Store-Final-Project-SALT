@@ -24,10 +24,11 @@ var (
 
 func TestTransactionHandler_GetTransactionByIDHandler(t *testing.T) {
 	useCaseTransaction.On("GetTransactionByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataTransaction(), (error)(nil))
+	useCaseTransDetail.On("GetAllTransactionDetailByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransactionDetail(5), (error)(nil))
 
-	transactionHandler := transaction_handler.NewTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
+	transactionHandler := transaction_handler.NewUseCaseTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
 
-	req, err := http.NewRequest("GET", "/get-transaction/1", nil)
+	req, err := http.NewRequest("GET", "/get-transaction-detail/{id}", nil)
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(transactionHandler.GetTransactionByIDHandler)
 	handler.ServeHTTP(rr, req)
@@ -38,10 +39,10 @@ func TestTransactionHandler_GetTransactionByIDHandler(t *testing.T) {
 }
 
 func TestTransactionHandler_GetAllTransactionHandler(t *testing.T) {
-
 	useCaseTransaction.On("GetAllTransaction", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransaction(5), (error)(nil))
+	useCaseTransDetail.On("GetAllTransactionDetailByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransactionDetail(2), (error)(nil))
 
-	transactionDetailHandler := transaction_handler.NewTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
+	transactionDetailHandler := transaction_handler.NewUseCaseTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
 
 	req, err := http.NewRequest("GET", "/get-transaction", nil)
 	rr := httptest.NewRecorder()
@@ -52,10 +53,10 @@ func TestTransactionHandler_GetAllTransactionHandler(t *testing.T) {
 }
 
 func TestTransactionHandler_GetAllTransactionByCustomerIDHandler(t *testing.T) {
-
 	useCaseTransaction.On("GetAllTransactionByCustomerID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransaction(5), (error)(nil))
+	useCaseTransDetail.On("GetAllTransactionDetailByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransactionDetail(2), (error)(nil))
 
-	transactionDetailHandler := transaction_handler.NewTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
+	transactionDetailHandler := transaction_handler.NewUseCaseTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
 
 	req, err := http.NewRequest("GET", "/get-transaction/customer/1", nil)
 	rr := httptest.NewRecorder()
