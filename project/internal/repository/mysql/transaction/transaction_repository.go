@@ -3,6 +3,7 @@ package transaction
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"game-store-final-project/project/domain/entity/transaction"
 	"game-store-final-project/project/domain/repository"
@@ -33,7 +34,7 @@ func (t *TransactionRepositoryMysqlInteractor) GetTransactionByID(ctx context.Co
 	}
 	result := dbq.MustQ(ctx, t.dbConn, stmt, opts, id)
 	if result == nil {
-		return nil, nil
+		return nil, errors.New("TRANSACTION NOT FOUND")
 	}
 
 	dataTransaction, errMap := mapper.ModelToDomainTransaction(result.(*model.TransactionModel))
@@ -56,7 +57,7 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransaction(ctx context.Con
 	}
 	result := dbq.MustQ(ctx, t.dbConn, stmt, opts)
 	if result == nil {
-		return nil, nil
+		return nil, errors.New("TRANSACTION NOT FOUND")
 	}
 
 	dataTransaction, errMap := mapper.ListModelToDomainTransaction(result.([]*model.TransactionModel))
@@ -79,7 +80,7 @@ func (t *TransactionRepositoryMysqlInteractor) GetAllTransactionByCustomerID(ctx
 	}
 	result := dbq.MustQ(ctx, t.dbConn, stmt, opts, id)
 	if result == nil {
-		return nil, nil
+		return nil, errors.New("TRANSACTION NOT FOUND")
 	}
 
 	dataTransaction, errMap := mapper.ListModelToDomainTransaction(result.([]*model.TransactionModel))

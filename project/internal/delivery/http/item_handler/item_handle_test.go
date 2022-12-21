@@ -16,7 +16,7 @@ func TestItemHandler_GetAllItem(t *testing.T) {
 		useCaseItem = new(item.RepoItem)
 	)
 
-	useCaseItem.On("UcGetAllItem", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountItem(5), (error)(nil))
+	useCaseItem.On("GetAllItem", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountItem(5), (error)(nil))
 
 	itemHandler := item2.NewuseCaseItemHandler(useCaseItem)
 
@@ -33,7 +33,7 @@ func TestItemHandler_GetItemByID(t *testing.T) {
 		useCaseItem = new(item.RepoItem)
 	)
 
-	useCaseItem.On("UcGetItemByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataItem(), (error)(nil))
+	useCaseItem.On("GetItemByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataItem(), (nil))
 
 	itemHandler := item2.NewuseCaseItemHandler(useCaseItem)
 

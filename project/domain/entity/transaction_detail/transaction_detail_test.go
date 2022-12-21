@@ -13,7 +13,7 @@ Positif Case
 */
 func TestNewTransactionDetail(t *testing.T) {
 
-	item, _ := item.NewItem(item.DTOItem{
+	item, errItem := item.NewItem(item.DTOItem{
 		Id:       1,
 		Nama:     "Xbox",
 		Kategori: "Service",
@@ -31,6 +31,7 @@ func TestNewTransactionDetail(t *testing.T) {
 		Total:           4360000,
 	})
 
+	assert.Nil(t, errItem)
 	assert.Nil(t, err)
 	assert.Equal(t, 1, transaction.GetTransactionID())
 }
@@ -40,7 +41,7 @@ Negative Case
 */
 
 func TestValidateTransactionDetails_TransactionID(t *testing.T) {
-	item, _ := item.NewItem(item.DTOItem{
+	item, errItem := item.NewItem(item.DTOItem{
 		Id:       1,
 		Nama:     "Xbox",
 		Kategori: "Service",
@@ -58,12 +59,13 @@ func TestValidateTransactionDetails_TransactionID(t *testing.T) {
 		Total:           4360000,
 	})
 
+	assert.Nil(t, errItem)
 	assert.NotNil(t, err)
 	assert.Equal(t, "TRANSACTION ID NOT SET", err.Error())
 }
 
 func TestValidateTransactionDetails_ItemID(t *testing.T) {
-	item, _ := item.NewItem(item.DTOItem{
+	item, errItem := item.NewItem(item.DTOItem{
 		Id:       1,
 		Nama:     "Xbox",
 		Kategori: "Service",
@@ -81,6 +83,7 @@ func TestValidateTransactionDetails_ItemID(t *testing.T) {
 		Total:           4360000,
 	})
 
+	assert.Nil(t, errItem)
 	assert.NotNil(t, err)
 	assert.Equal(t, "ITEM ID NOT SET", err.Error())
 }
