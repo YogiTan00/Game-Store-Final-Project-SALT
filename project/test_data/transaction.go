@@ -7,41 +7,10 @@ import (
 	"time"
 )
 
-func GetTestDataTransaction() *transaction.Transaction {
-	item, _ := item2.NewItem(item2.DTOItem{
-		Id:       1,
-		Nama:     "Xbox",
-		Kategori: "Service",
-		Harga:    350000,
-		Jumlah:   1,
-	})
+func GetTestDataTransaction(countTransD int) *transaction.Transaction {
 
-	listTransDetail, _ := transaction_detail.NewListTransactionDetail([]transaction_detail.DTOTransactionDetail{{
-		Id:              1,
-		TransactionId:   1,
-		ItemId:          1,
-		DetailItem:      item,
-		JumlahPembelian: 1,
-		HargaPembelian:  350000,
-		HargaDiscount:   0,
-		Total:           350000,
-	}})
-
-	tglPembelian := time.Now()
-	transaction, _ := transaction.NewTransaction(transaction.DTOTransaction{
-		Id:               1,
-		CustomerId:       25123123,
-		CodeTransaction:  time.Now().Format("INV02D01M2006Y15H04M05S"),
-		Tanggalpembelian: &tglPembelian,
-		Total:            300000,
-		TransDetail:      listTransDetail,
-	})
-	return transaction
-}
-
-func GetTestDataCountTransaction(count int) []*transaction.Transaction {
-	listTrans := make([]*transaction.Transaction, 0)
-	for i := 1; i <= count; i++ {
+	listTransD := make([]*transaction_detail.TransactionDetail, 0)
+	for i := 0; i <= countTransD; i++ {
 		item, _ := item2.NewItem(item2.DTOItem{
 			Id:       1,
 			Nama:     "Xbox",
@@ -50,7 +19,7 @@ func GetTestDataCountTransaction(count int) []*transaction.Transaction {
 			Jumlah:   1,
 		})
 
-		listTransDetail, _ := transaction_detail.NewListTransactionDetail([]transaction_detail.DTOTransactionDetail{{
+		TransDetail, _ := transaction_detail.NewTransactionDetail(transaction_detail.DTOTransactionDetail{
 			Id:              1,
 			TransactionId:   1,
 			ItemId:          1,
@@ -59,7 +28,47 @@ func GetTestDataCountTransaction(count int) []*transaction.Transaction {
 			HargaPembelian:  350000,
 			HargaDiscount:   0,
 			Total:           350000,
-		}})
+		})
+		listTransD = append(listTransD, TransDetail)
+	}
+
+	tglPembelian := time.Now()
+	transaction, _ := transaction.NewTransaction(transaction.DTOTransaction{
+		Id:               1,
+		CustomerId:       25123123,
+		CodeTransaction:  time.Now().Format("INV02D01M2006Y15H04M05S"),
+		Tanggalpembelian: &tglPembelian,
+		Total:            300000,
+		TransDetail:      listTransD,
+	})
+	return transaction
+}
+
+func GetTestDataCountTransaction(countTrans int, countTransD int) []*transaction.Transaction {
+	listTrans := make([]*transaction.Transaction, 0)
+	for i := 1; i <= countTrans; i++ {
+		listTransD := make([]*transaction_detail.TransactionDetail, 0)
+		for j := 0; j <= countTransD; j++ {
+			item, _ := item2.NewItem(item2.DTOItem{
+				Id:       1,
+				Nama:     "Xbox",
+				Kategori: "Service",
+				Harga:    350000,
+				Jumlah:   1,
+			})
+
+			TransDetail, _ := transaction_detail.NewTransactionDetail(transaction_detail.DTOTransactionDetail{
+				Id:              1,
+				TransactionId:   1,
+				ItemId:          1,
+				DetailItem:      item,
+				JumlahPembelian: 1,
+				HargaPembelian:  350000,
+				HargaDiscount:   0,
+				Total:           350000,
+			})
+			listTransD = append(listTransD, TransDetail)
+		}
 
 		tglPembelian := time.Now()
 		transaction, _ := transaction.NewTransaction(transaction.DTOTransaction{
@@ -68,7 +77,7 @@ func GetTestDataCountTransaction(count int) []*transaction.Transaction {
 			CodeTransaction:  time.Now().Format("INV02D01M2006Y15H04M05S"),
 			Tanggalpembelian: &tglPembelian,
 			Total:            300000,
-			TransDetail:      listTransDetail,
+			TransDetail:      listTransD,
 		})
 		listTrans = append(listTrans, transaction)
 	}

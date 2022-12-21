@@ -27,9 +27,9 @@ func GetTestDataTransactionDetail() *transaction_detail.TransactionDetail {
 	return transaction
 }
 
-func GetTestDataCountTransactionDetail(count int) []*transaction_detail.TransactionDetail {
+func GetTestDataCountTransactionDetail(countTransD int) []*transaction_detail.TransactionDetail {
 	listTransactionDetail := make([]*transaction_detail.TransactionDetail, 0)
-	for i := 1; i <= count; i++ {
+	for i := 1; i <= countTransD; i++ {
 		item, _ := item.NewItem(item.DTOItem{
 			Id:       1,
 			Nama:     "Xbox",
