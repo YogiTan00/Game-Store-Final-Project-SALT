@@ -35,19 +35,6 @@ func NewItem(t DTOItem) (*Item, error) {
 	}, nil
 }
 
-func NewListItem(t []DTOItem) ([]*Item, error) {
-	listItem := make([]*Item, 0)
-	for _, data := range t {
-		item, err := NewItem(data)
-		if err != nil {
-			return nil, err
-		}
-		listItem = append(listItem, item)
-	}
-
-	return listItem, nil
-}
-
 func (i *Item) GetID() int {
 	return i.id
 }

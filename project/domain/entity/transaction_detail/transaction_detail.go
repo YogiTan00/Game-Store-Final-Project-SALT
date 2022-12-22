@@ -64,18 +64,6 @@ func NewTransactionDetailWithoutTrxId(t DTOTransactionDetail) (*TransactionDetai
 	}, nil
 }
 
-func NewListTransactionDetail(t []DTOTransactionDetail) ([]*TransactionDetail, error) {
-	listTransDetail := make([]*TransactionDetail, 0)
-	for _, data := range t {
-		transDetail, err := NewTransactionDetail(data)
-		if err != nil {
-			return nil, err
-		}
-		listTransDetail = append(listTransDetail, transDetail)
-	}
-	return listTransDetail, nil
-}
-
 func (t *TransactionDetail) GetID() int {
 	return t.id
 }
