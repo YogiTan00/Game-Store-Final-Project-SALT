@@ -185,6 +185,7 @@ func (repo *VoucherRepositoryMysqlInteractor) GetVoucherByCustomerId(ctx context
 		return nil, nil
 	}
 }
+
 func (repo *VoucherRepositoryMysqlInteractor) UpdateVoucherById(ctx context.Context, id int) error {
 	currentTime := time.Now()
 

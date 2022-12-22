@@ -58,10 +58,6 @@ func NewVoucherSingle(v DTOVoucher) (*Voucher, error) {
 		return nil, errors.New("CUSTOMER ID NOT SET")
 	}
 
-	if v.TransactionId == 0 {
-		return nil, errors.New("TRANSACTION ID NOT SET")
-	}
-
 	if v.CodeVoucher == "" {
 		return nil, errors.New("CODE NOT SET")
 	}
