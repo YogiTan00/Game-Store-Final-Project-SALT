@@ -3,12 +3,15 @@ package transaction_test
 import (
 	"context"
 	"fmt"
+	transaction_entity "game-store-final-project/project/domain/entity/transaction"
 	"game-store-final-project/project/internal/repository/mysql/transaction"
 	transaction_detail2 "game-store-final-project/project/internal/repository/mysql/transaction_detail"
 	"game-store-final-project/project/pkg/mysql_connection"
-	"github.com/stretchr/testify/assert"
 	"strconv"
 	"testing"
+	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var (
@@ -52,6 +55,22 @@ func TestTransactionRepositoryMysqlInteractor_GetAllTransactionByCustomerID(t *t
 		assert.Nil(t, errTransD)
 		fmt.Println("TransD : ", transD)
 	}
+	fmt.Println(transaction)
+	assert.NotNil(t, transaction)
+	assert.Nil(t, err)
+}
+
+func TestTransactionRepositoryMysqlInteractor_StoreTransaction(t *testing.T) {
+	tglPembelian := time.Now()
+	transaction_entity, err := transaction_entity.NewTransaction(transaction_entity.DTOTransaction{
+		Id:               1,
+		CustomerId:       1,
+		CodeTransaction:  "INV-20D12M2022Y14H16M17T",
+		Tanggalpembelian: &tglPembelian,
+		Total:            5000000,
+	})
+
+	transaction, err := repoMysqlTransaction.StoreTransaction(ctx, transaction_entity)
 	fmt.Println(transaction)
 	assert.NotNil(t, transaction)
 	assert.Nil(t, err)
