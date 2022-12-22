@@ -23,7 +23,7 @@ var (
 )
 
 func TestTransactionHandler_GetTransactionByIDHandler(t *testing.T) {
-	useCaseTransaction.On("GetTransactionByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataTransaction(), (error)(nil))
+	useCaseTransaction.On("GetTransactionByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataTransaction(5), (error)(nil))
 	useCaseTransDetail.On("GetAllTransactionDetailByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransactionDetail(5), (error)(nil))
 
 	transactionHandler := transaction_handler.NewUseCaseTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
@@ -39,7 +39,7 @@ func TestTransactionHandler_GetTransactionByIDHandler(t *testing.T) {
 }
 
 func TestTransactionHandler_GetAllTransactionHandler(t *testing.T) {
-	useCaseTransaction.On("GetAllTransaction", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransaction(5), (error)(nil))
+	useCaseTransaction.On("GetAllTransaction", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransaction(5, 5), (error)(nil))
 	useCaseTransDetail.On("GetAllTransactionDetailByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransactionDetail(2), (error)(nil))
 
 	transactionDetailHandler := transaction_handler.NewUseCaseTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
@@ -53,7 +53,7 @@ func TestTransactionHandler_GetAllTransactionHandler(t *testing.T) {
 }
 
 func TestTransactionHandler_GetAllTransactionByCustomerIDHandler(t *testing.T) {
-	useCaseTransaction.On("GetAllTransactionByCustomerID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransaction(5), (error)(nil))
+	useCaseTransaction.On("GetAllTransactionByCustomerID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransaction(5, 5), (error)(nil))
 	useCaseTransDetail.On("GetAllTransactionDetailByID", mock.Anything, mock.AnythingOfType("string")).Return(test_data.GetTestDataCountTransactionDetail(2), (error)(nil))
 
 	transactionDetailHandler := transaction_handler.NewUseCaseTransactionHandler(useCaseTransaction, useCaseTransDetail, useCaseItem, useCaseVoucher)
