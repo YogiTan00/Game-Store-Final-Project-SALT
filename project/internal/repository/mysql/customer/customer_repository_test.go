@@ -4,14 +4,14 @@ import (
 	"context"
 	"fmt"
 	"game-store-final-project/project/domain/entity/customer"
-	"game-store-final-project/project/pkg/mysql_connection"
+	"game-store-final-project/project/internal/config/database/mysql"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 var (
-	mysqlConn         = mysql_connection.InitMysqlDB()
+	mysqlConn         = mysql.InitMysqlDB()
 	ctx               = context.Background()
 	repoMysqlCustomer = NewCustomerRepositoryMysqlInteractor(mysqlConn)
 )

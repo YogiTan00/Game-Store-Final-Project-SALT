@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	transaction_entity "game-store-final-project/project/domain/entity/transaction"
+	"game-store-final-project/project/internal/config/database/mysql"
 	"game-store-final-project/project/internal/repository/mysql/transaction"
 	transaction_detail2 "game-store-final-project/project/internal/repository/mysql/transaction_detail"
-	"game-store-final-project/project/pkg/mysql_connection"
 	"strconv"
 	"testing"
 	"time"
@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	mysqlConn            = mysql_connection.InitMysqlDB()
+	mysqlConn            = mysql.InitMysqlDB()
 	ctx                  = context.Background()
 	repoMysqlTransaction = transaction.NewTransactionMysqlInteractor(mysqlConn)
 	repoMysqlTransDetail = transaction_detail2.NewTransactionDetailMysqlInteractor(mysqlConn)

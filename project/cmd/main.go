@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"game-store-final-project/project/internal/config/database/mysql"
 	"game-store-final-project/project/internal/delivery/http/customer_handler"
 	"game-store-final-project/project/internal/delivery/http/item_handler"
 	"game-store-final-project/project/internal/delivery/http/transaction_handler"
@@ -18,7 +19,6 @@ import (
 	"game-store-final-project/project/internal/usecase/transaction_detail"
 	"game-store-final-project/project/internal/usecase/voucher"
 	"game-store-final-project/project/internal/usecase/voucher_customer"
-	"game-store-final-project/project/pkg/mysql_connection"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -26,7 +26,7 @@ import (
 
 var (
 	ctx                      = context.Background()
-	mysqlConn                = mysql_connection.InitMysqlDB()
+	mysqlConn                = mysql.InitMysqlDB()
 	repoCustomer             = repo.NewCustomerRepositoryMysqlInteractor(mysqlConn)
 	repoTransaction          = transaction.NewTransactionMysqlInteractor(mysqlConn)
 	repoTransactionDetail    = transaction_detail2.NewTransactionDetailMysqlInteractor(mysqlConn)

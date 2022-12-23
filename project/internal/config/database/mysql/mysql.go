@@ -1,4 +1,4 @@
-package mysql_connection
+package mysql
 
 import (
 	"database/sql"

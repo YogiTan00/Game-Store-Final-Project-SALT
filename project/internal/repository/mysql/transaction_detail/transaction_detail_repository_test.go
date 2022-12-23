@@ -4,15 +4,15 @@ import (
 	"context"
 	"fmt"
 	trx_detail_entity "game-store-final-project/project/domain/entity/transaction_detail"
+	"game-store-final-project/project/internal/config/database/mysql"
 	"game-store-final-project/project/internal/repository/mysql/transaction_detail"
-	"game-store-final-project/project/pkg/mysql_connection"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 var (
-	mysqlConn                  = mysql_connection.InitMysqlDB()
+	mysqlConn                  = mysql.InitMysqlDB()
 	ctx                        = context.Background()
 	repoMysqlTransactionDetail = transaction_detail.NewTransactionDetailMysqlInteractor(mysqlConn)
 )

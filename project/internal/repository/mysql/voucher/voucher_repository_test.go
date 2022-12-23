@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	entity_voucher "game-store-final-project/project/domain/entity/voucher"
+	"game-store-final-project/project/internal/config/database/mysql"
 	"game-store-final-project/project/internal/repository/mysql/voucher"
-	"game-store-final-project/project/pkg/mysql_connection"
 	"testing"
 	"time"
 
@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	mysqlConn                = mysql_connection.InitMysqlDB()
+	mysqlConn                = mysql.InitMysqlDB()
 	ctx                      = context.Background()
 	repoMysqlVoucherCustomer = voucher.NewVoucherRepositoryMysqlInteractor(mysqlConn)
 )

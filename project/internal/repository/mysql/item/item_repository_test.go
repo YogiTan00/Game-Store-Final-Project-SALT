@@ -3,13 +3,13 @@ package item
 import (
 	"context"
 	"fmt"
-	"game-store-final-project/project/pkg/mysql_connection"
+	"game-store-final-project/project/internal/config/database/mysql"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 var (
-	mysqlConn                = mysql_connection.InitMysqlDB()
+	mysqlConn                = mysql.InitMysqlDB()
 	ctx                      = context.Background()
 	repoMysqlTransactionItem = NewItemMysqlInteractor(mysqlConn)
 )
