@@ -61,8 +61,12 @@ func main() {
 	r.HandleFunc("/get-transaction/customer/{id}", handlerTransaction.GetAllTransactionByCustomerIDHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction-detail", handlerTransactionDetail.GetAllTransactionDetailHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-transaction-detail/{id}", handlerTransactionDetail.GetAllTransactionDetailByIDHandler).Methods(http.MethodGet)
+
+	// item
 	r.HandleFunc("/get-item", handlerItem.GetAllItemHandler).Methods(http.MethodGet)
 	r.HandleFunc("/get-item/{id}", handlerItem.GetItemByIDHandler).Methods(http.MethodGet)
+
+	// voucher
 	r.HandleFunc("/get-voucher/{id}", handlerVoucher.GetVoucherCustomerByIdHandler).Methods(http.MethodGet)
 
 	fmt.Println("localhost:8080")
