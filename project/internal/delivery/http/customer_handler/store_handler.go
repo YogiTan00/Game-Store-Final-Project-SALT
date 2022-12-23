@@ -53,7 +53,7 @@ func (s_handler *CustomerHandlerInteractor) StoreController(w http.ResponseWrite
 	} else {
 		response, errMap := http_response.MapResponse(200, "Data customer already")
 		if errMap != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+			w.WriteHeader(http.StatusExpectationFailed)
 			w.Write([]byte("Error mapping data"))
 		}
 		w.WriteHeader(200)

@@ -15,3 +15,8 @@ func (cum *CustomerRepositoryMock) GetCustomerByNik(ctx context.Context, nik str
 	args := cum.Called(ctx, nik)
 	return args.Get(0).([]*customer.Customer), args.Error(1)
 }
+
+func (cum *CustomerRepositoryMock) GetCustomerById(ctx context.Context, id int) ([]*customer.Customer, error) {
+	args := cum.Called(ctx, id)
+	return args.Get(0).([]*customer.Customer), args.Error(1)
+}
