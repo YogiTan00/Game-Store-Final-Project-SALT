@@ -15,12 +15,12 @@ func (s_handler *CustomerHandlerInteractor) StoreController(w http.ResponseWrite
 	)
 
 	errDecode := decoder.Decode(&req)
+
 	if errDecode != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Error decode data"))
 		return
 	}
-
 	// build dto
 	dataCustomer := customer.DTOCustomer{
 		Nik:          req.Nik,
@@ -31,6 +31,7 @@ func (s_handler *CustomerHandlerInteractor) StoreController(w http.ResponseWrite
 	}
 
 	result, errStoreCustomerFromUseCase := s_handler.CustomerUseCase.StoreCustomer(dataCustomer)
+
 	if errStoreCustomerFromUseCase != nil {
 		response, errMap := http_response.MapResponse(200, errStoreCustomerFromUseCase.Error())
 		if errMap != nil {
@@ -56,7 +57,7 @@ func (s_handler *CustomerHandlerInteractor) StoreController(w http.ResponseWrite
 			w.WriteHeader(http.StatusExpectationFailed)
 			w.Write([]byte("Error mapping data"))
 		}
-		w.WriteHeader(200)
+		w.WriteHeader(http.StatusExpectationFailed)
 		w.Write(response)
 	}
 
