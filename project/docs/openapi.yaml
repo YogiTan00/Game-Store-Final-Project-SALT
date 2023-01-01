@@ -1,0 +1,627 @@
+openapi: 3.0.0
+info:
+  title: Salt Academy api documentation for Store Apps (1.0.0)
+  version: 1.0.0
+  x-logo:
+    url: ""
+    altText: "Salt Academy"
+  description: ""
+servers:
+  - url: http://localhost:8080
+paths:
+  /customer/store:
+    post:
+      summary: Customer
+      description: API save customer data
+      tags:
+        - Customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                nik:
+                  type: string
+                  description: data nik
+                nama:
+                  type: string
+                  description:  Data nama
+                alamat:
+                  type: string
+                  description:  Data alamat
+                no_tlp:
+                  type: string
+                  description:  Data notlp
+                jenis_kelamin:
+                  type: string
+                  description:  Data jenis kelamin
+            examples:
+              Customer New 1:
+                value:
+                  nik: "3200442233442324"
+                  nama: "Taupik Pirdian"
+                  alamat: "Bandung"
+                  no_tlp: "085846132417"
+                  jenis_kelamin: "LK"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: null
+  /transaction/store:
+    post:
+      summary: Transaction
+      description: API save Transaction data
+      tags:
+        - Transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                customer_id:
+                  type: number
+                  description: customer id
+                tanggal_pembelian:
+                  type: string
+                  description:  Tanggal pembelian
+                voucher:
+                  type: array
+                  description:  Data voucher
+                detail_transaction:
+                  type: object
+                  description:  Data item
+            examples:
+              Transaksi New 1:
+                value:
+                  customer_id: 1
+                  tanggal_pembelian: "2022-10-22"
+                  voucher: [""]
+                  detail_transaction: [
+                    {
+                      item_id: 1,
+                      jumlah_pembelian: 20
+                    },
+                    {
+                      item_id: 1,
+                      jumlah_pembelian: 10
+                    }
+                  ]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: null
+  /customer/list-trx/{nik}:
+    get:
+      summary: Customer
+      description: API get customer data with transaction
+      parameters:
+        - name: nik
+          in: path
+          description: nik customer
+          required: true
+          schema:
+            type: string
+      tags:
+        - Customer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: {
+                    "id": 1,
+                    "nik": "2147483647",
+                    "nama": "Taupik Pirdian",
+                    "alamat": "Bandung",
+                    "no_tlp": "0858877899887",
+                    "jenis_kelamin": "LK",
+                    "transaction": [
+                      {
+                        "id": 1,
+                        "customerId": 1,
+                        "codeTransaction": "INV05122022190500",
+                        "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                        "total": 12907000,
+                        "transaction_detail": [
+                          {
+                            "id": 1,
+                            "transactionId": 1,
+                            "itemId": 1,
+                            "detailitem": {
+                              "nama": "Service Console Xbox Sereis X",
+                              "kategori": "Service Console"
+                            },
+                            "jumlahPembeli": 1,
+                            "hargaPembeli": 4673000,
+                            "hargaDiscount": 0,
+                            "total": 4673000
+                          },
+                          {
+                            "id": 2,
+                            "transactionId": 1,
+                            "itemId": 2,
+                            "detailitem": {
+                              "nama": "Service Console PS 5",
+                              "kategori": "Service Console"
+                            },
+                            "jumlahPembeli": 2,
+                            "hargaPembeli": 4117000,
+                            "hargaDiscount": 0,
+                            "total": 8234000
+                          }
+                        ]
+                      },
+                      {
+                        "id": 13,
+                        "customerId": 1,
+                        "codeTransaction": "INV-202212133591336316218",
+                        "tanggalPembelian": "2022-10-10T00:00:00+07:00",
+                        "total": 129070000,
+                        "transaction_detail": [
+                          {
+                            "id": 4,
+                            "transactionId": 13,
+                            "itemId": 1,
+                            "detailitem": {
+                              "nama": "Service Console PS4",
+                              "kategori": "Service Console"
+                            },
+                            "jumlahPembeli": 10,
+                            "hargaPembeli": 2227000,
+                            "hargaDiscount": 0,
+                            "total": 22270000
+                          },
+                          {
+                            "id": 5,
+                            "transactionId": 13,
+                            "itemId": 2,
+                            "detailitem": {
+                              "nama": "Service Console Nintendo Switch",
+                              "kategori": "Service Console"
+                            },
+                            "jumlahPembeli": 20,
+                            "hargaPembeli": 973000,
+                            "hargaDiscount": 0,
+                            "total": 19460000
+                          }
+                        ]
+                      },
+                      {
+                        "id": 14,
+                        "customerId": 1,
+                        "codeTransaction": "INV-202212133591336316218",
+                        "tanggalPembelian": "2022-10-10T00:00:00+07:00",
+                        "total": 129070000,
+                        "transaction_detail": [
+                          {
+                            "id": 6,
+                            "transactionId": 14,
+                            "itemId": 1,
+                            "detailitem": {
+                              "nama": "Xbox Series X",
+                              "kategori": "Buy New Console"
+                            },
+                            "jumlahPembeli": 10,
+                            "hargaPembeli": 9000000,
+                            "hargaDiscount": 0,
+                            "total": 90000000
+                          },
+                          {
+                            "id": 7,
+                            "transactionId": 14,
+                            "itemId": 2,
+                            "detailitem": {
+                              "nama": "Play Station 5",
+                              "kategori": "Service Console"
+                            },
+                            "jumlahPembeli": 20,
+                            "hargaPembeli": 8800000,
+                            "hargaDiscount": 0,
+                            "total": 176000000
+                          }
+                        ]
+                      }
+                    ]
+                  }
+
+  /get-transaction:
+    get:
+      summary: Transaction
+      description: API get ALL Transaction with Transaction Detail
+      tags:
+        - Transaction
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: [
+                    {
+                      "id": 1,
+                      "customerId": 1,
+                      "codeTransaction": "INV05122022190500",
+                      "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                      "total": 12907000,
+                      "transaction_detail": [
+                        {
+                          "id": 1,
+                          "transactionId": 1,
+                          "itemId": 1,
+                          "detailitem": {
+                            "nama": "Service Console Xbox Sereis X",
+                            "kategori": "Service Console"
+                          },
+                          "jumlahPembeli": 1,
+                          "hargaPembeli": 4673000,
+                          "hargaDiscount": 0,
+                          "total": 4673000
+                        },
+                        {
+                          "id": 2,
+                          "transactionId": 1,
+                          "itemId": 2,
+                          "detailitem": {
+                            "nama": "Service Console PS 5",
+                            "kategori": "Service Console"
+                          },
+                          "jumlahPembeli": 2,
+                          "hargaPembeli": 8234000,
+                          "hargaDiscount": 0,
+                          "total": 8234000
+                        }
+                      ]
+                    },
+                    {
+                      "id": 2,
+                      "customerId": 2,
+                      "codeTransaction": "INV06122022190500",
+                      "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                      "total": 12907000,
+                      "transaction_detail": [
+                        {
+                          "id": 1,
+                          "transactionId": 1,
+                          "itemId": 1,
+                          "detailitem": {
+                            "nama": "Service Console Xbox Sereis X",
+                            "kategori": "Service Console"
+                          },
+                          "jumlahPembeli": 1,
+                          "hargaPembeli": 4673000,
+                          "hargaDiscount": 0,
+                          "total": 4673000
+                        }
+                      ]
+                    }
+                  ]
+  /get-transaction/{id}:
+    get:
+      summary: Transaction
+      description: API get ALL Transaction with Transaction Detail By ID
+      parameters:
+        - name: id
+          in: path
+          description: id transaction
+          required: true
+          schema:
+            type: string
+      tags:
+        - Transaction
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: {
+                    "id": 1,
+                    "customerId": 1,
+                    "codeTransaction": "INV05122022190500",
+                    "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                    "total": 12907000,
+                    "transaction_detail": [
+                      {
+                        "id": 1,
+                        "transactionId": 1,
+                        "itemId": 1,
+                        "detailitem": {
+                          "nama": "Service Console Xbox Sereis X",
+                          "kategori": "Service Console"
+                        },
+                        "jumlahPembeli": 1,
+                        "hargaPembeli": 4673000,
+                        "hargaDiscount": 0,
+                        "total": 4673000
+                      },
+                      {
+                        "id": 2,
+                        "transactionId": 1,
+                        "itemId": 2,
+                        "detailitem": {
+                          "nama": "Service Console PS 5",
+                          "kategori": "Service Console"
+                        },
+                        "jumlahPembeli": 2,
+                        "hargaPembeli": 8234000,
+                        "hargaDiscount": 0,
+                        "total": 8234000
+                      }
+                    ]
+                  }
+  /get-transaction/customer/{customer_id}:
+    get:
+      summary: Transaction
+      description: API get ALL Transaction with Transaction Detail By Customer ID
+      parameters:
+        - name: customer_id
+          in: path
+          description: customer id transaction
+          required: true
+          schema:
+            type: string
+      tags:
+        - Transaction
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: [
+                    {
+                      "id": 1,
+                      "customerId": 1,
+                      "codeTransaction": "INV05122022190500",
+                      "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                      "total": 12907000,
+                      "transaction_detail": [
+                        {
+                          "id": 1,
+                          "transactionId": 1,
+                          "itemId": 1,
+                          "detailitem": {
+                            "nama": "Service Console Xbox Sereis X",
+                            "kategori": "Service Console"
+                          },
+                          "jumlahPembeli": 1,
+                          "hargaPembeli": 4673000,
+                          "hargaDiscount": 0,
+                          "total": 4673000
+                        },
+                        {
+                          "id": 2,
+                          "transactionId": 1,
+                          "itemId": 2,
+                          "detailitem": {
+                            "nama": "Service Console PS 5",
+                            "kategori": "Service Console"
+                          },
+                          "jumlahPembeli": 2,
+                          "hargaPembeli": 8234000,
+                          "hargaDiscount": 0,
+                          "total": 8234000
+                        }
+                      ]
+                    },
+                    {
+                      "id": 1,
+                      "customerId": 2,
+                      "codeTransaction": "INV05122022190500",
+                      "tanggalPembelian": "2022-12-05T00:00:00+07:00",
+                      "total": 12907000,
+                      "transaction_detail": [
+                        {
+                          "id": 1,
+                          "transactionId": 1,
+                          "itemId": 1,
+                          "detailitem": {
+                            "nama": "Xbox Series X",
+                            "kategori": "Buy New Console"
+                          },
+                          "jumlahPembeli": 10,
+                          "hargaPembeli": 9000000,
+                          "hargaDiscount": 0,
+                          "total": 90000000
+                        },
+                        {
+                          "id": 2,
+                          "transactionId": 2,
+                          "itemId": 2,
+                          "detailitem": {
+                            "nama": "Play Station 5",
+                            "kategori": "Service Console"
+                          },
+                          "jumlahPembeli": 20,
+                          "hargaPembeli": 8800000,
+                          "hargaDiscount": 0,
+                          "total": 176000000
+                        }
+                      ]
+                    }
+                  ]
+  /get-item:
+    get:
+      summary: Item
+      description: API get ALL Item
+      tags:
+        - Item
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: [
+                    {
+                      "id": 1,
+                      "nama": "Service Console Xbox Sereis X",
+                      "categoryId": "Service Console",
+                      "harga": 4673000,
+                      "jumlah": 999
+                    },
+                    {
+                      "id": 2,
+                      "nama": "Service Console PS 5",
+                      "categoryId": "Service Console",
+                      "harga": 4117000,
+                      "jumlah": 999
+                    }
+                  ]
+  /get-item/{id}:
+    get:
+      summary: Item
+      description: API get ALL Item
+      parameters:
+        - name: id
+          in: path
+          description: id item
+          required: true
+          schema:
+            type: string
+      tags:
+        - Item
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: {
+                    "id": 1,
+                    "nama": "Service Console Xbox Sereis X",
+                    "categoryId": "Service Console",
+                    "harga": 4673000,
+                    "jumlah": 999
+                  }
+
+  /voucher/{customer_id}:
+    get:
+      summary: Voucher
+      description: API get list data voucher
+      parameters:
+        - name: customer_id
+          in: path
+          description: get list voucher
+          required: true
+          schema:
+            type: string
+      tags:
+        - Voucher
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Status: {
+                    Code: 200,
+                    message: "success",
+                  }
+                  Data: {
+                    "id": 1,
+                    "nik": "2147483647",
+                    "nama": "Taupik Pirdian",
+                    "alamat": "Bandung",
+                    "no_tlp": "0858877899887",
+                    "jenis_kelamin": "LK",
+                    "voucher": [
+                      {
+                        "id": 1,
+                        "customerId": 1,
+                        "codeVoucher": "ULTI-RND7821387123456",
+                        "namaVoucher": "ULTI",
+                        "startDate": "2022-12-09",
+                        "endDate": "2023-12-09",
+                        "useDate": null,
+                        "status": 1,
+                        "nilaiDisc":30,
+                        "typeDisc":1,
+                      },
+
+                      {
+                        "id": 2,
+                        "customerId": 1,
+                        "codeVoucher": "PREMI-15D12M2022Y21H45M11S73NF7JB6CG57X",
+                        "namaVoucher": "PREMI",
+                        "startDate": "2022-12-09",
+                        "endDate": "2023-12-09",
+                        "useDate": null,
+                        "status": 1,
+                        "nilaiDisc":15,
+                        "typeDisc":1,
+                      },
+
+                      {
+                        "id": 3,
+                        "customerId": 1,
+                        "codeVoucher": "BASIC-15D12M2022Y21H45M11S73NF7JB6CG57X",
+                        "namaVoucher": "BASIC",
+                        "startDate": "2022-12-09",
+                        "endDate": "2023-12-09",
+                        "useDate": null,
+                        "status": 1,
+                        "nilaiDisc":15,
+                        "typeDisc":1,
+                      }
+                    ]
+                  }
