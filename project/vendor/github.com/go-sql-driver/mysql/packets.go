@@ -110,6 +110,7 @@ func (mc *mysqlConn) writePacket(data []byte) error {
 			conn = mc.rawConn
 		}
 		var err error
+<<<<<<< HEAD
 		if mc.cfg.CheckConnLiveness {
 			if mc.cfg.ReadTimeout != 0 {
 				err = conn.SetReadDeadline(time.Now().Add(mc.cfg.ReadTimeout))
@@ -117,6 +118,16 @@ func (mc *mysqlConn) writePacket(data []byte) error {
 			if err == nil {
 				err = connCheck(conn)
 			}
+=======
+		// If this connection has a ReadTimeout which we've been setting on
+		// reads, reset it to its default value before we attempt a non-blocking
+		// read, otherwise the scheduler will just time us out before we can read
+		if mc.cfg.ReadTimeout != 0 {
+			err = conn.SetReadDeadline(time.Time{})
+		}
+		if err == nil && mc.cfg.CheckConnLiveness {
+			err = connCheck(conn)
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		}
 		if err != nil {
 			errLog.Print("closing bad idle connection: ", err)
@@ -222,9 +233,15 @@ func (mc *mysqlConn) readHandshakePacket() (data []byte, plugin string, err erro
 	if mc.flags&clientProtocol41 == 0 {
 		return nil, "", ErrOldProtocol
 	}
+<<<<<<< HEAD
 	if mc.flags&clientSSL == 0 && mc.cfg.TLS != nil {
 		if mc.cfg.AllowFallbackToPlaintext {
 			mc.cfg.TLS = nil
+=======
+	if mc.flags&clientSSL == 0 && mc.cfg.tls != nil {
+		if mc.cfg.TLSConfig == "preferred" {
+			mc.cfg.tls = nil
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		} else {
 			return nil, "", ErrNoTLS
 		}
@@ -292,7 +309,11 @@ func (mc *mysqlConn) writeHandshakeResponsePacket(authResp []byte, plugin string
 	}
 
 	// To enable TLS / SSL
+<<<<<<< HEAD
 	if mc.cfg.TLS != nil {
+=======
+	if mc.cfg.tls != nil {
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		clientFlags |= clientSSL
 	}
 
@@ -356,14 +377,22 @@ func (mc *mysqlConn) writeHandshakeResponsePacket(authResp []byte, plugin string
 
 	// SSL Connection Request Packet
 	// http://dev.mysql.com/doc/internals/en/connection-phase-packets.html#packet-Protocol::SSLRequest
+<<<<<<< HEAD
 	if mc.cfg.TLS != nil {
+=======
+	if mc.cfg.tls != nil {
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		// Send TLS / SSL request packet
 		if err := mc.writePacket(data[:(4+4+1+23)+4]); err != nil {
 			return err
 		}
 
 		// Switch to TLS
+<<<<<<< HEAD
 		tlsConn := tls.Client(mc.netConn, mc.cfg.TLS)
+=======
+		tlsConn := tls.Client(mc.netConn, mc.cfg.tls)
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		if err := tlsConn.Handshake(); err != nil {
 			return err
 		}
@@ -587,20 +616,34 @@ func (mc *mysqlConn) handleErrorPacket(data []byte) error {
 		return driver.ErrBadConn
 	}
 
+<<<<<<< HEAD
 	me := &MySQLError{Number: errno}
 
+=======
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 	pos := 3
 
 	// SQL State [optional: # + 5bytes string]
 	if data[3] == 0x23 {
+<<<<<<< HEAD
 		copy(me.SQLState[:], data[4:4+5])
+=======
+		//sqlstate := string(data[4 : 4+5])
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		pos = 9
 	}
 
 	// Error Message [string]
+<<<<<<< HEAD
 	me.Message = string(data[pos:])
 
 	return me
+=======
+	return &MySQLError{
+		Number:  errno,
+		Message: string(data[pos:]),
+	}
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 }
 
 func readStatus(b []byte) statusFlag {
@@ -761,16 +804,23 @@ func (rows *textRows) readRow(dest []driver.Value) error {
 	}
 
 	// RowSet Packet
+<<<<<<< HEAD
 	var (
 		n      int
 		isNull bool
 		pos    int = 0
 	)
+=======
+	var n int
+	var isNull bool
+	pos := 0
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 
 	for i := range dest {
 		// Read bytes and convert to string
 		dest[i], isNull, n, err = readLengthEncodedString(data[pos:])
 		pos += n
+<<<<<<< HEAD
 
 		if err != nil {
 			return err
@@ -795,6 +845,34 @@ func (rows *textRows) readRow(dest []driver.Value) error {
 				return err
 			}
 		}
+=======
+		if err == nil {
+			if !isNull {
+				if !mc.parseTime {
+					continue
+				} else {
+					switch rows.rs.columns[i].fieldType {
+					case fieldTypeTimestamp, fieldTypeDateTime,
+						fieldTypeDate, fieldTypeNewDate:
+						dest[i], err = parseDateTime(
+							dest[i].([]byte),
+							mc.cfg.Loc,
+						)
+						if err == nil {
+							continue
+						}
+					default:
+						continue
+					}
+				}
+
+			} else {
+				dest[i] = nil
+				continue
+			}
+		}
+		return err // err != nil
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 	}
 
 	return nil

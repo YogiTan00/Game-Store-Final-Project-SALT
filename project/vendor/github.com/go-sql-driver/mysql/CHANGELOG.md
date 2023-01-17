@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Version 1.7 (2022-11-29)
 
 Changes:
@@ -19,6 +20,8 @@ Bugfixes:
   -  Fix parsing 0 year. (#1257)
 
 
+=======
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 ## Version 1.6 (2021-04-01)
 
 Changes:

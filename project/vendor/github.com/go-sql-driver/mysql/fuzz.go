@@ -6,7 +6,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // You can obtain one at http://mozilla.org/MPL/2.0/.
 
+<<<<<<< HEAD
 //go:build gofuzz
+=======
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 // +build gofuzz
 
 package mysql

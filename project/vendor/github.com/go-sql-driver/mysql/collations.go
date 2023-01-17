@@ -13,8 +13,12 @@ const binaryCollation = "binary"
 
 // A list of available collations mapped to the internal ID.
 // To update this map use the following MySQL query:
+<<<<<<< HEAD
 //
 //	SELECT COLLATION_NAME, ID FROM information_schema.COLLATIONS WHERE ID<256 ORDER BY ID
+=======
+//     SELECT COLLATION_NAME, ID FROM information_schema.COLLATIONS WHERE ID<256 ORDER BY ID
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 //
 // Handshake packet have only 1 byte for collation_id.  So we can't use collations with ID > 255.
 //

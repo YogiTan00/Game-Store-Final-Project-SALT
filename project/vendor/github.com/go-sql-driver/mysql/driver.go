@@ -8,10 +8,17 @@
 //
 // The driver should be used via the database/sql package:
 //
+<<<<<<< HEAD
 //	import "database/sql"
 //	import _ "github.com/go-sql-driver/mysql"
 //
 //	db, err := sql.Open("mysql", "user:password@/dbname")
+=======
+//  import "database/sql"
+//  import _ "github.com/go-sql-driver/mysql"
+//
+//  db, err := sql.Open("mysql", "user:password@/dbname")
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 //
 // See https://github.com/go-sql-driver/mysql#usage for details
 package mysql

@@ -46,11 +46,16 @@ type Config struct {
 	ServerPubKey     string            // Server public key name
 	pubKey           *rsa.PublicKey    // Server public key
 	TLSConfig        string            // TLS configuration name
+<<<<<<< HEAD
 	TLS              *tls.Config       // TLS configuration, its priority is higher than TLSConfig
+=======
+	tls              *tls.Config       // TLS configuration
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 	Timeout          time.Duration     // Dial timeout
 	ReadTimeout      time.Duration     // I/O read timeout
 	WriteTimeout     time.Duration     // I/O write timeout
 
+<<<<<<< HEAD
 	AllowAllFiles            bool // Allow all files to be used with LOAD DATA LOCAL INFILE
 	AllowCleartextPasswords  bool // Allows the cleartext client side plugin
 	AllowFallbackToPlaintext bool // Allows fallback to unencrypted connection if server does not support TLS
@@ -63,6 +68,19 @@ type Config struct {
 	MultiStatements          bool // Allow multiple statements in one query
 	ParseTime                bool // Parse time values to time.Time
 	RejectReadOnly           bool // Reject read-only connections
+=======
+	AllowAllFiles           bool // Allow all files to be used with LOAD DATA LOCAL INFILE
+	AllowCleartextPasswords bool // Allows the cleartext client side plugin
+	AllowNativePasswords    bool // Allows the native password authentication method
+	AllowOldPasswords       bool // Allows the old insecure password method
+	CheckConnLiveness       bool // Check connections for liveness before using them
+	ClientFoundRows         bool // Return number of matching rows instead of rows changed
+	ColumnsWithAlias        bool // Prepend table alias to column names
+	InterpolateParams       bool // Interpolate placeholders into query string
+	MultiStatements         bool // Allow multiple statements in one query
+	ParseTime               bool // Parse time values to time.Time
+	RejectReadOnly          bool // Reject read-only connections
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 }
 
 // NewConfig creates a new Config and sets default values.
@@ -78,8 +96,13 @@ func NewConfig() *Config {
 
 func (cfg *Config) Clone() *Config {
 	cp := *cfg
+<<<<<<< HEAD
 	if cp.TLS != nil {
 		cp.TLS = cfg.TLS.Clone()
+=======
+	if cp.tls != nil {
+		cp.tls = cfg.tls.Clone()
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 	}
 	if len(cp.Params) > 0 {
 		cp.Params = make(map[string]string, len(cfg.Params))
@@ -120,6 +143,7 @@ func (cfg *Config) normalize() error {
 		cfg.Addr = ensureHavePort(cfg.Addr)
 	}
 
+<<<<<<< HEAD
 	if cfg.TLS == nil {
 		switch cfg.TLSConfig {
 		case "false", "":
@@ -143,6 +167,26 @@ func (cfg *Config) normalize() error {
 		host, _, err := net.SplitHostPort(cfg.Addr)
 		if err == nil {
 			cfg.TLS.ServerName = host
+=======
+	switch cfg.TLSConfig {
+	case "false", "":
+		// don't set anything
+	case "true":
+		cfg.tls = &tls.Config{}
+	case "skip-verify", "preferred":
+		cfg.tls = &tls.Config{InsecureSkipVerify: true}
+	default:
+		cfg.tls = getTLSConfigClone(cfg.TLSConfig)
+		if cfg.tls == nil {
+			return errors.New("invalid value / unknown config name: " + cfg.TLSConfig)
+		}
+	}
+
+	if cfg.tls != nil && cfg.tls.ServerName == "" && !cfg.tls.InsecureSkipVerify {
+		host, _, err := net.SplitHostPort(cfg.Addr)
+		if err == nil {
+			cfg.tls.ServerName = host
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		}
 	}
 
@@ -210,10 +254,13 @@ func (cfg *Config) FormatDSN() string {
 		writeDSNParam(&buf, &hasParam, "allowCleartextPasswords", "true")
 	}
 
+<<<<<<< HEAD
 	if cfg.AllowFallbackToPlaintext {
 		writeDSNParam(&buf, &hasParam, "allowFallbackToPlaintext", "true")
 	}
 
+=======
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 	if !cfg.AllowNativePasswords {
 		writeDSNParam(&buf, &hasParam, "allowNativePasswords", "false")
 	}
@@ -401,6 +448,7 @@ func parseDSNParams(cfg *Config, params string) (err error) {
 				return errors.New("invalid bool value: " + value)
 			}
 
+<<<<<<< HEAD
 		// Allow fallback to unencrypted connection if server does not support TLS
 		case "allowFallbackToPlaintext":
 			var isBool bool
@@ -409,6 +457,8 @@ func parseDSNParams(cfg *Config, params string) (err error) {
 				return errors.New("invalid bool value: " + value)
 			}
 
+=======
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		// Use native password authentication
 		case "allowNativePasswords":
 			var isBool bool
@@ -444,6 +494,10 @@ func parseDSNParams(cfg *Config, params string) (err error) {
 		// Collation
 		case "collation":
 			cfg.Collation = value
+<<<<<<< HEAD
+=======
+			break
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 
 		case "columnsWithAlias":
 			var isBool bool

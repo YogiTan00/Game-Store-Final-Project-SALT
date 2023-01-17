@@ -104,7 +104,11 @@ func (mc *mysqlConn) Begin() (driver.Tx, error) {
 }
 
 func (mc *mysqlConn) begin(readOnly bool) (driver.Tx, error) {
+<<<<<<< HEAD
 	if mc.closed.Load() {
+=======
+	if mc.closed.IsSet() {
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		errLog.Print(ErrInvalidConn)
 		return nil, driver.ErrBadConn
 	}
@@ -123,7 +127,11 @@ func (mc *mysqlConn) begin(readOnly bool) (driver.Tx, error) {
 
 func (mc *mysqlConn) Close() (err error) {
 	// Makes Close idempotent
+<<<<<<< HEAD
 	if !mc.closed.Load() {
+=======
+	if !mc.closed.IsSet() {
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		err = mc.writeCommandPacket(comQuit)
 	}
 
@@ -137,7 +145,11 @@ func (mc *mysqlConn) Close() (err error) {
 // is called before auth or on auth failure because MySQL will have already
 // closed the network connection.
 func (mc *mysqlConn) cleanup() {
+<<<<<<< HEAD
 	if mc.closed.Swap(true) {
+=======
+	if !mc.closed.TrySet(true) {
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		return
 	}
 
@@ -152,7 +164,11 @@ func (mc *mysqlConn) cleanup() {
 }
 
 func (mc *mysqlConn) error() error {
+<<<<<<< HEAD
 	if mc.closed.Load() {
+=======
+	if mc.closed.IsSet() {
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		if err := mc.canceled.Value(); err != nil {
 			return err
 		}
@@ -162,7 +178,11 @@ func (mc *mysqlConn) error() error {
 }
 
 func (mc *mysqlConn) Prepare(query string) (driver.Stmt, error) {
+<<<<<<< HEAD
 	if mc.closed.Load() {
+=======
+	if mc.closed.IsSet() {
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		errLog.Print(ErrInvalidConn)
 		return nil, driver.ErrBadConn
 	}
@@ -295,7 +315,11 @@ func (mc *mysqlConn) interpolateParams(query string, args []driver.Value) (strin
 }
 
 func (mc *mysqlConn) Exec(query string, args []driver.Value) (driver.Result, error) {
+<<<<<<< HEAD
 	if mc.closed.Load() {
+=======
+	if mc.closed.IsSet() {
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		errLog.Print(ErrInvalidConn)
 		return nil, driver.ErrBadConn
 	}
@@ -356,7 +380,11 @@ func (mc *mysqlConn) Query(query string, args []driver.Value) (driver.Rows, erro
 }
 
 func (mc *mysqlConn) query(query string, args []driver.Value) (*textRows, error) {
+<<<<<<< HEAD
 	if mc.closed.Load() {
+=======
+	if mc.closed.IsSet() {
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		errLog.Print(ErrInvalidConn)
 		return nil, driver.ErrBadConn
 	}
@@ -450,7 +478,11 @@ func (mc *mysqlConn) finish() {
 
 // Ping implements driver.Pinger interface
 func (mc *mysqlConn) Ping(ctx context.Context) (err error) {
+<<<<<<< HEAD
 	if mc.closed.Load() {
+=======
+	if mc.closed.IsSet() {
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		errLog.Print(ErrInvalidConn)
 		return driver.ErrBadConn
 	}
@@ -469,7 +501,11 @@ func (mc *mysqlConn) Ping(ctx context.Context) (err error) {
 
 // BeginTx implements driver.ConnBeginTx interface
 func (mc *mysqlConn) BeginTx(ctx context.Context, opts driver.TxOptions) (driver.Tx, error) {
+<<<<<<< HEAD
 	if mc.closed.Load() {
+=======
+	if mc.closed.IsSet() {
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		return nil, driver.ErrBadConn
 	}
 
@@ -636,7 +672,11 @@ func (mc *mysqlConn) CheckNamedValue(nv *driver.NamedValue) (err error) {
 // ResetSession implements driver.SessionResetter.
 // (From Go 1.10)
 func (mc *mysqlConn) ResetSession(ctx context.Context) error {
+<<<<<<< HEAD
 	if mc.closed.Load() {
+=======
+	if mc.closed.IsSet() {
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 		return driver.ErrBadConn
 	}
 	mc.reset = true
@@ -646,5 +686,9 @@ func (mc *mysqlConn) ResetSession(ctx context.Context) error {
 // IsValid implements driver.Validator interface
 // (From Go 1.15)
 func (mc *mysqlConn) IsValid() bool {
+<<<<<<< HEAD
 	return !mc.closed.Load()
+=======
+	return !mc.closed.IsSet()
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 }

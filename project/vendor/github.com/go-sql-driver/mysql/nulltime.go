@@ -9,12 +9,16 @@
 package mysql
 
 import (
+<<<<<<< HEAD
 	"database/sql"
+=======
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 	"database/sql/driver"
 	"fmt"
 	"time"
 )
 
+<<<<<<< HEAD
 // NullTime represents a time.Time that may be NULL.
 // NullTime implements the Scanner interface so
 // it can be used as a scan destination:
@@ -35,6 +39,8 @@ import (
 // Use sql.NullTime instead.
 type NullTime sql.NullTime
 
+=======
+>>>>>>> 57fabf9834b9194ca3b09bbd2e45c135854e7821
 // Scan implements the Scanner interface.
 // The value type must be time.Time or string / []byte (formatted time-string),
 // otherwise Scan fails.
