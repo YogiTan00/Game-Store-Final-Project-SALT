@@ -3,7 +3,7 @@ module game-store-final-project/project
 go 1.19
 
 require (
-	github.com/go-sql-driver/mysql v1.6.0
+	github.com/go-sql-driver/mysql v1.7.0
 	github.com/gorilla/mux v1.8.0
 	github.com/rocketlaunchr/dbq/v2 v2.6.0
 	github.com/stretchr/testify v1.8.1
