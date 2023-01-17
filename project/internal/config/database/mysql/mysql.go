@@ -15,11 +15,11 @@ func InitMysqlDB() *sql.DB {
 		dbConn   *sql.DB
 	)
 
-	dbHost := "iix60.idcloudhost.com"
+	dbHost := "localhost"
 	dbPort := "3306"
-	dbUser := "bageurte_salt_member"
-	dbPass := "P9m@@MmTK2+}"
-	dbName := "bageurte_store_go"
+	dbUser := "root"
+	dbPass := ""
+	dbName := "store_go"
 
 	connection := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPass, dbHost, dbPort, dbName)
 	val := url.Values{}
