@@ -50,6 +50,7 @@ func main() {
 	handlerTransactionDetail := transaction_handler.NewUseCaseTransactionDetailHandler(useCaseTransactionDetail, useCaseItem)
 	handlerItem := item_handler.NewuseCaseItemHandler(useCaseItem)
 	handlerVoucher := voucher_handler.NewVoucherHandler(useCaseVoucherCustomer, useCaseCustomer)
+	r.HandleFunc("/", ParamHandlerWithoutInput).Methods(http.MethodGet)
 	// customer
 	r.HandleFunc("/customer/list-trx/{nik}", handlerCustomer.IndexController).Methods(http.MethodGet)
 	r.HandleFunc("/customer/store", handlerCustomer.StoreController).Methods(http.MethodPost)
@@ -71,4 +72,9 @@ func main() {
 
 	fmt.Println("localhost:8080")
 	http.ListenAndServe(":8080", r)
+}
+
+func ParamHandlerWithoutInput(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "SUCCESS OK")
 }
